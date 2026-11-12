@@ -1,0 +1,1 @@
+import{t as e}from"./atlas.BM2Qo_lG.js";e();

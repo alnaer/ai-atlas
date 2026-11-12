@@ -1,0 +1,993 @@
+{
+ "version": 1,
+ "generated": "2026-11-10",
+ "pages": [
+  {
+   "id": "hero-hand-machine",
+   "role": "Home opening · machine hand",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/hero-hand-machine-cut.webp",
+    "cutDepth": "depth/hero-hand-machine-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     1600,
+     418
+    ]
+   },
+   "alt": "A 16th-century steel gauntlet, blued and gilded with engraved figures, reaching forward.",
+   "why": "The machine side: a steel hand built 450 years ago, reaching back.",
+   "motion": {
+    "strength": 0.9,
+    "focus": 0.69,
+    "glow": 0.6,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Gauntlet",
+    "artist": "Unknown maker",
+    "date": "late 16th century",
+    "medium": "Steel, silver, gold, brass, leather",
+    "objectName": "Gauntlet",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 22344,
+    "accession": "14.25.906",
+    "creditLine": "Gift of William H. Riggs, 1913",
+    "page": "https://www.metmuseum.org/art/collection/search/22344",
+    "originalImage": "https://images.metmuseum.org/CRDImages/aa/original/LC-14_25_906-001.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10",
+    "cutout": "Background removed with rembg + IS-Net (Apache-2.0)",
+    "note": "machine hand mirrored horizontally"
+   },
+   "credit": "Unknown maker, \"Gauntlet\", late 16th century. The Met, Gift of William H. Riggs, 1913. Public domain (CC0)."
+  },
+  {
+   "id": "hero-figure-human",
+   "role": "Home opening · human figure",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/hero-figure-human-cut.webp",
+    "cutDepth": "depth/hero-figure-human-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     1001,
+     700
+    ]
+   },
+   "alt": "A young woman in rose and ochre robes flying through the air, her right arm stretched out, finger pointing.",
+   "why": "The human side of the Creation of Adam moment, painted for this site.",
+   "motion": {
+    "strength": 0.9,
+    "focus": 0.6,
+    "glow": 0,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Flying figure",
+    "artist": "Generated for AI Atlas",
+    "date": "2026",
+    "medium": "AI-generated image",
+    "page": ""
+   },
+   "license": {
+    "name": "AI-generated",
+    "tool": "supplied by the site owner",
+    "date": "2026-11-10"
+   },
+   "anchor": [
+    98.7,
+    20.9
+   ]
+  },
+  {
+   "id": "hero-hand-human",
+   "role": "Home opening · human hand",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/hero-hand-human-cut.webp",
+    "cutDepth": "depth/hero-hand-human-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     1600,
+     521
+    ]
+   },
+   "alt": "A white plaster cast of a human forearm and hand, reaching forward with relaxed, slightly curled fingers.",
+   "why": "The human side of the Creation of Adam moment: Rodin's study of a hand.",
+   "motion": {
+    "strength": 0.9,
+    "focus": 0.81,
+    "glow": 0.5,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Study of a hand",
+    "artist": "Auguste Rodin",
+    "date": "last quarter 19th–early 20th century",
+    "medium": "Cast plaster",
+    "objectName": "Cast",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 191861,
+    "accession": "12.12.17",
+    "creditLine": "Gift of Auguste Rodin, 1912",
+    "page": "https://www.metmuseum.org/art/collection/search/191861",
+    "originalImage": "https://images.metmuseum.org/CRDImages/es/original/DP370266.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10",
+    "cutout": "Background removed with rembg + IS-Net (Apache-2.0)"
+   },
+   "credit": "Auguste Rodin, \"Study of a hand\", last quarter 19th–early 20th century. The Met, Gift of Auguste Rodin, 1912. Public domain (CC0)."
+  },
+  {
+   "id": "hero-sky",
+   "role": "Home opening · sky",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "flat",
+   "files": {
+    "hero": "images/hero-sky-hero.webp",
+    "heroDepth": "depth/hero-sky-hero-depth.webp",
+    "tall": "images/hero-sky-tall.webp",
+    "tallDepth": "depth/hero-sky-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1920,
+     1080
+    ],
+    "tall": [
+     900,
+     1600
+    ]
+   },
+   "alt": "A Roman landscape at golden hour: dark trees frame an open sky above a river valley and distant hills.",
+   "why": "The sky the two hands meet in. Claude Lorrain's light, the classic Renaissance-to-Baroque landscape.",
+   "motion": {
+    "strength": 0.6,
+    "focus": 0.42,
+    "glow": 0.25,
+    "tint": 0,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "Pastoral Landscape: The Roman Campagna",
+    "artist": "Claude Lorrain (Claude Gellée)",
+    "date": "ca. 1639",
+    "medium": "Oil on canvas",
+    "objectName": "Painting",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 435906,
+    "accession": "65.181.12",
+    "creditLine": "Bequest of Adele L. Lehman, in memory of Arthur Lehman, 1965",
+    "page": "https://www.metmuseum.org/art/collection/search/435906",
+    "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-17628-001.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Claude Lorrain (Claude Gellée), \"Pastoral Landscape: The Roman Campagna\", ca. 1639. The Met, Bequest of Adele L. Lehman, in memory of Arthur Lehman, 1965. Public domain (CC0)."
+  },
+  {
+   "id": "home-hero",
+   "role": "Home hero",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/home-hero-cut.webp",
+    "cutDepth": "depth/home-hero-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     621,
+     1400
+    ]
+   },
+   "alt": "A full suit of 16th-century steel armour standing upright, like an early robot.",
+   "why": "The first humanoid machine people ever built was a suit of armour. It's the site's mascot: a machine body waiting for a mind.",
+   "motion": {
+    "strength": 1.0,
+    "focus": 0.6,
+    "glow": 0.6,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Field Armor of King Henry VIII of England (reigned 1509–47)",
+    "artist": "Unknown maker",
+    "date": "ca. 1544",
+    "medium": "Steel, gold, textile, \nleather",
+    "objectName": "Field armor",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 23936,
+    "accession": "32.130.7a–l",
+    "creditLine": "Harris Brisbane Dick Fund, 1932",
+    "page": "https://www.metmuseum.org/art/collection/search/23936",
+    "originalImage": "https://images.metmuseum.org/CRDImages/aa/original/DP-38099-003.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10",
+    "cutout": "Background removed with rembg + IS-Net (Apache-2.0)"
+   },
+   "credit": "Unknown maker, \"Field Armor of King Henry VIII of England (reigned 1509–47)\", ca. 1544. The Met, Harris Brisbane Dick Fund, 1932. Public domain (CC0)."
+  },
+  {
+   "id": "home-learn",
+   "role": "Home · Learn",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "flat",
+   "files": {
+    "hero": "images/home-learn-hero.webp",
+    "heroDepth": "depth/home-learn-hero-depth.webp",
+    "tall": "images/home-learn-tall.webp",
+    "tallDepth": "depth/home-learn-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1600,
+     900
+    ],
+    "tall": [
+     960,
+     1200
+    ]
+   },
+   "alt": "A Dutch scholar in a black doublet and white ruff rests his hand on a celestial globe.",
+   "why": "Learn: map the world before you sail it.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.56,
+    "glow": 0.35,
+    "tint": 0,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "Man with a Celestial Globe",
+    "artist": "Nicolaes Eliasz Pickenoy",
+    "date": "1624",
+    "medium": "Oil on wood",
+    "objectName": "Painting",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 437282,
+    "accession": "1976.100.22",
+    "creditLine": "Bequest of Harry G. Sperling, 1971",
+    "page": "https://www.metmuseum.org/art/collection/search/437282",
+    "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP143211.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Nicolaes Eliasz Pickenoy, \"Man with a Celestial Globe\", 1624. The Met, Bequest of Harry G. Sperling, 1971. Public domain (CC0)."
+  },
+  {
+   "id": "home-build",
+   "role": "Home · Build",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "flat",
+   "files": {
+    "hero": "images/home-build-hero.webp",
+    "heroDepth": "depth/home-build-hero-depth.webp",
+    "tall": "images/home-build-tall.webp",
+    "tallDepth": "depth/home-build-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Title plate of the Nova Reperta engravings: inventions of the age arranged around a printing press, a compass rose and a world map.",
+   "why": "Build: every age has its new inventions. This one has AI.",
+   "motion": {
+    "strength": 0.7,
+    "focus": 0.3,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], Title Plate",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659646,
+    "accession": "34.30(1)",
+    "creditLine": "Harris Brisbane Dick Fund, 1934",
+    "page": "https://www.metmuseum.org/art/collection/search/659646",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841122.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], Title Plate\", ca. 1600. The Met, Harris Brisbane Dick Fund, 1934. Public domain (CC0)."
+  },
+  {
+   "id": "home-grow",
+   "role": "Home · Grow",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/home-grow-cut.webp",
+    "cutDepth": "depth/home-grow-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     1400,
+     1304
+    ]
+   },
+   "alt": "A gilded automaton clock: Urania, Muse of Astronomy, reclines on top holding a celestial globe.",
+   "why": "Grow: a 400-year-old machine that moves by itself, the ancestor of every robot.",
+   "motion": {
+    "strength": 0.9,
+    "focus": 0.62,
+    "glow": 0.6,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Automaton clock in the form of Urania, Muse of Astronomy",
+    "artist": "Paullus Schiller",
+    "date": "ca. 1620–30",
+    "medium": "Case: partly gilded and partly silvered brass, copper with traces of silver, ebony, and ebony veneer; Movement: gilded brass and partly blued steel",
+    "objectName": "Automaton clock",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 679525,
+    "accession": "2015.76",
+    "creditLine": "Purchase, Anna-Maria and Stephen Kellen Acquisitions Fund, 2015",
+    "page": "https://www.metmuseum.org/art/collection/search/679525",
+    "originalImage": "https://images.metmuseum.org/CRDImages/es/original/DP349145.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10",
+    "cutout": "Background removed with rembg + IS-Net (Apache-2.0)"
+   },
+   "credit": "Paullus Schiller, \"Automaton clock in the form of Urania, Muse of Astronomy\", ca. 1620–30. The Met, Purchase, Anna-Maria and Stephen Kellen Acquisitions Fund, 2015. Public domain (CC0)."
+  },
+  {
+   "id": "map",
+   "role": "Atlas page",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "flat",
+   "files": {
+    "hero": "images/map-hero.webp",
+    "heroDepth": "depth/map-hero-depth.webp",
+    "tall": "images/map-tall.webp",
+    "tallDepth": "depth/map-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of a navigator's study: a scholar with a magnetic compass, a ship model hanging above.",
+   "why": "The invention of the compass: the map page is about finding your way.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.43,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of the Compass, plate 2",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659663,
+    "accession": "34.30(3)",
+    "creditLine": "Harris Brisbane Dick Fund, 1934",
+    "page": "https://www.metmuseum.org/art/collection/search/659663",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841121.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of the Compass, plate 2\", ca. 1600. The Met, Harris Brisbane Dick Fund, 1934. Public domain (CC0)."
+  },
+  {
+   "id": "progress",
+   "role": "Progress page",
+   "track": null,
+   "hue": "#D9B26A",
+   "kind": "cutout",
+   "files": {
+    "cut": "images/progress-cut.webp",
+    "cutDepth": "depth/progress-cut-depth.webp"
+   },
+   "size": {
+    "cut": [
+     1064,
+     1400
+    ]
+   },
+   "alt": "A gilded brass astrolabe from 1462, engraved with star pointers and scales.",
+   "why": "An astrolabe measures where you are, like the progress page.",
+   "motion": {
+    "strength": 0.7,
+    "focus": 0.53,
+    "glow": 0.6,
+    "tint": 0,
+    "attrs": "transparent fit=\"contain\""
+   },
+   "artwork": {
+    "title": "Astrolabe",
+    "artist": "Regiomontanus",
+    "date": "1462",
+    "medium": "Copper alloy",
+    "objectName": "Astrolabe",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 923639,
+    "accession": "2025.347a–j",
+    "creditLine": "The Cloisters Collection, 2025",
+    "page": "https://www.metmuseum.org/art/collection/search/923639",
+    "originalImage": "https://images.metmuseum.org/CRDImages/cl/original/DP-41678-001.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10",
+    "cutout": "Background removed with rembg + IS-Net (Apache-2.0)"
+   },
+   "credit": "Regiomontanus, \"Astrolabe\", 1462. The Met, The Cloisters Collection, 2025. Public domain (CC0)."
+  },
+  {
+   "id": "path-understand",
+   "role": "Path: Understand first",
+   "track": "understand",
+   "hue": "#00E5FF",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-understand-hero.webp",
+    "heroDepth": "depth/path-understand-hero-depth.webp",
+    "tall": "images/path-understand-tall.webp",
+    "tallDepth": "depth/path-understand-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Salvator Rosa paints himself as a philosopher, measuring a sphere with a pen, lost in thought.",
+   "why": "Thinking before doing: a mind working out how the world is made.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.43,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "Self-Portrait",
+    "artist": "Salvator Rosa",
+    "date": "ca. 1647",
+    "medium": "Oil on canvas",
+    "objectName": "Painting",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 437508,
+    "accession": "21.105",
+    "creditLine": "Bequest of Mary L. Harrison, 1921",
+    "page": "https://www.metmuseum.org/art/collection/search/437508",
+    "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP323414.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Salvator Rosa, \"Self-Portrait\", ca. 1647. The Met, Bequest of Mary L. Harrison, 1921. Public domain (CC0)."
+  },
+  {
+   "id": "path-use",
+   "role": "Path: Use models",
+   "track": "use",
+   "hue": "#FF2A6D",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-use-hero.webp",
+    "heroDepth": "depth/path-use-hero-depth.webp",
+    "tall": "images/path-use-tall.webp",
+    "tallDepth": "depth/path-use-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of a watermill: horses and men bring grain while the wheel does the work.",
+   "why": "A watermill uses a power you didn't create, just like building on existing models.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.43,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of the Watermill, plate 10",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659729,
+    "accession": "49.95.870(1)",
+    "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949",
+    "page": "https://www.metmuseum.org/art/collection/search/659729",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841116.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of the Watermill, plate 10\", ca. 1600. The Met, The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949. Public domain (CC0)."
+  },
+  {
+   "id": "path-train",
+   "role": "Path: Train models",
+   "track": "train",
+   "hue": "#B45CFF",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-train-hero.webp",
+    "heroDepth": "depth/path-train-hero-depth.webp",
+    "tall": "images/path-train-tall.webp",
+    "tallDepth": "depth/path-train-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of riders training horses with the newly invented stirrups.",
+   "why": "Training a powerful animal to follow your lead.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.84,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of Stirrups, plate 9",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 357631,
+    "accession": "34.30(10)",
+    "creditLine": "Harris Brisbane Dick Fund, 1934",
+    "page": "https://www.metmuseum.org/art/collection/search/357631",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841128.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of Stirrups, plate 9\", ca. 1600. The Met, Harris Brisbane Dick Fund, 1934. Public domain (CC0)."
+  },
+  {
+   "id": "path-build",
+   "role": "Path: Build a model",
+   "track": "build",
+   "hue": "#FCEE0A",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-build-hero.webp",
+    "heroDepth": "depth/path-build-hero-depth.webp",
+    "tall": "images/path-build-tall.webp",
+    "tallDepth": "depth/path-build-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of a clockmaker's workshop, craftsmen assembling iron clockwork.",
+   "why": "Building a mechanism gear by gear, from scratch.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.47,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of the Clockwork, plate 5",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659694,
+    "accession": "34.30(6)",
+    "creditLine": "Harris Brisbane Dick Fund, 1934",
+    "page": "https://www.metmuseum.org/art/collection/search/659694",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841126.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of the Clockwork, plate 5\", ca. 1600. The Met, Harris Brisbane Dick Fund, 1934. Public domain (CC0)."
+  },
+  {
+   "id": "path-vision",
+   "role": "Path: Vision",
+   "track": "vision",
+   "hue": "#00FFC8",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-vision-hero.webp",
+    "heroDepth": "depth/path-vision-hero-depth.webp",
+    "tall": "images/path-vision-tall.webp",
+    "tallDepth": "depth/path-vision-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of an eyeglasses shop, customers trying lenses at a street stall.",
+   "why": "The invention of eyeglasses: helping machines see.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.46,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of Eyeglasses, plate 15",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659672,
+    "accession": "49.95.870(6)",
+    "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949",
+    "page": "https://www.metmuseum.org/art/collection/search/659672",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841118.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of Eyeglasses, plate 15\", ca. 1600. The Met, The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949. Public domain (CC0)."
+  },
+  {
+   "id": "path-language",
+   "role": "Path: Language",
+   "track": "language",
+   "hue": "#FF8A1F",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-language-hero.webp",
+    "heroDepth": "depth/path-language-hero-depth.webp",
+    "tall": "images/path-language-tall.webp",
+    "tallDepth": "depth/path-language-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of a copper-engraving workshop: engravers cutting lines and printing plates.",
+   "why": "Turning marks into meaning and copies, the craft of text and image.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.52,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of Copper Engraving, plate 19",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659685,
+    "accession": "49.95.870(10)",
+    "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949",
+    "page": "https://www.metmuseum.org/art/collection/search/659685",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841117.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of Copper Engraving, plate 19\", ca. 1600. The Met, The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949. Public domain (CC0)."
+  },
+  {
+   "id": "path-generative",
+   "role": "Path: Generative media",
+   "track": "generative",
+   "hue": "#F43BFF",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-generative-hero.webp",
+    "heroDepth": "depth/path-generative-hero-depth.webp",
+    "tall": "images/path-generative-tall.webp",
+    "tallDepth": "depth/path-generative-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of a painters' studio, artists at easels learning oil painting.",
+   "why": "The invention of oil painting: making new images.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.54,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of Oil Painting, plate 14",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659725,
+    "accession": "49.95.870(5)",
+    "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949",
+    "page": "https://www.metmuseum.org/art/collection/search/659725",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841119.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of Oil Painting, plate 14\", ca. 1600. The Met, The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949. Public domain (CC0)."
+  },
+  {
+   "id": "path-rl",
+   "role": "Path: Reinforcement learning",
+   "track": "rl",
+   "hue": "#FF3D3D",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-rl-hero.webp",
+    "heroDepth": "depth/path-rl-hero-depth.webp",
+    "tall": "images/path-rl-tall.webp",
+    "tallDepth": "depth/path-rl-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Four soldiers at a tavern table, one studying his cards while the others watch.",
+   "why": "A game of cards: choose, see the result, learn what pays off.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.43,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "The Card Players",
+    "artist": "Ernest Meissonier",
+    "date": "1863",
+    "medium": "Oil on wood",
+    "objectName": "Painting",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 437049,
+    "accession": "25.110.39",
+    "creditLine": "Bequest of Collis P. Huntington, 1900",
+    "page": "https://www.metmuseum.org/art/collection/search/437049",
+    "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-19628-001.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Ernest Meissonier, \"The Card Players\", 1863. The Met, Bequest of Collis P. Huntington, 1900. Public domain (CC0)."
+  },
+  {
+   "id": "path-mlops",
+   "role": "Path: MLOps",
+   "track": "mlops",
+   "hue": "#B8FF1F",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-mlops-hero.webp",
+    "heroDepth": "depth/path-mlops-hero-depth.webp",
+    "tall": "images/path-mlops-tall.webp",
+    "tallDepth": "depth/path-mlops-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Engraving of windmills grinding grain while workers keep the supply running.",
+   "why": "Windmills run all day, every day: production that keeps working.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.74,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "New Inventions of Modern Times [Nova Reperta], The Invention of the Wind Mill, plate 11",
+    "artist": "Jan Collaert I",
+    "date": "ca. 1600",
+    "medium": "Engraving",
+    "objectName": "Print",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 659727,
+    "accession": "49.95.870(2)",
+    "creditLine": "The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949",
+    "page": "https://www.metmuseum.org/art/collection/search/659727",
+    "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841112.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of the Wind Mill, plate 11\", ca. 1600. The Met, The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 1949. Public domain (CC0)."
+  },
+  {
+   "id": "path-safety",
+   "role": "Path: Safety and alignment",
+   "track": "safety",
+   "hue": "#7F8CFF",
+   "kind": "flat",
+   "files": {
+    "hero": "images/path-safety-hero.webp",
+    "heroDepth": "depth/path-safety-hero-depth.webp",
+    "tall": "images/path-safety-tall.webp",
+    "tallDepth": "depth/path-safety-tall-depth.webp"
+   },
+   "size": {
+    "hero": [
+     1280,
+     720
+    ],
+    "tall": [
+     800,
+     1000
+    ]
+   },
+   "alt": "Joan of Arc stands in her parents' garden, reaching out as she listens to the voices guiding her.",
+   "why": "Listening for guidance before acting: power that stays aligned with what it is told is right.",
+   "motion": {
+    "strength": 0.8,
+    "focus": 0.43,
+    "glow": 0.3,
+    "tint": 0.22,
+    "attrs": ""
+   },
+   "artwork": {
+    "title": "Joan of Arc",
+    "artist": "Jules Bastien-Lepage",
+    "date": "1879",
+    "medium": "Oil on canvas",
+    "objectName": "Painting",
+    "museum": "The Metropolitan Museum of Art, New York",
+    "objectID": 435621,
+    "accession": "89.21.1",
+    "creditLine": "Gift of Erwin Davis, 1889",
+    "page": "https://www.metmuseum.org/art/collection/search/435621",
+    "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-14201-049.jpg"
+   },
+   "license": {
+    "name": "CC0 1.0 (public domain)",
+    "via": "The Met Open Access",
+    "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+   },
+   "credit": "Jules Bastien-Lepage, \"Joan of Arc\", 1879. The Met, Gift of Erwin Davis, 1889. Public domain (CC0)."
+  }
+ ]
+}

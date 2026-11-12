@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Atlas · AI Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..700,0..100&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+body{overflow-x:hidden}
+.atlas{position:relative;height:calc(100svh - 68px);min-height:640px;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(70% 60% at 55% 45%,#15111A,#0A080B 70%)}
+.stage{position:absolute;inset:0;perspective:1800px;perspective-origin:50% 30%;cursor:grab;touch-action:none}
+.stage.drag{cursor:grabbing}
+.board{position:absolute;left:50%;top:50%;width:1600px;height:1080px;margin:-540px 0 0 -800px;transform-style:preserve-3d;
+  transform:translate3d(var(--px,0px),var(--py,0px),0) scale(var(--zoom,1)) rotateX(var(--tilt,52deg)) rotateZ(var(--spin,-10deg));
+  transition:transform 1.1s var(--ease)}
+.stage.drag .board,.board.instant{transition:none}
+.board>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sea{fill:#0E0B10}
+.frame-b{fill:none;stroke:var(--gold);stroke-width:1.2;opacity:.55}
+.grid-l{stroke:rgba(217,178,106,.09);stroke-width:1}
+.rhumb{stroke:rgba(217,178,106,.13);stroke-width:.8}
+.rose{color:var(--gold);opacity:.75}
+.region{font:italic 500 26px var(--serif);fill:rgba(243,235,221,.34);letter-spacing:.06em;text-anchor:middle}
+.link{fill:none;stroke:rgba(217,178,106,.32);stroke-width:2;stroke-dasharray:2 7;stroke-linecap:round}
+.route{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:url(#glow)}
+.route.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw var(--dur,2.4s) var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ship{filter:url(#glow)}
+
+/* islands: medallions on the board, standing upright to face the camera */
+.isl{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.isl .shadow{position:absolute;width:calc(var(--s) * 1.15);height:calc(var(--s) * 1.15);left:calc(var(--s) * -.575);top:calc(var(--s) * -.575);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.65),transparent);transform:translateZ(1px)}
+.isl .ring{position:absolute;width:calc(var(--s) * 1.5);height:calc(var(--s) * 1.5);left:calc(var(--s) * -.75);top:calc(var(--s) * -.75);border-radius:50%;
+  border:1.5px solid color-mix(in oklab,var(--c) 70%,transparent);box-shadow:0 0 24px color-mix(in oklab,var(--c) 50%,transparent),inset 0 0 18px color-mix(in oklab,var(--c) 30%,transparent);
+  opacity:0;transform:translateZ(2px) scale(.7);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.isl.on .ring{opacity:1;transform:translateZ(2px) scale(1);animation:pulse 3.6s ease-in-out infinite;animation-delay:var(--bd)}
+@keyframes pulse{50%{transform:translateZ(2px) scale(1.08);opacity:.55}}
+.bill{position:absolute;left:0;top:0;transform-style:preserve-3d;
+  transform:rotateZ(calc(-1 * var(--spin,-10deg))) rotateX(calc(-1 * var(--tilt,52deg))) ;transition:transform 1.1s var(--ease);transform-origin:0 0}
+.stage.drag .bill,.board.instant .bill{transition:none}
+.med{all:unset;cursor:pointer;position:absolute;left:calc(var(--s) * -.5);bottom:0;width:var(--s);display:grid;justify-items:center;gap:8px;
+  transform:translateY(calc(var(--lift,0px) * -1)) scale(var(--sc,1));transform-origin:50% 100%;transition:transform .5s var(--ease),filter .5s,opacity .5s}
+.med .disc{width:var(--s);height:var(--s);border-radius:50%;overflow:hidden;position:relative;background:#000;
+  box-shadow:0 0 0 2px #0C0A0D,0 0 0 3.5px var(--gold),0 0 0 6px #0C0A0D,0 0 0 7px rgba(217,178,106,.4),0 18px 30px -8px rgba(0,0,0,.9)}
+.med .disc img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.med .disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.22),transparent 45%),radial-gradient(circle,transparent 55%,rgba(0,0,0,.45))}
+.med .tag{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:4px 9px 4px 4px;border-radius:7px;background:rgba(12,10,13,.88);border:1px solid var(--line-2);
+  font:600 13px var(--sans);color:var(--ivory)}
+.med .tag b{font:700 11px var(--mono);min-width:22px;height:20px;display:grid;place-items:center;border-radius:5px;background:rgba(243,235,221,.1);color:var(--ivory-2)}
+.isl.on .med{--lift:16px}
+.isl.on .med .tag{border-color:color-mix(in oklab,var(--c) 70%,transparent)}
+.isl.on .med .tag b{background:var(--c);color:#0C0A0D}
+.isl.on .med{animation:bob 5s ease-in-out infinite;animation-delay:var(--bd)}
+@keyframes bob{50%{transform:translateY(calc(var(--lift) * -1 - 6px)) scale(var(--sc,1))}}
+.isl.off .med{filter:grayscale(.85) brightness(.55);opacity:.7}
+.isl.done .med .disc{box-shadow:0 0 0 2px #0C0A0D,0 0 0 3.5px #4ADE80,0 0 0 6px #0C0A0D,0 0 0 7px rgba(74,222,128,.45),0 18px 30px -8px rgba(0,0,0,.9)}
+.med:hover,.med:focus-visible{--sc:1.12;filter:none;opacity:1;outline:none}
+.med:hover .disc img{transform:scale(1.12)}
+.med:focus-visible .disc{outline:2px solid var(--gold-2);outline-offset:8px}
+.isl.enter .med{opacity:0;--sc:.4}
+.k-c{--s:92px}.k-p{--s:80px}.k-s{--s:66px}
+
+/* panel */
+.panel{position:absolute;z-index:5;left:clamp(12px,2vw,28px);top:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);width:min(380px,calc(100% - 24px));
+  display:flex;flex-direction:column;background:rgba(15,12,17,.82);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  border:1px solid var(--line-2);border-radius:var(--r-3);box-shadow:0 30px 80px -30px #000;overflow:hidden;transition:transform .5s var(--ease)}
+.panel-top{padding:22px 22px 14px;border-bottom:1px solid var(--line)}
+.panel h1{font-size:30px;line-height:1.1;margin-bottom:6px}
+.goals{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.goals .chip{min-height:36px;font-size:13.5px;padding:0 12px}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 22px;border-bottom:1px solid var(--line)}
+.sum b{display:block;font:600 22px/1.1 var(--serif)}
+.sum span{font-size:12.5px;color:var(--muted)}
+.pace{display:flex;align-items:center;gap:6px;padding:10px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pace button{all:unset;cursor:pointer;font:600 12px var(--mono);padding:5px 9px;border-radius:6px;border:1px solid var(--line-2);color:var(--ivory-2)}
+.pace button[aria-pressed=true]{background:var(--hue);color:#0C0A0D;border-color:var(--hue)}
+.steps{list-style:none;margin:0;padding:8px 10px 14px;overflow:auto;flex:1;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.steps li a{display:grid;grid-template-columns:auto 40px 1fr auto;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;text-decoration:none;transition:background .2s}
+.steps li a:hover,.steps li a.hl{background:rgba(243,235,221,.06)}
+.steps .n{font:700 11px var(--mono);color:var(--muted);width:20px}
+.steps img{width:40px;height:40px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1.5px var(--c)}
+.steps .t{font-size:14.5px;font-weight:550;line-height:1.3}
+.steps .t small{display:block;font:500 12px var(--mono);color:var(--muted);margin-top:2px}
+.steps .ok{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line-2)}
+.steps .ok.y{background:#4ADE80;border-color:#4ADE80}
+.panel-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px}
+.panel-foot .btn{flex:1}
+
+/* controls */
+.ctrls{position:absolute;z-index:5;right:clamp(12px,2vw,28px);bottom:clamp(12px,2vw,24px);display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.seg{display:flex;padding:4px;gap:2px;border-radius:999px;background:rgba(15,12,17,.82);border:1px solid var(--line-2);backdrop-filter:blur(12px)}
+.seg button{all:unset;cursor:pointer;font:600 13px var(--sans);padding:8px 14px;border-radius:999px;color:var(--ivory-2)}
+.seg button[aria-pressed=true]{background:var(--gold);color:var(--gold-ink)}
+.seg button:focus-visible{outline:2px solid var(--gold-2)}
+.legend{position:absolute;z-index:5;right:clamp(12px,2vw,28px);top:clamp(12px,2vw,24px);display:flex;gap:16px;padding:10px 16px;border-radius:999px;
+  background:rgba(15,12,17,.75);border:1px solid var(--line);font-size:13px;color:var(--ivory-2);backdrop-filter:blur(12px)}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:7px;vertical-align:middle}
+
+/* hover card */
+.peek{position:fixed;z-index:60;width:300px;pointer-events:none;opacity:0;transform:translateY(8px) scale(.98);transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.peek.show{opacity:1;transform:none;pointer-events:auto}
+.peek .in{border-radius:18px;overflow:hidden;background:rgba(15,12,17,.94);border:1px solid color-mix(in oklab,var(--c) 60%,transparent);
+  box-shadow:0 30px 60px -20px #000,0 0 40px -14px var(--c);backdrop-filter:blur(16px)}
+.peek spatial-photo{aspect-ratio:16/10}
+.peek .tx{padding:14px 16px 16px;display:grid;gap:6px}
+.peek h3{font-size:21px}
+.peek p{font-size:14px;color:var(--ivory-2);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.peek .meta{display:flex;justify-content:space-between;font:500 12px var(--mono);color:var(--muted)}
+.peek .meta b{color:var(--c)}
+
+@media (max-width:860px){
+  .atlas{height:auto;min-height:0;display:flex;flex-direction:column}
+  .stage{position:relative;height:72svh;order:1}
+  .panel{position:relative;inset:auto;width:auto;margin:12px;order:2;max-height:none}
+  .steps{max-height:none}
+  .legend{display:none}
+  .ctrls{bottom:auto;top:calc(72svh - 58px);left:12px;right:12px;flex-wrap:nowrap;justify-content:space-between}
+  .seg button{padding:7px 11px;font-size:12.5px}
+}
+@media (prefers-reduced-motion:reduce){.isl.on .med,.isl.on .ring{animation:none}}
+</style>
+</head>
+<body style="--hue:var(--gold)">
+<main id="main">
+  <section class="atlas" aria-label="AI Atlas map">
+    <div class="stage" id="stage"><div class="board" id="board"></div></div>
+
+    <aside class="panel" id="panel" aria-label="Your route">
+      <div class="panel-top">
+        <p class="eyebrow" style="margin-bottom:10px">The atlas · MMXXVI</p>
+        <h1>Chart your route</h1>
+        <p class="small" style="margin:0" id="blurb"></p>
+        <div class="goals" id="goals" role="group" aria-label="Goal"></div>
+      </div>
+      <div class="sum" id="sum"></div>
+      <div class="pace" role="group" aria-label="Hours per week">Pace <span id="pace"></span> hours a week</div>
+      <ol class="steps" id="steps"></ol>
+      <div class="panel-foot"><a class="btn sm" id="openPath" href="#">Open this path</a><a class="btn sm ghost" id="startIsl" href="#">Start</a></div>
+    </aside>
+
+    <div class="legend" aria-hidden="true"><span><i style="background:var(--hue);box-shadow:0 0 8px var(--hue)"></i>Your route</span><span><i style="background:#4ADE80"></i>Finished</span><span><i style="background:rgba(217,178,106,.5)"></i>Sea lanes</span></div>
+    <div class="ctrls">
+      <div class="seg" role="group" aria-label="Camera" id="views"></div>
+      <div class="seg" role="group" aria-label="Zoom"><button id="zout" aria-label="Zoom out">−</button><button id="zin" aria-label="Zoom in">+</button><button id="zre" aria-label="Reset view">Reset</button></div>
+    </div>
+  </section>
+  <div class="peek" id="peek" role="dialog" aria-live="polite"><div class="in"><div id="peekArt"></div><div class="tx"><div class="meta"><span id="pkN"></span><span id="pkH"></span></div><h3 id="pkT"></h3><p id="pkL"></p></div></div></div>
+</main>
+
+<script type="module">
+import { data, chrome, motion, esc, asset, spatial, setHue, RM } from "./site.js";
+chrome("atlas");
+const D = await data(); const A = D.atlas;
+const W = 1600, H = 1080, X = (x) => 800 + x * 1.15, Y = (y) => 600 + y * 1.05;
+const pos = Object.fromEntries(A.islands.map((i) => [i.id, [X(i.x), Y(i.y)]]));
+const KEY = "ai-atlas-progress";
+const store = (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })();
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
+store.done ||= []; store.goal ||= "understand"; store.pace ||= 10;
+
+/* ---------- draw the chart ---------- */
+const REG = { understand: "The Foundation Shoals", use: "Archipelago of Use", train: "The Training Isles", build: "The Forge Isles",
+  vision: "Sight", language: "Lingua", generative: "Making", rl: "Reward", mlops: "The Mills", safety: "The Guardians" };
+const regionPos = (k) => { const ids = A.paths[k].steps.filter((id) => D.trackOf(id) === k); const xs = ids.map((i) => pos[i][0]), ys = ids.map((i) => pos[i][1]);
+  const cx = xs.reduce((a, b) => a + b) / xs.length, cy = Math.min(...ys); return [cx, k.length && ["vision","language","generative","rl","mlops","safety"].includes(k) ? cy - 62 : (k === "use" ? cy - 72 : cy - 95)]; };
+const rose = (cx, cy, r) => { let s = `<g class="rose" transform="translate(${cx} ${cy})" fill="none" stroke="currentColor">
+  <circle r="${r}" stroke-width="1"/><circle r="${r * .86}" stroke-width=".6" stroke-dasharray="2 5"/><circle r="${r * .3}" stroke-width=".8"/>`;
+  for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8, l = i % 4 === 0 ? r * .98 : i % 2 === 0 ? r * .7 : r * .5, w = i % 4 === 0 ? r * .1 : r * .06;
+    const p = (ang, rr) => `${(Math.sin(ang) * rr).toFixed(1)} ${(-Math.cos(ang) * rr).toFixed(1)}`;
+    s += `<path d="M${p(a, l)} L${p(a + Math.PI / 2, w)} L0 0 L${p(a - Math.PI / 2, w)}Z" fill="${i % 2 ? "none" : "currentColor"}" fill-opacity=".35" stroke-width=".8"/>`; }
+  return s + `<text y="${-r - 12}" text-anchor="middle" font-family="Fraunces" font-size="20" fill="currentColor" stroke="none">N</text></g>`; };
+const rhumbs = (cx, cy) => Array.from({ length: 32 }, (_, i) => { const a = i * Math.PI / 16; return `<line class="rhumb" x1="${cx}" y1="${cy}" x2="${cx + Math.cos(a) * 2400}" y2="${cy + Math.sin(a) * 2400}"/>`; }).join("");
+const curve = (a, b) => { const [x1, y1] = pos[a], [x2, y2] = pos[b], mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1;
+  const k = 0.12; return `M${x1} ${y1} Q${mx - dy * k} ${my + dx * k} ${x2} ${y2}`; };
+let grid = ""; for (let x = 0; x <= W; x += 100) grid += `<line class="grid-l" x1="${x}" y1="0" x2="${x}" y2="${H}"/>`; for (let y = 0; y <= H; y += 100) grid += `<line class="grid-l" x1="0" y1="${y}" x2="${W}" y2="${y}"/>`;
+let ticks = ""; for (let x = 20; x < W; x += 20) ticks += `<line x1="${x}" y1="10" x2="${x}" y2="${x % 100 ? 16 : 22}" stroke="rgba(217,178,106,.5)"/><line x1="${x}" y1="${H - 10}" x2="${x}" y2="${H - (x % 100 ? 16 : 22)}" stroke="rgba(217,178,106,.5)"/>`;
+const board = document.getElementById("board");
+board.innerHTML = `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true">
+  <defs><pattern id="waves" width="40" height="22" patternUnits="userSpaceOnUse"><path d="M0 11q10-7 20 0t20 0" fill="none" stroke="rgba(217,178,106,.07)" stroke-width="1"/></pattern>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="vig"><stop offset="60%" stop-color="#0E0B10" stop-opacity="0"/><stop offset="100%" stop-color="#060507" stop-opacity=".9"/></radialGradient></defs>
+  <rect class="sea" width="${W}" height="${H}" rx="18"/><rect width="${W}" height="${H}" fill="url(#waves)" rx="18"/>
+  <g clip-path="inset(0 round 18px)">${grid}${rhumbs(230, 880)}${rhumbs(1480, 960)}</g>
+  <rect width="${W}" height="${H}" fill="url(#vig)" rx="18"/>
+  <rect class="frame-b" x="6" y="6" width="${W - 12}" height="${H - 12}" rx="14"/><rect class="frame-b" x="26" y="26" width="${W - 52}" height="${H - 52}" rx="8" style="opacity:.3"/>${ticks}
+  ${rose(230, 880, 110)}${rose(1480, 960, 58)}
+  <g transform="translate(1290 98)"><rect x="-150" y="-52" width="300" height="104" rx="6" fill="rgba(12,10,13,.85)" stroke="rgba(217,178,106,.5)"/>
+    <text text-anchor="middle" y="-14" font-family="Fraunces" font-size="28" font-style="italic" fill="#F1D49A">Atlas of Machine Learning</text>
+    <text text-anchor="middle" y="18" font-family="JetBrains Mono" font-size="11" letter-spacing="3" fill="#9C9182">XXIX INSULAE · X ITINERA · MMXXVI</text></g>
+  ${A.order.map((k) => { const [x, y] = regionPos(k); return `<text class="region" x="${x}" y="${y}">${REG[k]}</text>`; }).join("")}
+  <g id="links">${A.linkPairs.map(([a, b]) => `<path class="link" d="${curve(a, b)}"/>`).join("")}</g>
+  <g id="route"></g><g id="shipG"><circle class="ship" r="7" fill="#fff" opacity="0" id="ship"/></g>
+</svg>` + A.islands.map((i, n) => { const [x, y] = pos[i.id], art = D.artBy[i.id];
+  return `<div class="isl k-${i.k} enter" id="i-${i.id}" style="transform:translate3d(${x}px,${y}px,0);--c:${D.hue(i.id)};--bd:${(n % 7) * -0.7}s">
+    <div class="shadow"></div><div class="ring"></div>
+    <div class="bill"><button class="med" data-id="${i.id}" aria-label="Island ${D.num(i.id)}: ${esc(i.title)}">
+      <span class="disc"><img src="${asset(art.files.card)}" alt="" loading="lazy" style="view-transition-name:none"></span>
+      <span class="tag"><b>${D.num(i.id)}</b>${esc(i.short)}</span></button></div></div>`; }).join("");
+
+/* ---------- camera ---------- */
+const MOB = innerWidth < 860;
+const VIEWS = [["voyage", "Voyage", 50, -8, MOB ? 1.25 : .82], ["horizon", "Horizon", 62, -14, MOB ? 1.35 : .9], ["chart", "Chart", 0, 0, MOB ? 1.7 : .7]];
+const stage = document.getElementById("stage");
+let cam = { tilt: 50, spin: -8, zoom: .82, px: 0, py: 0 }, view = innerWidth < 860 ? "chart" : "voyage";
+const fit = () => Math.min(1, Math.max(.24, Math.min(stage.clientWidth / 1500, stage.clientHeight / 900)));
+function apply() { const b = board.style; b.setProperty("--tilt", cam.tilt + "deg"); b.setProperty("--spin", cam.spin + "deg");
+  b.setProperty("--zoom", (cam.zoom * fit()).toFixed(3)); b.setProperty("--px", cam.px + "px"); b.setProperty("--py", cam.py + "px"); }
+function setView(v) { const p = VIEWS.find((x) => x[0] === v); view = v; Object.assign(cam, { tilt: p[2], spin: p[3], zoom: p[4], px: innerWidth > 860 ? 150 : 0, py: 0 }); apply();
+  document.querySelectorAll("#views button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === v)); }
+document.getElementById("views").innerHTML = VIEWS.map(([k, t]) => `<button data-v="${k}">${t}</button>`).join("");
+document.querySelectorAll("#views button").forEach((b) => (b.onclick = () => setView(b.dataset.v)));
+document.getElementById("zin").onclick = () => { cam.zoom = Math.min(3, cam.zoom * 1.2); apply(); };
+document.getElementById("zout").onclick = () => { cam.zoom = Math.max(.4, cam.zoom / 1.2); apply(); };
+document.getElementById("zre").onclick = () => setView(view);
+// drag to pan, gentle pointer parallax
+let dragging = null;
+stage.addEventListener("pointerdown", (e) => { if (e.target.closest(".med")) return; dragging = { x: e.clientX, y: e.clientY, px: cam.px, py: cam.py }; stage.classList.add("drag"); stage.setPointerCapture(e.pointerId); });
+stage.addEventListener("pointermove", (e) => {
+  if (dragging) { cam.px = dragging.px + e.clientX - dragging.x; cam.py = dragging.py + e.clientY - dragging.y; apply(); return; }
+  if (RM || view === "chart" || e.pointerType !== "mouse") return;
+  const r = stage.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+  const p = VIEWS.find((x) => x[0] === view); cam.spin = p[3] + nx * 4; cam.tilt = p[2] - ny * 4;
+  board.classList.add("instant"); apply(); clearTimeout(stage._t); stage._t = setTimeout(() => board.classList.remove("instant"), 60);
+});
+const end = () => { dragging = null; stage.classList.remove("drag"); };
+stage.addEventListener("pointerup", end); stage.addEventListener("pointercancel", end);
+stage.addEventListener("wheel", (e) => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); cam.zoom = Math.max(.45, Math.min(1.8, cam.zoom * (e.deltaY < 0 ? 1.08 : .92))); apply(); }, { passive: false });
+addEventListener("resize", apply);
+
+/* ---------- route ---------- */
+const GOALS = ["understand", "use", "train", "build", ...A.specs];
+document.getElementById("goals").innerHTML = GOALS.map((k) => `<button class="chip" data-k="${k}" style="--c:${A.pathHue[k]}" aria-pressed="false"><i></i>${esc(A.paths[k].name)}</button>`).join("");
+document.getElementById("pace").outerHTML = `<span>${A.paces.map((p) => `<button data-p="${p}" aria-pressed="${p === store.pace}">${p}</button>`).join(" ")}</span>`;
+document.querySelectorAll(".pace button").forEach((b) => (b.onclick = () => { store.pace = +b.dataset.p; save(); document.querySelectorAll(".pace button").forEach((x) => x.setAttribute("aria-pressed", x === b)); summary(); }));
+let ship = { raf: 0 };
+function summary() { const k = store.goal, hrs = D.pathHours(k), steps = A.paths[k].steps, done = steps.filter((s) => store.done.includes(s)).length;
+  const wk = [Math.ceil(hrs[0] / store.pace), Math.ceil(hrs[1] / store.pace)];
+  document.getElementById("sum").innerHTML = `<div><b>${steps.length}</b><span>islands</span></div><div><b>${hrs[0]}–${hrs[1]}</b><span>hours</span></div><div><b>${wk[0]}–${wk[1]}</b><span>weeks · ${done}/${steps.length} done</span></div>`; }
+function route(k, animate = true) {
+  store.goal = k; save(); const c = A.pathHue[k], steps = A.paths[k].steps; setHue(c);
+  document.querySelectorAll("#goals .chip").forEach((b) => b.setAttribute("aria-pressed", b.dataset.k === k));
+  document.getElementById("blurb").textContent = A.paths[k].blurb;
+  document.getElementById("openPath").href = `path.html#${k}`; document.getElementById("startIsl").href = `island.html#${steps.find((s) => !store.done.includes(s)) || steps[0]}`;
+  A.islands.forEach((i) => { const el = document.getElementById("i-" + i.id); const on = steps.includes(i.id);
+    el.classList.toggle("on", on); el.classList.toggle("off", !on); el.classList.toggle("done", store.done.includes(i.id)); });
+  // route segments: consecutive steps that are linked; otherwise jump from the step's parent island
+  const linked = new Set(A.linkPairs.flatMap(([a, b]) => [a + ">" + b, b + ">" + a])), parent = {}; A.linkPairs.forEach(([a, b]) => (parent[b] ||= a));
+  const segs = []; steps.forEach((id, i) => { if (!i) return; const prev = steps[i - 1]; const from = linked.has(prev + ">" + id) ? prev : (parent[id] && steps.includes(parent[id]) ? parent[id] : prev); segs.push([from, id]); });
+  const g = document.getElementById("route"); const d = segs.map(([a, b]) => curve(a, b)).join(" ");
+  g.innerHTML = `<path class="route ${animate && !RM ? "draw" : ""}" d="${d}" stroke="${c}"/>`;
+  const p = g.firstChild, len = p.getTotalLength(); p.style.setProperty("--len", len); p.style.setProperty("--dur", Math.min(3.2, 0.8 + len / 1400) + "s");
+  // ship sails each segment in order
+  cancelAnimationFrame(ship.raf); const shipEl = document.getElementById("ship"); shipEl.setAttribute("fill", c);
+  if (!RM) { const paths = segs.map(([a, b]) => { const q = document.createElementNS("http://www.w3.org/2000/svg", "path"); q.setAttribute("d", curve(a, b)); return q; });
+    const lens = paths.map((q) => q.getTotalLength()), total = lens.reduce((a, b) => a + b, 0); let t0 = performance.now() + (animate ? 2200 : 0);
+    const tick = (now) => { const tt = ((now - t0) / 1000 * 140) % (total + 300); shipEl.setAttribute("opacity", now < t0 || tt > total ? 0 : 1);
+      if (now >= t0 && tt <= total) { let acc = 0, j = 0; while (j < lens.length - 1 && acc + lens[j] < tt) acc += lens[j++]; const pt = paths[j].getPointAtLength(tt - acc); shipEl.setAttribute("cx", pt.x); shipEl.setAttribute("cy", pt.y); }
+      ship.raf = requestAnimationFrame(tick); }; ship.raf = requestAnimationFrame(tick); }
+  // list
+  document.getElementById("steps").innerHTML = steps.map((id, n) => { const i = D.isl[id];
+    return `<li><a href="island.html#${id}" data-id="${id}" style="--c:${D.hue(id)}"><span class="n">${String(n + 1).padStart(2, "0")}</span>
+      <img src="${asset(D.artBy[id].files.card)}" alt="" loading="lazy"><span class="t">${esc(i.title)}<small>${i.hrs[0]}–${i.hrs[1]} h</small></span>
+      <span class="ok ${store.done.includes(id) ? "y" : ""}" title="${store.done.includes(id) ? "Finished" : "Not finished"}"></span></a></li>`; }).join("");
+  document.querySelectorAll("#steps a").forEach((a) => { a.onmouseenter = () => peek(a.dataset.id, document.querySelector(`.med[data-id=${a.dataset.id}]`)); a.onmouseleave = hide; });
+  summary(); history.replaceState(null, "", "#" + k);
+}
+document.querySelectorAll("#goals .chip").forEach((b) => (b.onclick = () => route(b.dataset.k)));
+
+/* ---------- peek card ---------- */
+const pk = document.getElementById("peek"); let pkId = null, hideT;
+function peek(id, anchor) {
+  clearTimeout(hideT); const i = D.isl[id], art = D.artBy[id]; pk.style.setProperty("--c", D.hue(id));
+  if (pkId !== id) { pkId = id; document.getElementById("peekArt").innerHTML = spatial({ ...art, files: { hero: art.files.card, heroDepth: art.files.cardDepth }, motion: { ...art.motion, focusHero: art.motion.focusCard } }, 'mode="idle" intro');
+    document.getElementById("pkN").innerHTML = `<b>Island ${D.num(id)}</b> · ${esc(A.paths[D.trackOf(id)].name)}`; document.getElementById("pkH").textContent = `${i.hrs[0]}–${i.hrs[1]} h`;
+    document.getElementById("pkT").textContent = i.title; document.getElementById("pkL").textContent = i.learn; }
+  const r = anchor.getBoundingClientRect(), w = 300; let x = r.right + 18, y = r.top - 40;
+  if (x + w > innerWidth - 12) x = r.left - w - 18; if (x < 12) x = 12; y = Math.max(80, Math.min(innerHeight - 380, y));
+  pk.style.left = x + "px"; pk.style.top = y + "px"; pk.classList.add("show");
+  document.querySelectorAll("#steps a").forEach((a) => a.classList.toggle("hl", a.dataset.id === id));
+}
+function hide() { hideT = setTimeout(() => { pk.classList.remove("show"); document.querySelectorAll("#steps a.hl").forEach((a) => a.classList.remove("hl")); }, 120); }
+document.querySelectorAll(".med").forEach((m) => {
+  m.addEventListener("mouseenter", () => peek(m.dataset.id, m)); m.addEventListener("mouseleave", hide);
+  m.addEventListener("focus", () => peek(m.dataset.id, m)); m.addEventListener("blur", hide);
+  m.addEventListener("click", (e) => { const id = m.dataset.id;
+    if (matchMedia("(hover: none)").matches && pkId !== id) { e.preventDefault(); peek(id, m); return; }
+    m.querySelector("img").style.viewTransitionName = "island-art"; location.href = "island.html#" + id; });
+});
+pk.addEventListener("click", () => { if (pkId) location.href = "island.html#" + pkId; }); pk.style.cursor = "pointer";
+
+/* ---------- go ---------- */
+setView(view);
+const start = GOALS.includes(location.hash.slice(1)) ? location.hash.slice(1) : store.goal;
+route(start, true);
+const order = [...A.islands].sort((a, b) => (A.paths[start].steps.indexOf(a.id) + 1 || 99) - (A.paths[start].steps.indexOf(b.id) + 1 || 99));
+order.forEach((i, n) => setTimeout(() => document.getElementById("i-" + i.id).classList.remove("enter"), RM ? 0 : 200 + n * 45));
+motion();
+</script>
+</body>
+</html>

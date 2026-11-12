@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Island · AI Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..700,0..100&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.i-hero{position:relative;height:min(84svh,820px);min-height:520px;overflow:hidden}
+.i-hero spatial-photo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;view-transition-name:island-art}
+.i-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(12,10,13,.35),transparent 25%,transparent 45%,rgba(12,10,13,.75) 78%,var(--ink))}
+.i-head{position:absolute;z-index:2;left:0;right:0;bottom:clamp(28px,5vw,56px)}
+.i-head h1{max-width:18ch;text-shadow:0 4px 40px rgba(0,0,0,.6)}
+.i-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.i-meta span,.i-meta a{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;font:500 13.5px var(--sans);text-decoration:none;
+  background:rgba(12,10,13,.6);border:1px solid var(--line-2);backdrop-filter:blur(8px)}
+.i-meta a i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.i-meta a:hover{border-color:var(--c)}
+.i-num{font:600 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--hue);text-shadow:0 0 14px var(--hue)}
+
+.i-body{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(28px,5vw,64px);padding-block:56px 40px}
+@media (max-width:960px){.i-body{grid-template-columns:1fr}}
+.block{margin-bottom:56px}
+.block h2{font-size:clamp(26px,2.6vw,34px);margin-bottom:16px}
+.build-card{padding:26px 28px;border-color:color-mix(in oklab,var(--hue) 45%,transparent);
+  background:linear-gradient(135deg,color-mix(in oklab,var(--hue) 12%,var(--panel-2)),var(--panel))}
+.build-card p:not(.label){font:500 clamp(19px,1.6vw,22px)/1.5 var(--serif);margin:10px 0 0}
+.note{padding:16px 18px;border-left:3px solid var(--gold);background:rgba(217,178,106,.07);border-radius:0 12px 12px 0;color:var(--ivory-2);font-size:15.5px}
+.spec{padding:26px 28px;display:grid;gap:14px}
+.spec dl{display:grid;grid-template-columns:120px 1fr;gap:10px 18px;margin:0}
+.spec dt{font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.spec dd{margin:0;color:var(--ivory-2)}
+@media (max-width:600px){.spec dl{grid-template-columns:1fr}}
+
+.res{display:grid;gap:10px}
+.r{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 18px;border-radius:14px;text-decoration:none;
+  border:1px solid var(--line);background:var(--panel);transition:border-color .2s,transform .3s var(--ease)}
+.r:hover{border-color:color-mix(in oklab,var(--hue) 55%,transparent);transform:translateX(4px)}
+.r .ty{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.r b{display:block;font-size:16px;font-weight:600}
+.r small{display:block;font-size:13.5px;color:var(--ivory-2);margin-top:2px}
+.r .cost{font:600 12px var(--mono);padding:5px 9px;border-radius:6px;white-space:nowrap;border:1px solid var(--line-2);color:var(--ivory-2)}
+.r .cost.free{border-color:color-mix(in oklab,#4ADE80 60%,transparent);color:#86EFAC}
+.r.pick{border-color:color-mix(in oklab,var(--hue) 45%,transparent)}
+.r.pick .ty{color:var(--hue)}
+@media (max-width:600px){.r{grid-template-columns:1fr}}
+
+aside .sticky{position:sticky;top:96px;display:grid;gap:16px}
+.know{padding:22px}
+.know ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:4px}
+.know label{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:10px;border-radius:10px;cursor:pointer;font-size:15px;color:var(--ivory-2);transition:background .2s}
+.know label:hover{background:rgba(243,235,221,.05)}
+.know input{appearance:none;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-2);margin:2px 0 0;display:grid;place-items:center;transition:all .2s}
+.know input:checked{background:var(--hue);border-color:var(--hue)}
+.know input:checked::after{content:"";width:9px;height:5px;border:2px solid #0C0A0D;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.know input:checked+span{color:var(--ivory)}
+.bar{height:6px;border-radius:3px;background:rgba(243,235,221,.1);overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;width:var(--w,0%);background:var(--hue);box-shadow:0 0 10px var(--hue);transition:width .6s var(--ease)}
+.tutor{padding:20px 22px}
+.tutor pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);color:var(--ivory-2);background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0 12px;max-height:200px;overflow:auto}
+.artnote{padding:18px 20px;font-size:14px;color:var(--ivory-2)}
+.ipn{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding-bottom:80px}
+.ipn a{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;padding:14px}
+.ipn a.next{grid-template-columns:1fr 96px;text-align:right}
+.ipn img{width:96px;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.ipn small{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ipn b{display:block;font:600 20px var(--serif)}
+@media (max-width:640px){.ipn{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main id="main">
+  <section class="i-hero" id="iHero" aria-labelledby="ih">
+    <div id="iArt"></div>
+    <div class="i-head"><div class="wrap">
+      <p class="i-num" id="iNum"></p>
+      <h1 id="ih"></h1>
+      <div class="i-meta" id="iMeta"></div>
+    </div></div>
+  </section>
+
+  <div class="wrap i-body">
+    <div>
+      <section class="block" data-reveal><p class="eyebrow">What you'll learn</p><p class="lede" id="iLearn" style="max-width:none"></p><div id="iNote"></div></section>
+      <section class="block" data-reveal><div class="card build-card"><p class="label" style="color:var(--hue)">Build this before you move on</p><p id="iBuild"></p></div></section>
+      <section class="block" aria-labelledby="dm-h"><p class="eyebrow" data-reveal>Play with the idea</p><h2 id="dm-h" class="sr">Interactive demo</h2><div id="iDemo" data-reveal></div></section>
+      <section class="block" aria-labelledby="rs-h"><p class="eyebrow" data-reveal>Resources</p><h2 id="rs-h" data-reveal>Courses, books and guides</h2>
+        <p class="small" data-reveal style="margin-bottom:18px">Highlighted ones are the recommended picks. Free first; paid only when clearly better.</p><div class="res" id="iRes"></div></section>
+    </div>
+    <aside><div class="sticky">
+      <div class="card know"><p class="label">By the end, you can explain</p><ul id="iKnow"></ul><div class="bar"><i id="kBar"></i></div>
+        <p class="small" style="margin:12px 0 0">Tick one only when you can explain it out loud, without notes.</p></div>
+      <button class="btn" id="iDone" style="width:100%"></button>
+      <div class="card tutor"><p class="label">Ask an AI tutor</p><p class="small" style="margin:8px 0 0">Paste this into Claude or any assistant so it teaches instead of answering for you.</p><pre id="iTutor"></pre><button class="btn sm ghost" id="iCopy" style="width:100%">Copy prompt</button></div>
+      <div class="card artnote" id="iArtNote"></div>
+    </div></aside>
+  </div>
+  <div class="wrap ipn" id="iPn"></div>
+</main>
+
+<script type="module">
+import { data, chrome, motion, esc, asset, spatial, setHue, creditLine } from "./site.js";
+import { LIVE } from "./demos.js";
+chrome("island");
+const D = await data(); const A = D.atlas;
+const KEY = "ai-atlas-progress";
+const S = (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })();
+S.done ||= []; S.know ||= {}; S.goal ||= "understand";
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+let cur = "S0";
+
+function render() {
+  const h0 = location.hash.slice(1); if (D.isl[h0]) cur = h0;
+  const id = cur, is = D.isl[id], art = D.artBy[id], c = D.hue(id), track = D.trackOf(id);
+  setHue(c); document.title = `${is.title} · AI Atlas`;
+  document.getElementById("iArt").innerHTML = spatial(art, 'mode="pointer" intro');
+  document.getElementById("iNum").textContent = `Island ${D.num(id)} · ${A.paths[track].name}`;
+  document.getElementById("ih").textContent = is.title;
+  const inPaths = A.order.filter((k) => A.paths[k].steps.includes(id));
+  document.getElementById("iMeta").innerHTML = `<span>${is.hrs[0]}–${is.hrs[1]} hours</span>` +
+    inPaths.map((k) => `<a href="path.html#${k}" style="--c:${A.pathHue[k]}"><i></i>${esc(A.paths[k].name)}</a>`).join("");
+  document.getElementById("iLearn").textContent = is.learn;
+  document.getElementById("iNote").innerHTML = is.note ? `<p class="note">${esc(is.note)}</p>` : "";
+  document.getElementById("iBuild").textContent = is.build;
+  // demo: live reference if available, otherwise its spec card
+  const dm = D.demoBy[id], box = document.getElementById("iDemo");
+  if (LIVE[id]) { box.className = "demo"; box.innerHTML = ""; LIVE[id](box, { hue: c }); }
+  else { box.className = "card spec"; box.innerHTML = `<p class="label" style="color:var(--hue)">Demo · coming to this island</p><h3>${esc(dm.title)}</h3>
+    <dl><dt>You do</dt><dd>${esc(dm.does)}</dd><dt>You learn</dt><dd>${esc(dm.shows)}</dd>${dm.needs ? `<dt>Needs</dt><dd>${esc(dm.needs)}</dd>` : ""}</dl>`; }
+  // resources: [type, title, by, detail, cost, url, pick]
+  document.getElementById("iRes").innerHTML = is.res.map(([ty, t, by, det, cost, url, pick], j) =>
+    `<a class="r ${pick ? "pick" : ""}" href="${url}" target="_blank" rel="noopener" data-reveal style="--d:${j * 50}ms">
+      <span class="ty">${pick ? "★ " : ""}${esc(ty)}</span><span><b>${esc(t)}</b><small>${esc(by)} · ${esc(det)}</small></span>
+      <span class="cost ${/^free/i.test(cost) ? "free" : ""}">${esc(cost)}</span></a>`).join("");
+  // checklist
+  S.know[id] ||= [];
+  const ul = document.getElementById("iKnow");
+  ul.innerHTML = is.know.map((k, j) => `<li><label><input type="checkbox" data-j="${j}" ${S.know[id].includes(j) ? "checked" : ""}><span>${esc(k)}</span></label></li>`).join("");
+  const bar = () => document.getElementById("kBar").style.setProperty("--w", (S.know[id].length / is.know.length * 100) + "%");
+  ul.querySelectorAll("input").forEach((x) => (x.onchange = () => { const j = +x.dataset.j; S.know[id] = x.checked ? [...new Set([...S.know[id], j])] : S.know[id].filter((v) => v !== j); save(); bar(); }));
+  bar();
+  const doneBtn = document.getElementById("iDone");
+  const paint = () => { const d = S.done.includes(id); doneBtn.textContent = d ? "✓ Island finished" : "Mark island as finished"; doneBtn.classList.toggle("ghost", d); };
+  doneBtn.onclick = () => { S.done = S.done.includes(id) ? S.done.filter((x) => x !== id) : [...S.done, id]; save(); paint(); }; paint();
+  document.getElementById("iTutor").textContent = A.tutorPrompt.replace("[topic]", is.title.toLowerCase());
+  document.getElementById("iArtNote").innerHTML = `<p class="label" style="margin-bottom:8px">About the painting</p><p style="margin:0 0 8px">${esc(art.why)}</p><p class="credit" style="margin:0">${creditLine(art.artwork)}</p>`;
+  // prev / next within the learner's goal path (falls back to the island's own track)
+  const steps = A.paths[A.paths[S.goal]?.steps.includes(id) ? S.goal : track].steps, n = steps.indexOf(id);
+  const pv = steps[n - 1], nx = steps[n + 1];
+  const tile = (x, cls, lab) => x ? `<a class="card ${cls}" href="island.html#${x}" style="--hue:${D.hue(x)}">${cls === "next" ? "" : `<img src="${asset(D.artBy[x].files.hero)}" alt="">`}
+    <span><small>${lab}</small><b>${esc(D.isl[x].title)}</b></span>${cls === "next" ? `<img src="${asset(D.artBy[x].files.hero)}" alt="">` : ""}</a>` : "<span></span>";
+  document.getElementById("iPn").innerHTML = tile(pv, "", "← Previous island") + tile(nx, "next", "Next island →");
+}
+document.getElementById("iCopy").onclick = async (e) => { try { await navigator.clipboard.writeText(document.getElementById("iTutor").textContent); e.target.textContent = "Copied"; setTimeout(() => (e.target.textContent = "Copy prompt"), 1500); } catch {} };
+render();
+addEventListener("hashchange", () => { if (D.isl[location.hash.slice(1)]) { render(); scrollTo({ top: 0 }); } });
+motion();
+</script>
+</body>
+</html>
