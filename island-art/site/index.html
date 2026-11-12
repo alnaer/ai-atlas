@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Atlas · Learn AI, island by island</title>
+<meta name="description" content="A map for learning AI from zero: 29 islands, 10 paths, free courses, projects and live demos.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..700,0..100&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* hero */
+.hero{min-height:calc(100svh - 68px);display:grid;align-items:center;padding-block:40px 80px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center}
+.hero .h1{font-size:var(--fs-6);line-height:1.02;letter-spacing:-.03em;margin-bottom:26px}
+.hero .lede{margin-bottom:34px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:clamp(20px,4vw,48px);margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.stats b{display:block;font:600 clamp(28px,3vw,38px)/1 var(--serif);color:var(--ivory)}
+.stats span{font-size:14px;color:var(--muted)}
+.machine{position:relative;aspect-ratio:4/5;width:min(100%,560px);justify-self:center}
+.machine .rings{position:absolute;inset:-6% -14%;color:var(--gold);opacity:.38;pointer-events:none}
+.machine .rings g{transform-origin:50% 50%;animation:spin 140s linear infinite}
+.machine .rings g.r2{animation-duration:220s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.machine::before{content:"";position:absolute;inset:8% 12%;border-radius:50%;background:radial-gradient(closest-side,rgba(217,178,106,.22),transparent);filter:blur(10px)}
+.machine spatial-photo{position:absolute;inset:0;aspect-ratio:auto;width:100%;height:100%}
+.callouts{position:absolute;inset:0;pointer-events:none}
+.callouts svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.callouts path{fill:none;stroke:var(--c);stroke-width:1.2;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);filter:drop-shadow(0 0 4px var(--c));transition:stroke-dashoffset 1.2s var(--ease) var(--d)}
+.callouts circle{fill:var(--c);opacity:0;transition:opacity .4s var(--d)}
+.machine.on .callouts path{stroke-dashoffset:0}.machine.on .callouts circle{opacity:1}
+.co{position:absolute;pointer-events:auto;transform:translate(var(--tx,0),-50%);text-decoration:none;display:grid;gap:2px;padding:8px 12px;border-radius:10px;
+  background:rgba(12,10,13,.78);border:1px solid color-mix(in oklab,var(--c) 45%,transparent);backdrop-filter:blur(6px);opacity:0;
+  transition:opacity .5s var(--ease) calc(var(--d) + .5s),border-color .2s,box-shadow .2s;white-space:nowrap}
+.machine.on .co{opacity:1}
+.co:hover,.co:focus-visible{border-color:var(--c);box-shadow:0 0 22px -4px var(--c)}
+.co small{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.co span{font:600 15px var(--sans);color:var(--ivory)}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}.machine{width:min(100%,440px)}}
+@media (max-width:560px){.co{padding:6px 9px}.co span{font-size:13px}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:18px 0;background:var(--ink-2)}
+.marquee div{display:flex;gap:48px;width:max-content;animation:mq 60s linear infinite;font:500 clamp(20px,2vw,26px) var(--serif);font-style:italic;color:var(--ivory-2)}
+.marquee span::after{content:"✦";color:var(--gold);margin-left:48px;font-style:normal;font-size:.7em;vertical-align:middle}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* story */
+.story .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px)}
+.story-vis{position:sticky;top:110px;height:min(72vh,640px);align-self:start}
+.story-vis .frame{position:absolute;inset:0;opacity:0;transform:scale(.97);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.story-vis .frame.on{opacity:1;transform:none}
+.story-vis .frame.free{border:0;box-shadow:none;background:radial-gradient(closest-side,rgba(217,178,106,.16),transparent);overflow:visible}
+.story-vis spatial-photo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.story-vis .engr{position:absolute;inset:0}
+.chapters{display:grid}
+.chapter{min-height:78vh;display:grid;align-content:center;padding-block:40px}
+.chapter .num{font:500 clamp(80px,10vw,140px)/.8 var(--serif);color:transparent;-webkit-text-stroke:1px var(--line-2);margin-bottom:14px}
+.chapter h2{margin-bottom:18px}
+.chapter ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:10px;color:var(--ivory-2)}
+.chapter li{display:flex;gap:12px}.chapter li::before{content:"";flex:none;width:7px;height:7px;margin-top:10px;transform:rotate(45deg);background:var(--gold)}
+@media (max-width:860px){.story .wrap{grid-template-columns:1fr}.story-vis{position:relative;top:0;height:60vw;margin-bottom:-20px}.chapter{min-height:auto}}
+
+/* paths */
+.paths-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px;margin-bottom:40px}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap)}
+@media (min-width:760px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1180px){.pgrid{grid-template-columns:repeat(5,minmax(0,1fr))}.pcard h3{font-size:21px}}
+a.card.pcard{--hue:var(--c);display:grid;grid-template-rows:190px 1fr}
+.pcard .art{position:relative;overflow:hidden;background:radial-gradient(70% 90% at 50% 100%,color-mix(in oklab,var(--c) 26%,transparent),transparent 70%)}
+.pcard .art img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.pcard .art img.cut{object-fit:contain;padding:14px 0 0;filter:drop-shadow(0 0 18px color-mix(in oklab,var(--c) 45%,transparent))}
+.pcard:hover .art img{transform:scale(1.06)}
+.pcard .art .engr{position:absolute;inset:0}
+.pcard .body{padding:18px 20px 22px;display:grid;gap:10px}
+.pcard h3{font-size:24px}
+.pcard p{font-size:15px;color:var(--ivory-2);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pmeta{display:flex;justify-content:space-between;align-items:center;font:500 13px var(--mono);color:var(--muted)}
+.pmeta b{color:var(--c);font-weight:600}
+.pcard .tag{position:absolute;top:14px;left:14px;font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:6px;background:var(--c);color:#0C0A0D}
+
+/* atlas teaser */
+.teaser{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,5vw,72px);align-items:center}
+.teaser .frame{aspect-ratio:16/10}
+@media (max-width:860px){.teaser{grid-template-columns:1fr}}
+
+/* ===== genesis: the opening "creation" scene ===== */
+.genesis{position:relative;height:210vh;background:var(--ink)}
+.g-stick{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate}
+.g-sky{position:absolute;inset:-2%;transform:scale(calc(1.08 - var(--in,0) * .08 + var(--p,0) * .18));transform-origin:50% 40%;opacity:var(--in,0);transition:opacity 2.2s var(--ease),transform 2.4s var(--ease)}
+.g-sky spatial-photo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+.g-veil{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(34% 46% at 50% 62%,rgba(12,10,13,.42),transparent 75%),linear-gradient(180deg,rgba(12,10,13,.4),transparent 16%,transparent 70%,var(--ink));
+  opacity:calc(1 + var(--p,0) * 1.2)}
+.g-dark{position:absolute;inset:0;background:var(--ink);opacity:calc(var(--p,0) * 1.3 - .35);pointer-events:none}
+.hand{position:absolute;left:50%;top:var(--ty,34%);z-index:2;pointer-events:none}
+.hand .f{position:absolute;inset:0;transform-origin:var(--ox) var(--oy);will-change:transform}
+.hand spatial-photo{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hand.human{width:min(48vw,820px);aspect-ratio:1600/521;transform:translate(calc(-96% - var(--g,40px) / 2),-65%)}
+.hand.human .f{--ox:96%;--oy:65%;aspect-ratio:1600/521;
+  transform:translate(calc((1 - var(--in,0)) * -70vw - var(--p,0) * 38vw),calc(var(--fy1,0px) - var(--p,0) * 22vh)) rotate(calc((1 - var(--in,0)) * -8deg + var(--fr1,0deg) - var(--p,0) * 6deg));
+  transition:transform 1.9s cubic-bezier(.16,1,.3,1) .35s}
+.hand.machine{width:min(46vw,780px);aspect-ratio:1600/418;transform:translate(calc(-.5% + var(--g,40px) / 2),-61%)}
+.hand.machine .f{--ox:.5%;--oy:61%;aspect-ratio:1600/418;
+  transform:translate(calc((1 - var(--in,0)) * 70vw + var(--p,0) * 38vw),calc(var(--fy2,0px) - var(--p,0) * 22vh)) rotate(calc((1 - var(--in,0)) * 8deg + var(--fr2,0deg) + var(--p,0) * 6deg));
+  transition:transform 2.1s cubic-bezier(.16,1,.3,1) .5s}
+.g-stick.live .hand .f{transition:none}
+.spark{position:absolute;left:50%;top:var(--ty,34%);z-index:3;width:0;height:0;opacity:calc(var(--sp,0) * (1 - var(--p,0) * 2))}
+.spark .core{position:absolute;width:18px;height:18px;left:-9px;top:-9px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 20%,var(--gold-2) 35%,rgba(217,178,106,0) 70%);transform:scale(calc(.6 + var(--sp,0) * 1.3));filter:blur(.3px);
+  box-shadow:0 0 calc(var(--sp,0) * 60px) calc(var(--sp,0) * 14px) rgba(241,212,154,.55),0 0 calc(var(--sp,0) * 140px) calc(var(--sp,0) * 30px) rgba(0,229,255,.18)}
+.spark svg{position:absolute;left:-90px;top:-40px;width:180px;height:80px;overflow:visible}
+.spark polyline{fill:none;stroke:#FFF6DE;stroke-width:1.2;filter:drop-shadow(0 0 4px #F1D49A) drop-shadow(0 0 10px #00E5FF)}
+.spark button{all:unset;position:absolute;left:-36px;top:-36px;width:72px;height:72px;border-radius:50%;cursor:pointer;pointer-events:auto}
+.spark button:focus-visible{outline:2px dashed var(--gold-2);outline-offset:4px}
+.ripple{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px;border-radius:50%;border:1.5px solid var(--gold-2);animation:rip 1.6s var(--ease) forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(90);opacity:0;border-width:.2px}}
+.flash{position:absolute;inset:0;z-index:4;background:radial-gradient(circle at 50% 34%,rgba(255,250,235,.9),rgba(241,212,154,.25) 30%,transparent 60%);opacity:0;pointer-events:none}
+.flash.go{animation:flash 1.4s var(--ease)}
+@keyframes flash{12%{opacity:1}100%{opacity:0}}
+.g-card{position:absolute;z-index:3;left:50%;top:calc(var(--ty,34%) + 6vh);width:min(360px,86vw);transform:translate(-50%,calc(var(--p,0) * -14vh));
+  opacity:calc(1 - var(--p,0) * 1.6);padding:20px 24px 18px;color:var(--ivory)}
+.g-card .bd{position:absolute;inset:0;pointer-events:none}
+.g-card .bd i{position:absolute;background:rgba(243,235,221,.75)}
+.g-card .bd i:nth-child(1){left:0;top:0;height:1px;width:100%;transform-origin:left;transform:scaleX(var(--fr,0))}
+.g-card .bd i:nth-child(2){right:0;top:0;width:1px;height:100%;transform-origin:top;transform:scaleY(var(--fr,0))}
+.g-card .bd i:nth-child(3){left:0;bottom:0;height:1px;width:100%;transform-origin:right;transform:scaleX(var(--fr,0))}
+.g-card .bd i:nth-child(4){left:0;top:0;width:1px;height:100%;transform-origin:bottom;transform:scaleY(var(--fr,0))}
+.g-card .bd i{transition:transform 1.2s var(--ease-io) 1.5s}
+.g-card .over{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,235,221,.75);margin:0 0 12px}
+.g-card h1{font-size:clamp(38px,4vw,52px);line-height:.98;letter-spacing:-.03em;margin-bottom:12px;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.g-card .sub{font:400 16px/1.4 var(--serif);font-style:italic;color:rgba(243,235,221,.92);margin-bottom:14px;text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.g-card ol{list-style:none;margin:0;padding:0;display:grid}
+.g-card li a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:1px 0;text-decoration:none;font:600 15px/1.3 var(--sans);letter-spacing:-.01em;color:var(--ivory);text-shadow:0 1px 12px rgba(0,0,0,.7);transition:color .2s,padding .3s var(--ease)}
+.g-card li a span{font:500 13px var(--serif);color:rgba(243,235,221,.7)}
+.g-card li a:hover,.g-card li a:focus-visible{color:var(--c);padding-left:8px}
+.g-card [data-in]{opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(1.7s + var(--i,0) * 45ms)}
+.g-stick.ready .g-card [data-in]{opacity:1;transform:none}
+.g-cue{position:absolute;z-index:3;left:clamp(20px,4vw,56px);bottom:28px;justify-items:start;display:grid;justify-items:center;gap:10px;font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,235,221,.7);opacity:calc(var(--in,0) - var(--p,0) * 3);transition:opacity 1s 2.4s}
+.g-cue i{width:1px;height:44px;background:linear-gradient(var(--gold-2),transparent);animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.g-msg{position:absolute;z-index:4;left:50%;top:calc(var(--ty,34%) - 15vh);transform:translateX(-50%);font:italic 500 22px var(--serif);color:var(--gold-2);opacity:0;transition:opacity .6s;text-shadow:0 2px 20px #000;white-space:nowrap}
+.g-msg.show{opacity:1}
+@media (max-width:760px){
+  .g-cue{display:none}
+  .genesis{--ty:24%}
+  .hand.human{width:62vw}.hand.machine{width:60vw}
+  .g-card{top:calc(var(--ty) + 8vh)}
+  .g-card li a{font-size:15px;padding:2px 0}
+}
+@media (prefers-reduced-motion:reduce){.genesis{height:100svh}.hand .f,.g-sky{transition:none}}
+</style>
+</head>
+<body>
+<main id="main">
+  <section class="genesis" id="genesis" aria-label="Opening">
+    <div class="g-stick" id="gStick">
+      <div class="g-sky" id="gSky"></div>
+      <div class="g-veil"></div>
+      <div class="hand human" aria-hidden="true"><div class="f" id="hHuman"></div></div>
+      <div class="hand machine" aria-hidden="true"><div class="f" id="hMachine"></div></div>
+      <div class="spark" id="spark"><div class="core"></div><svg viewBox="-90 -40 180 80" aria-hidden="true"><polyline id="arc1"/><polyline id="arc2"/></svg>
+        <button id="touch" aria-label="Connect the human and the machine"></button></div>
+      <div class="flash" id="flash"></div>
+      <p class="g-msg" id="gMsg" aria-live="polite"></p>
+      <div class="g-card">
+        <div class="bd" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <p class="over" data-in>MMXXVI · A learning atlas</p>
+        <h1 data-in style="--i:1">The AI Atlas</h1>
+        <p class="sub" data-in style="--i:2">Where human curiosity meets machine intelligence.</p>
+        <ol id="gIndex"></ol>
+      </div>
+      <div class="g-cue" aria-hidden="true"><span>Scroll to begin the voyage</span><i></i></div>
+      <div class="g-dark"></div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow" data-reveal>A learning atlas for the age of AI</p>
+        <h2 class="h1" data-reveal style="--d:80ms">Learn AI the way the Renaissance learned <em class="gilt">everything</em>.</h2>
+        <p class="lede" data-reveal style="--d:160ms">Twenty-nine islands, ten paths and the best free courses, in an order that makes sense. Every island ends with something you build and a demo you can play with, so you understand the machine, not just use it.</p>
+        <div class="cta" data-reveal style="--d:240ms">
+          <a class="btn" href="atlas.html">Open the atlas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn ghost" href="#paths">Find your path</a>
+        </div>
+        <div class="stats" data-reveal style="--d:320ms" id="stats"></div>
+      </div>
+      <div class="machine" id="machine" data-reveal="fade">
+        <svg class="rings" viewBox="0 0 600 600" aria-hidden="true" fill="none" stroke="currentColor">
+          <g><circle cx="300" cy="300" r="290" stroke-width=".8"/><circle cx="300" cy="300" r="270" stroke-width=".5" stroke-dasharray="1 7"/>
+            <path d="M300 10v40M300 550v40M10 300h40M550 300h40" stroke-width=".8"/>
+            <path id="arc" d="M60 300a240 240 0 0 1 480 0" stroke="none"/>
+            <text font-family="JetBrains Mono" font-size="11" letter-spacing="6" fill="currentColor" stroke="none"><textPath href="#arc" startOffset="8%">MACHINA · DISCIT · ET · CRESCIT · MMXXVI</textPath></text></g>
+          <g class="r2"><circle cx="300" cy="300" r="210" stroke-width=".6"/><circle cx="300" cy="300" r="200" stroke-width="6" stroke-dasharray="1 11" opacity=".6"/>
+            <path d="M300 90 L312 300 300 510 288 300z" stroke-width=".6"/><path d="M90 300 L300 312 510 300 300 288z" stroke-width=".6"/></g>
+        </svg>
+        <div id="armor" style="position:absolute;inset:0"></div>
+        <div class="callouts" id="callouts" aria-label="Each path builds part of the machine"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div id="mq"></div></div>
+
+  <section class="sec story" aria-labelledby="story-h">
+    <h2 id="story-h" class="sr">How the atlas works</h2>
+    <div class="wrap">
+      <div class="story-vis" id="storyVis"></div>
+      <div class="chapters" id="chapters">
+        <article class="chapter" data-i="0">
+          <div class="num" aria-hidden="true">I</div>
+          <p class="eyebrow">Learn</p>
+          <h2>Map the world before you sail it.</h2>
+          <p class="lede">Start on the foundation islands: what AI really is, Python, the math and how models learn. Short, honest explanations and the best free courses, picked and ordered for you.</p>
+          <ul><li>Five foundation islands everyone shares</li><li>Free courses first, paid only when clearly better</li><li>A checklist of ideas to explain out loud before moving on</li></ul>
+        </article>
+        <article class="chapter" data-i="1">
+          <div class="num" aria-hidden="true">II</div>
+          <p class="eyebrow">Build</p>
+          <h2>Every age has its inventions. Build this one's.</h2>
+          <p class="lede">Each island ends with a real project: a script, a chatbot over your PDFs, a fine-tuned model, a GPT written from an empty file. You learn by making the thing.</p>
+          <ul><li>One project per island, sized for a weekend or two</li><li>Live demos you can play with right on the page</li><li>Projects stack into a portfolio</li></ul>
+        </article>
+        <article class="chapter" data-i="2">
+          <div class="num" aria-hidden="true">III</div>
+          <p class="eyebrow">Grow</p>
+          <h2>Grow alongside the machines.</h2>
+          <p class="lede">Choose a path for where you want to go: build apps on models, train your own, build one from scratch, or go deep in vision, language, generative media, robotics-style RL, MLOps or safety.</p>
+          <ul><li>Ten paths with honest trade-offs and real job data</li><li>Track your progress island by island</li><li>Your pace: 5, 10 or 20 hours a week</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="sec" id="paths" aria-labelledby="paths-h">
+    <div class="wrap">
+      <div class="paths-head">
+        <div><p class="eyebrow" data-reveal>Ten paths</p><h2 id="paths-h" data-reveal>Where do you want the machine to take you?</h2></div>
+        <p class="lede" data-reveal style="max-width:42ch">Every path starts from the same shores, then heads somewhere different. Pick one; you can switch any time.</p>
+      </div>
+      <div class="pgrid" id="pgrid"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="demo-h">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Try it now</p>
+      <h2 id="demo-h" data-reveal style="margin-bottom:28px">How does a model pick its next word?</h2>
+      <div class="demo" id="demoU1" style="--hue:var(--t-use)" data-reveal></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="atlas-h">
+    <div class="wrap teaser">
+      <a class="frame engr" href="atlas.html" style="--hue:var(--gold)" data-reveal="zoom" aria-label="Open the atlas"><img id="mapimg" alt=""></a>
+      <div>
+        <p class="eyebrow" data-reveal>The atlas</p>
+        <h2 id="atlas-h" data-reveal>One chart. Every island. Your route drawn in light.</h2>
+        <p class="lede" data-reveal>See the whole field at once, pick a goal and watch your route draw itself across the sea. Hover any island to see its painting come alive.</p>
+        <a class="btn" href="atlas.html" data-reveal>Open the atlas</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { data, chrome, motion, h, esc, asset, spatial, RM } from "./site.js";
+import { U1 } from "./demos.js";
+chrome("home");
+const D = await data(); const A = D.atlas;
+
+// stats
+const res = A.islands.reduce((n, i) => n + i.res.length, 0);
+document.getElementById("stats").innerHTML = [[A.islands.length, "islands"], [Object.keys(A.paths).length, "paths"], [res, "courses, books & guides"]]
+  .map(([n, t]) => `<div><b>${n}</b><span>${t}</span></div>`).join("");
+
+// hero machine
+const hero = D.pageBy["home-hero"];
+document.getElementById("armor").innerHTML = spatial(hero, 'mode="pointer" intro bg="#0C0A0D"');
+const CO = [ // [path, label, anchor x,y (0..400,0..500), label x%, y%, side]
+  ["vision", "Eyes", 200, 48, 2, 7, "l"], ["language", "Voice", 206, 78, 98, 13, "r"],
+  ["safety", "Heart", 214, 160, 98, 33, "r"], ["train", "Arms", 135, 175, 2, 30, "l"],
+  ["use", "Hands", 128, 262, 2, 53, "l"], ["rl", "Reflexes", 232, 372, 98, 72, "r"],
+];
+const svg = `<svg viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">${CO.map(([k, , ax, ay, lx, ly, s], i) => {
+  const ex = lx * 4 + (s === "l" ? 70 : -70), ey = ly * 5, mx = (ax + ex) / 2;
+  const d = `M${ax} ${ay} C${mx} ${ay} ${mx} ${ey} ${ex} ${ey}`;
+  return `<path d="${d}" style="--c:${A.pathHue[k]};--len:400;--d:${300 + i * 140}ms"/><circle cx="${ax}" cy="${ay}" r="3.5" style="--c:${A.pathHue[k]};--d:${300 + i * 140}ms"/>`;
+}).join("")}</svg>` + CO.map(([k, part, , , lx, ly, s], i) =>
+  `<a class="co" href="path.html#${k}" style="--c:${A.pathHue[k]};--d:${300 + i * 140}ms;${s === "l" ? `left:${lx}%;--tx:0` : `right:${100 - lx}%;--tx:0`};top:${ly}%">
+     <small>${part}</small><span>${esc(A.paths[k].name)}</span></a>`).join("");
+document.getElementById("callouts").innerHTML = svg;
+const mach = document.getElementById("machine");
+setTimeout(() => mach.classList.add("on"), RM ? 0 : 900);
+
+// marquee
+const words = ["Python", "Gradient descent", "Transformers", "Retrieval", "Agents", "Fine-tuning", "Diffusion", "Reinforcement learning", "Interpretability", "Evals", "MLOps", "Vision"];
+document.getElementById("mq").innerHTML = words.concat(words).map((w) => `<span>${w}</span>`).join("");
+
+// story (one opaque + one transparent spatial photo, cross-faded)
+const L = D.pageBy["home-learn"], B = D.pageBy["home-build"], G = D.pageBy["home-grow"];
+const vis = document.getElementById("storyVis");
+vis.innerHTML = `
+  <div class="frame on" data-k="0" style="--hue:var(--gold)">${spatial(L, 'mode="pointer"')}</div>
+  <div class="frame engr" data-k="1" style="--hue:var(--gold)"><img src="${asset("pages/" + B.files.tall)}" alt="${esc(B.alt)}" style="position:absolute;inset:0;height:100%"></div>
+  <div class="frame free" data-k="2">${spatial(G, 'mode="pointer" bg="#0C0A0D"')}</div>`;
+const frames = vis.querySelectorAll(".frame");
+const sio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const i = +e.target.dataset.i;
+  frames.forEach((f) => f.classList.toggle("on", +f.dataset.k === i)); const sp = frames[i].querySelector("spatial-photo"); sp && sp.play(); } }),
+  { rootMargin: "-45% 0px -45% 0px" });
+document.querySelectorAll(".chapter").forEach((c) => sio.observe(c));
+
+// path cards
+const order = A.order;
+document.getElementById("pgrid").innerHTML = order.map((k, i) => {
+  const p = A.paths[k], img = D.pageBy["path-" + k], hrs = D.pathHours(k), c = A.pathHue[k];
+  const art = img.kind === "cutout"
+    ? `<img class="cut" src="${asset("pages/" + img.files.cut)}" alt="${esc(img.alt)}" loading="lazy">`
+    : `<div class="engr"><img src="${asset("pages/" + img.files.hero)}" alt="${esc(img.alt)}" loading="lazy"></div>`;
+  return `<a class="card pcard" href="path.html#${k}" style="--c:${c};--d:${(i % 3) * 80}ms" data-reveal>
+    <div class="art">${art}${i < 4 ? `<span class="tag">${i === 0 ? "Recommended" : "Goal"}</span>` : ""}</div>
+    <div class="body"><h3>${esc(p.name)}</h3><p>${esc(p.blurb)}</p>
+      <div class="pmeta"><span><b>${p.steps.length}</b> islands</span><span>${hrs[0]}–${hrs[1]} h</span></div></div></a>`;
+}).join("");
+
+
+// ===== genesis: the opening scene =====
+{
+  const st = document.getElementById("gStick"), gen = document.getElementById("genesis"), root = gen;
+  const P = (id) => D.pageBy[id];
+  const sky = P("hero-sky"), hu = P("hero-hand-human"), ma = P("hero-hand-machine");
+  const small = matchMedia("(max-width: 760px)").matches;
+  const skyEntry = small ? { ...sky, files: { hero: sky.files.tall, heroDepth: sky.files.tallDepth } } : sky;
+  document.getElementById("gSky").innerHTML = spatial(skyEntry, 'mode="pointer" bg="#0C0A0D"');
+  document.getElementById("hHuman").innerHTML = spatial(hu, 'mode="idle" bg="#0C0A0D" style="aspect-ratio:1600/521"');
+  document.getElementById("hMachine").innerHTML = spatial(ma, 'mode="idle" bg="#0C0A0D" style="aspect-ratio:1600/418"');
+  const ROM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+  document.getElementById("gIndex").innerHTML = A.order.map((k, i) =>
+    `<li data-in style="--i:${i + 3}"><a href="path.html#${k}" style="--c:${A.pathHue[k]}">${esc(A.paths[k].name)}<span>${ROM[i]}</span></a></li>`).join("");
+  // entrance timeline
+  const set = (k, v) => root.style.setProperty(k, v);
+  requestAnimationFrame(() => { set("--in", 1); st.classList.add("ready"); set("--fr", 1); });
+  setTimeout(() => st.classList.add("live"), RM ? 0 : 2700);     // after the hands arrive, JS drives them
+  // live loop: float, pointer pull, spark, scroll
+  let ptr = null, touching = 0, vis = true, t0 = performance.now();
+  new IntersectionObserver(([e]) => (vis = e.isIntersecting)).observe(gen);
+  addEventListener("pointermove", (e) => (ptr = [e.clientX, e.clientY]), { passive: true });
+  const arc = (el, amp) => { const n = 9, pts = []; for (let i = 0; i <= n; i++) { const x = -gNow / 2 + (gNow * i) / n, y = i === 0 || i === n ? 0 : (Math.random() - .5) * amp; pts.push(`${x.toFixed(1)},${y.toFixed(1)}`); } el.setAttribute("points", pts.join(" ")); };
+  let gNow = 44, lastArc = 0;
+  function loop(now) {
+    requestAnimationFrame(loop); if (!vis) return;
+    const t = (now - t0) / 1000, r = gen.getBoundingClientRect(), span = Math.max(1, r.height - innerHeight);
+    const p = RM ? 0 : Math.min(1, Math.max(0, -r.top / span)); set("--p", p.toFixed(4));
+    if (RM) { set("--g", "40px"); set("--sp", .8); return; }
+    // pointer pull: closer to the touch point → hands lean in
+    let pull = 0; if (ptr) { const cx = innerWidth / 2, cy = innerHeight * (small ? .24 : .34); pull = Math.max(0, 1 - Math.hypot(ptr[0] - cx, ptr[1] - cy) / (innerWidth * .35)); }
+    const breathe = Math.sin(t * .9) * 7, target = touching ? 2 : 46 + breathe - pull * 26;
+    gNow += (target - gNow) * .08; set("--g", gNow.toFixed(1) + "px");
+    set("--fy1", (Math.sin(t * .62) * 9).toFixed(1) + "px"); set("--fr1", (Math.sin(t * .5 + 1) * 1.1).toFixed(2) + "deg");
+    set("--fy2", (Math.sin(t * .55 + 2) * 9).toFixed(1) + "px"); set("--fr2", (Math.sin(t * .47) * 1.1).toFixed(2) + "deg");
+    const sp = Math.min(1, Math.max(0, (70 - gNow) / 50)) * Math.min(1, t / 2.6); set("--sp", sp.toFixed(3));
+    if (now - lastArc > 90) { lastArc = now; arc(document.getElementById("arc1"), 10 + sp * 18); arc(document.getElementById("arc2"), 6 + sp * 10); }
+  }
+  requestAnimationFrame(loop);
+  // touch: complete the connection
+  document.getElementById("touch").onclick = () => {
+    if (touching) return; touching = 1; const sp = document.getElementById("spark");
+    setTimeout(() => { document.getElementById("flash").classList.add("go");
+      for (let i = 0; i < 3; i++) setTimeout(() => { const r = document.createElement("i"); r.className = "ripple"; sp.append(r); setTimeout(() => r.remove(), 1700); }, i * 220);
+      const m = document.getElementById("gMsg"); m.textContent = "Connection made. Now learn how it works."; m.classList.add("show"); }, 450);
+    setTimeout(() => { touching = 0; document.getElementById("flash").classList.remove("go"); document.getElementById("gMsg").classList.remove("show"); }, 3200);
+  };
+}
+
+// demo + teaser
+U1(document.getElementById("demoU1"), { hue: A.pathHue.use });
+document.getElementById("mapimg").src = asset("pages/" + D.pageBy.map.files.hero);
+motion();
+</script>
+</body>
+</html>

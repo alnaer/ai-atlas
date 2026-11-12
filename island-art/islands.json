@@ -1,0 +1,1868 @@
+{
+  "version": 1,
+  "generated": "2026-11-10",
+  "style": "Renaissance art remix: old-master paintings + neon spatial depth",
+  "depthModel": "Depth Anything V2 Small (Apache-2.0), white = near",
+  "islands": [
+    {
+      "id": "S0",
+      "island": "AI literacy",
+      "short": "AI literacy",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/S0-hero.webp",
+        "heroDepth": "depth/S0-hero-depth.webp",
+        "card": "images/S0-card.webp",
+        "cardDepth": "depth/S0-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Aristotle, in a dark hat and gold chain, rests his hand on a marble bust of Homer.",
+      "why": "A philosopher weighing what he knows against an idol of the past: the first island is about understanding what AI really is before trusting it.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.66,
+        "focusCard": 0.62,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Aristotle with a Bust of Homer",
+        "artist": "Rembrandt (Rembrandt van Rijn)",
+        "artistBio": "Dutch, Leiden 1606–1669 Amsterdam",
+        "date": "1653",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437394,
+        "accession": "61.198",
+        "creditLine": "Purchase, special contributions and funds given or bequeathed by friends of the Museum, 1961",
+        "page": "https://www.metmuseum.org/art/collection/search/437394",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-30758-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Rembrandt (Rembrandt van Rijn), \"Aristotle with a Bust of Homer\", 1653. The Met, Purchase, special contributions and funds given or bequeathed by friends of the Museum, 1961. Public domain (CC0)."
+    },
+    {
+      "id": "S1",
+      "island": "Python",
+      "short": "Python",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/S1-hero.webp",
+        "heroDepth": "depth/S1-hero-depth.webp",
+        "card": "images/S1-card.webp",
+        "cardDepth": "depth/S1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A dark forest floor with a snake curling through poppy leaves, mushrooms and snails.",
+      "why": "A snake moving through the undergrowth. Python, the language, gets its own python.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.48,
+        "focusCard": 0.6,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Still Life with Poppy, Insects, and Reptiles",
+        "artist": "Otto Marseus van Schrieck",
+        "artistBio": "Dutch, Nijmegen 1619/20–1678 Amsterdam",
+        "date": "ca. 1670",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436976,
+        "accession": "53.155",
+        "creditLine": "Rogers Fund, 1953",
+        "page": "https://www.metmuseum.org/art/collection/search/436976",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP145933.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Otto Marseus van Schrieck, \"Still Life with Poppy, Insects, and Reptiles\", ca. 1670. The Met, Rogers Fund, 1953. Public domain (CC0)."
+    },
+    {
+      "id": "S2",
+      "island": "Math for machine learning",
+      "short": "Math",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/S2-hero.webp",
+        "heroDepth": "depth/S2-hero-depth.webp",
+        "card": "images/S2-card.webp",
+        "cardDepth": "depth/S2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Engraving of a brooding winged figure holding compasses, surrounded by a polyhedron, a sphere and tools.",
+      "why": "Dürer's engraving is packed with math: a magic square, a polyhedron, compasses, a sphere and an hourglass.",
+      "motion": {
+        "strength": 0.8,
+        "focusHero": 0.44,
+        "focusCard": 0.45,
+        "glow": 0.3,
+        "tint": 0.18
+      },
+      "artwork": {
+        "title": "Melencolia I",
+        "artist": "Albrecht Dürer",
+        "artistBio": "German, Nuremberg 1471–1528 Nuremberg",
+        "date": "1514",
+        "medium": "Engraving; second state",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 360018,
+        "accession": "19.73.85",
+        "creditLine": "Fletcher Fund, 1919",
+        "page": "https://www.metmuseum.org/art/collection/search/360018",
+        "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP815742.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Albrecht Dürer, \"Melencolia I\", 1514. The Met, Fletcher Fund, 1919. Public domain (CC0)."
+    },
+    {
+      "id": "S3",
+      "island": "Machine learning basics",
+      "short": "Classic ML",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/S3-hero.webp",
+        "heroDepth": "depth/S3-hero-depth.webp",
+        "card": "images/S3-card.webp",
+        "cardDepth": "depth/S3-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "An old fortune-teller reads a young man's palm while three young women around him pick his pockets.",
+      "why": "A fortune-teller making a prediction from a few clues. Classic ML is prediction from patterns, and spotting when it is a trick.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.47,
+        "focusCard": 0.51,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Fortune-Teller",
+        "artist": "Georges de La Tour",
+        "artistBio": "French, Vic-sur-Seille 1593–1652 Lunéville",
+        "date": "probably 1630s",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436838,
+        "accession": "60.30",
+        "creditLine": "Rogers Fund, 1960",
+        "page": "https://www.metmuseum.org/art/collection/search/436838",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-015.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Georges de La Tour, \"The Fortune-Teller\", probably 1630s. The Met, Rogers Fund, 1960. Public domain (CC0)."
+    },
+    {
+      "id": "S4",
+      "island": "Deep learning",
+      "short": "Deep learning",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/S4-hero.webp",
+        "heroDepth": "depth/S4-hero-depth.webp",
+        "card": "images/S4-card.webp",
+        "cardDepth": "depth/S4-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A swirling sky of allegorical figures and clouds rising in tiers towards the light.",
+      "why": "A ceiling sketch built from layer upon layer of figures rising into depth, like stacked layers of a neural network.",
+      "motion": {
+        "strength": 1.1,
+        "focusHero": 0.34,
+        "focusCard": 0.3,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Apotheosis of the Spanish Monarchy",
+        "artist": "Giovanni Battista Tiepolo",
+        "artistBio": "Italian, Venice 1696–1770 Madrid",
+        "date": "1760s",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437792,
+        "accession": "37.165.3",
+        "creditLine": "Rogers Fund, 1937",
+        "page": "https://www.metmuseum.org/art/collection/search/437792",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DT5155.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Giovanni Battista Tiepolo, \"The Apotheosis of the Spanish Monarchy\", 1760s. The Met, Rogers Fund, 1937. Public domain (CC0)."
+    },
+    {
+      "id": "U1",
+      "island": "LLM APIs and prompting",
+      "short": "LLM APIs",
+      "track": "use",
+      "hue": "#FF2A6D",
+      "files": {
+        "hero": "images/U1-hero.webp",
+        "heroDepth": "depth/U1-hero-depth.webp",
+        "card": "images/U1-card.webp",
+        "cardDepth": "depth/U1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Saint Matthew in a pink robe writes at a desk while an angel leans in to whisper to him.",
+      "why": "An angel whispers and the saint writes. Prompt in, text out.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.57,
+        "focusCard": 0.41,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Saint Matthew and the Angel",
+        "artist": "Giovanni Gerolamo Savoldo",
+        "artistBio": "Italian, Brescia 1480/85–after 1548",
+        "date": "",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437630,
+        "accession": "12.14",
+        "creditLine": "Marquand Fund, 1912",
+        "page": "https://www.metmuseum.org/art/collection/search/437630",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-26762-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Giovanni Gerolamo Savoldo, \"Saint Matthew and the Angel\", . The Met, Marquand Fund, 1912. Public domain (CC0)."
+    },
+    {
+      "id": "U2",
+      "island": "RAG: answers from your documents",
+      "short": "RAG",
+      "track": "use",
+      "hue": "#FF2A6D",
+      "files": {
+        "hero": "images/U2-hero.webp",
+        "heroDepth": "depth/U2-hero-depth.webp",
+        "card": "images/U2-card.webp",
+        "cardDepth": "depth/U2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A view through a doorway into a long hall of classical statues and casts, a visitor in red at the far end.",
+      "why": "A gallery of collected works, room after room. RAG is retrieving the right piece from your own collection.",
+      "motion": {
+        "strength": 1.2,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Hall of Antiquities at Charlottenborg Palace, Copenhagen",
+        "artist": "Adam August Müller",
+        "artistBio": "Danish, Copenhagen 1811–1844 Copenhagen",
+        "date": "1830",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 780292,
+        "accession": "2018.280",
+        "creditLine": "Purchase, Friends of European Paintings Gifts, 2018",
+        "page": "https://www.metmuseum.org/art/collection/search/780292",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-15576-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Adam August Müller, \"The Hall of Antiquities at Charlottenborg Palace, Copenhagen\", 1830. The Met, Purchase, Friends of European Paintings Gifts, 2018. Public domain (CC0)."
+    },
+    {
+      "id": "U3",
+      "island": "Agents and tools",
+      "short": "Agents",
+      "track": "use",
+      "hue": "#FF2A6D",
+      "files": {
+        "hero": "images/U3-hero.webp",
+        "heroDepth": "depth/U3-hero-depth.webp",
+        "card": "images/U3-card.webp",
+        "cardDepth": "depth/U3-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young man in a straw hat ties a letter to a dove and points the way, trees and sky behind him.",
+      "why": "A messenger sent off to carry out an errand on someone's behalf: the original agent.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.49,
+        "focusCard": 0.38,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Dispatch of the Messenger",
+        "artist": "François Boucher",
+        "artistBio": "French, Paris 1703–1770 Paris",
+        "date": "1765",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 435743,
+        "accession": "44.141",
+        "creditLine": "Gift of Mrs. Joseph Heine, in memory of her husband, I. D. Levy, 1944",
+        "page": "https://www.metmuseum.org/art/collection/search/435743",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP337751.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "François Boucher, \"The Dispatch of the Messenger\", 1765. The Met, Gift of Mrs. Joseph Heine, in memory of her husband, I. D. Levy, 1944. Public domain (CC0)."
+    },
+    {
+      "id": "U4",
+      "island": "Evals and shipping",
+      "short": "Evals & ship",
+      "track": "use",
+      "hue": "#FF2A6D",
+      "files": {
+        "hero": "images/U4-hero.webp",
+        "heroDepth": "depth/U4-hero-depth.webp",
+        "card": "images/U4-card.webp",
+        "cardDepth": "depth/U4-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Portrait of a woman in a white cap and ruff collar holding a small balance scale.",
+      "why": "A woman holding a balance. Evals are weighing what your app really does before you ship it.",
+      "motion": {
+        "strength": 0.8,
+        "focusHero": 0.58,
+        "focusCard": 0.48,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Portrait of a Woman with a Balance",
+        "artist": "Thomas de Keyser",
+        "artistBio": "Dutch, Amsterdam (?) 1596/97–1667 Amsterdam",
+        "date": "ca. 1625–26",
+        "medium": "Oil on wood",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 438378,
+        "accession": "2005.331.6",
+        "creditLine": "From the Collection of Rita and Frits Markus, Bequest of Rita Markus, 2005",
+        "page": "https://www.metmuseum.org/art/collection/search/438378",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP120417.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Thomas de Keyser, \"Portrait of a Woman with a Balance\", ca. 1625–26. The Met, From the Collection of Rita and Frits Markus, Bequest of Rita Markus, 2005. Public domain (CC0)."
+    },
+    {
+      "id": "T1",
+      "island": "Open models and Hugging Face",
+      "short": "Open models",
+      "track": "train",
+      "hue": "#B45CFF",
+      "files": {
+        "hero": "images/T1-hero.webp",
+        "heroDepth": "depth/T1-hero-depth.webp",
+        "card": "images/T1-card.webp",
+        "cardDepth": "depth/T1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A goldsmith in red weighs a ring for a young couple in a shop lined with jewellery and tools.",
+      "why": "A goldsmith's shop open to the street, tools and finished pieces on display, like an open model hub.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.3,
+        "focusCard": 0.36,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "A Goldsmith in his Shop",
+        "artist": "Petrus Christus",
+        "artistBio": "Netherlandish, Baarle-Hertog (Baerle-Duc), active by 1444–died 1475/76 Bruges",
+        "date": "1449",
+        "medium": "Oil on oak panel",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 459052,
+        "accession": "1975.1.110",
+        "creditLine": "Robert Lehman Collection, 1975",
+        "page": "https://www.metmuseum.org/art/collection/search/459052",
+        "originalImage": "https://images.metmuseum.org/CRDImages/rl/original/DP-42353-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Petrus Christus, \"A Goldsmith in his Shop\", 1449. The Met, Robert Lehman Collection, 1975. Public domain (CC0)."
+    },
+    {
+      "id": "T2",
+      "island": "Fine-tuning with LoRA",
+      "short": "Fine-tuning",
+      "track": "train",
+      "hue": "#B45CFF",
+      "files": {
+        "hero": "images/T2-hero.webp",
+        "heroDepth": "depth/T2-hero-depth.webp",
+        "card": "images/T2-card.webp",
+        "cardDepth": "depth/T2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young man in a plumed hat plays a lute, a violin and sheet music on the table beside him.",
+      "why": "A musician tuning and playing his lute. Fine-tuning adjusts an instrument that already exists.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.66,
+        "focusCard": 0.52,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Lute Player",
+        "artist": "Valentin de Boulogne",
+        "artistBio": "French, Coulommiers-en-Brie 1591–1632 Rome",
+        "date": "ca. 1625–26",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 439933,
+        "accession": "2008.459",
+        "creditLine": "Purchase, Walter and Leonore Annenberg Acquisitions Endowment Fund; Director's Fund; Acquisitions Fund; James and Diane Burke and Mark Fisch and Rachel Davidson Gifts; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest, 2008",
+        "page": "https://www.metmuseum.org/art/collection/search/439933",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP168811.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Valentin de Boulogne, \"Lute Player\", ca. 1625–26. The Met, Purchase, Walter and Leonore Annenberg Acquisitions Endowment Fund; Director's Fund; Acquisitions Fund; James and Diane Burke and Mark Fisch and Rachel Davidson Gifts; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest, 2008. Public domain (CC0)."
+    },
+    {
+      "id": "T3",
+      "island": "Preference tuning: RLHF, DPO and GRPO",
+      "short": "Preferences",
+      "track": "train",
+      "hue": "#B45CFF",
+      "files": {
+        "hero": "images/T3-hero.webp",
+        "heroDepth": "depth/T3-hero-depth.webp",
+        "card": "images/T3-card.webp",
+        "cardDepth": "depth/T3-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "King Solomon on a high throne judges the dispute while a soldier draws his sword in a crowded, shadowy hall.",
+      "why": "Solomon chooses between two claims. Preference tuning teaches a model which answer people prefer.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.37,
+        "focusCard": 0.32,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Judgment of Solomon",
+        "artist": "Leonaert Bramer",
+        "artistBio": "Dutch, Delft 1596–1674 Delft",
+        "date": "1640s",
+        "medium": "Oil on wood",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 435769,
+        "accession": "11.73",
+        "creditLine": "Gift of National Surety Company, 1911",
+        "page": "https://www.metmuseum.org/art/collection/search/435769",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP145897.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Leonaert Bramer, \"The Judgment of Solomon\", 1640s. The Met, Gift of National Surety Company, 1911. Public domain (CC0)."
+    },
+    {
+      "id": "T4",
+      "island": "Evaluate, quantize and serve",
+      "short": "Serve",
+      "track": "train",
+      "hue": "#B45CFF",
+      "files": {
+        "hero": "images/T4-hero.webp",
+        "heroDepth": "depth/T4-hero-depth.webp",
+        "card": "images/T4-card.webp",
+        "cardDepth": "depth/T4-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young woman in a white headdress opens a window with one hand and holds a silver pitcher with the other.",
+      "why": "A woman opens the window and holds a pitcher, ready to pour. Serving is getting the model to the people who need it.",
+      "motion": {
+        "strength": 0.8,
+        "focusHero": 0.39,
+        "focusCard": 0.3,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Young Woman with a Water Pitcher",
+        "artist": "Johannes Vermeer",
+        "artistBio": "Dutch, Delft 1632–1675 Delft",
+        "date": "ca. 1662",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437881,
+        "accession": "89.15.21",
+        "creditLine": "Marquand Collection, Gift of Henry G. Marquand, 1889",
+        "page": "https://www.metmuseum.org/art/collection/search/437881",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP353257.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Johannes Vermeer, \"Young Woman with a Water Pitcher\", ca. 1662. The Met, Marquand Collection, Gift of Henry G. Marquand, 1889. Public domain (CC0)."
+    },
+    {
+      "id": "B1",
+      "island": "Neural nets from scratch",
+      "short": "Backprop",
+      "track": "build",
+      "hue": "#FCEE0A",
+      "files": {
+        "hero": "images/B1-hero.webp",
+        "heroDepth": "depth/B1-hero-depth.webp",
+        "card": "images/B1-card.webp",
+        "cardDepth": "depth/B1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "The sculptor Alessandro Vittoria in black, holding a small marble torso he carved.",
+      "why": "A sculptor holding a figure he made by hand. Building a neural net from scratch, every part yours.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.38,
+        "focusCard": 0.31,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Alessandro Vittoria (1525–1608)",
+        "artist": "Paolo Veronese (Paolo Caliari)",
+        "artistBio": "Italian, Verona 1528–1588 Venice",
+        "date": "ca. 1580",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437889,
+        "accession": "46.31",
+        "creditLine": "Gwynne Andrews Fund, 1946",
+        "page": "https://www.metmuseum.org/art/collection/search/437889",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-17461-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Paolo Veronese (Paolo Caliari), \"Alessandro Vittoria (1525–1608)\", ca. 1580. The Met, Gwynne Andrews Fund, 1946. Public domain (CC0)."
+    },
+    {
+      "id": "B2",
+      "island": "A GPT from scratch",
+      "short": "GPT",
+      "track": "build",
+      "hue": "#FCEE0A",
+      "files": {
+        "hero": "images/B2-hero.webp",
+        "heroDepth": "depth/B2-hero-depth.webp",
+        "card": "images/B2-card.webp",
+        "cardDepth": "depth/B2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Engraving of a busy print shop, workers setting type, inking and pulling sheets from the press.",
+      "why": "A Renaissance print shop setting type and pulling pages: the first machine that generated text at scale.",
+      "motion": {
+        "strength": 0.8,
+        "focusHero": 0.45,
+        "focusCard": 0.42,
+        "glow": 0.3,
+        "tint": 0.18
+      },
+      "artwork": {
+        "title": "New Inventions of Modern Times [Nova Reperta], The Invention of Book Printing, plate 4",
+        "artist": "Jan Collaert I",
+        "artistBio": "Netherlandish, Antwerp ca. 1530–1581 Antwerp",
+        "date": "ca. 1600",
+        "medium": "Engraving",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 659683,
+        "accession": "34.30(5)",
+        "creditLine": "Harris Brisbane Dick Fund, 1934",
+        "page": "https://www.metmuseum.org/art/collection/search/659683",
+        "originalImage": "https://images.metmuseum.org/CRDImages/dp/original/DP841130.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Jan Collaert I, \"New Inventions of Modern Times [Nova Reperta], The Invention of Book Printing, plate 4\", ca. 1600. The Met, Harris Brisbane Dick Fund, 1934. Public domain (CC0)."
+    },
+    {
+      "id": "B3",
+      "island": "Tokenizers, data and pretraining",
+      "short": "Pretraining",
+      "track": "build",
+      "hue": "#FCEE0A",
+      "files": {
+        "hero": "images/B3-hero.webp",
+        "heroDepth": "depth/B3-hero-depth.webp",
+        "card": "images/B3-card.webp",
+        "cardDepth": "depth/B3-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Peasants cut and stack golden wheat while others rest and eat under a pear tree, the valley stretching away behind.",
+      "why": "Harvesters bringing in an enormous field of wheat. Pretraining starts by gathering a huge harvest of data.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.44,
+        "focusCard": 0.32,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Harvesters",
+        "artist": "Pieter Bruegel the Elder",
+        "artistBio": "Netherlandish, Breda (?) ca. 1525–1569 Brussels",
+        "date": "1565",
+        "medium": "Oil on oak",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 435809,
+        "accession": "19.164",
+        "creditLine": "Rogers Fund, 1919",
+        "page": "https://www.metmuseum.org/art/collection/search/435809",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP119115.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Pieter Bruegel the Elder, \"The Harvesters\", 1565. The Met, Rogers Fund, 1919. Public domain (CC0)."
+    },
+    {
+      "id": "B4",
+      "island": "Scale and research",
+      "short": "Scale",
+      "track": "build",
+      "hue": "#FCEE0A",
+      "files": {
+        "hero": "images/B4-hero.webp",
+        "heroDepth": "depth/B4-hero-depth.webp",
+        "card": "images/B4-card.webp",
+        "cardDepth": "depth/B4-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "The Thames with a half-built Westminster Bridge, a wooden crane in the foreground and the city beyond.",
+      "why": "A bridge built span by span with cranes. Scale is engineering at a size nobody has built before.",
+      "motion": {
+        "strength": 1.1,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Building of Westminster Bridge",
+        "artist": "Samuel Scott",
+        "artistBio": "British, London ca. 1702–1772 Bath",
+        "date": "",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437643,
+        "accession": "44.56",
+        "creditLine": "Purchase, Charles B. Curtis Fund and Joseph Pulitzer Bequest, 1944",
+        "page": "https://www.metmuseum.org/art/collection/search/437643",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP169565.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Samuel Scott, \"The Building of Westminster Bridge\", . The Met, Purchase, Charles B. Curtis Fund and Joseph Pulitzer Bequest, 1944. Public domain (CC0)."
+    },
+    {
+      "id": "V1",
+      "island": "Vision foundations",
+      "short": "Vision basics",
+      "track": "vision",
+      "hue": "#00FFC8",
+      "files": {
+        "hero": "images/V1-hero.webp",
+        "heroDepth": "depth/V1-hero-depth.webp",
+        "card": "images/V1-card.webp",
+        "cardDepth": "depth/V1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young person rests their head on one hand and holds up a mirror that shows their own face.",
+      "why": "An allegory of the sense of sight. Vision models learn to see.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.31,
+        "focusCard": 0.35,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Sense of Sight",
+        "artist": "Master of the Annunciation to the Shepherds",
+        "artistBio": "Italian, active Naples, ca. 1620–40",
+        "date": "",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436992,
+        "accession": "1982.60.12",
+        "creditLine": "The Jack and Belle Linsky Collection, 1982",
+        "page": "https://www.metmuseum.org/art/collection/search/436992",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DT8845.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Master of the Annunciation to the Shepherds, \"The Sense of Sight\", . The Met, The Jack and Belle Linsky Collection, 1982. Public domain (CC0)."
+    },
+    {
+      "id": "V2",
+      "island": "Detection, segmentation and multimodal",
+      "short": "Detection",
+      "track": "vision",
+      "hue": "#00FFC8",
+      "files": {
+        "hero": "images/V2-hero.webp",
+        "heroDepth": "depth/V2-hero-depth.webp",
+        "card": "images/V2-card.webp",
+        "cardDepth": "depth/V2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Rembrandt portrait of a man in a dark jacket holding a magnifying glass at his chest.",
+      "why": "A man with a magnifying glass, looking closely. Detection and segmentation find what is in the picture.",
+      "motion": {
+        "strength": 0.8,
+        "focusHero": 0.48,
+        "focusCard": 0.47,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Man with a Magnifying Glass",
+        "artist": "Rembrandt (Rembrandt van Rijn)",
+        "artistBio": "Dutch, Leiden 1606–1669 Amsterdam",
+        "date": "early 1660s",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437399,
+        "accession": "14.40.621",
+        "creditLine": "Bequest of Benjamin Altman, 1913",
+        "page": "https://www.metmuseum.org/art/collection/search/437399",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP145909.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Rembrandt (Rembrandt van Rijn), \"Man with a Magnifying Glass\", early 1660s. The Met, Bequest of Benjamin Altman, 1913. Public domain (CC0)."
+    },
+    {
+      "id": "L1",
+      "island": "Language foundations",
+      "short": "NLP basics",
+      "track": "language",
+      "hue": "#FF8A1F",
+      "files": {
+        "hero": "images/L1-hero.webp",
+        "heroDepth": "depth/L1-hero-depth.webp",
+        "card": "images/L1-card.webp",
+        "cardDepth": "depth/L1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Mary Magdalen in a red and black gown writes with a quill at a table beside an ornate jar.",
+      "why": "A woman writing a letter, word by word. Language foundations start from text itself.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.41,
+        "focusCard": 0.39,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Mary Magdalen Writing a Letter",
+        "artist": "Master of the Female Half-Lengths",
+        "artistBio": "Netherlandish, active ca. 1525–50",
+        "date": "",
+        "medium": "Oil on wood",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 904343,
+        "accession": "2026.360.2",
+        "creditLine": "Dick Wolf Collection, Gift of Dick Wolf, 2026",
+        "page": "https://www.metmuseum.org/art/collection/search/904343",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-46664-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Master of the Female Half-Lengths, \"Mary Magdalen Writing a Letter\", . The Met, Dick Wolf Collection, Gift of Dick Wolf, 2026. Public domain (CC0)."
+    },
+    {
+      "id": "L2",
+      "island": "Modern NLP with transformers",
+      "short": "Transformers",
+      "track": "language",
+      "hue": "#FF8A1F",
+      "files": {
+        "hero": "images/L2-hero.webp",
+        "heroDepth": "depth/L2-hero-depth.webp",
+        "card": "images/L2-card.webp",
+        "cardDepth": "depth/L2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Saint Jerome, white-bearded in red cardinal robes, holds open a large book.",
+      "why": "Saint Jerome, patron saint of translators, with his book. Transformers made modern translation possible.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.63,
+        "focusCard": 0.56,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Saint Jerome as Scholar",
+        "artist": "El Greco (Domenikos Theotokopoulos)",
+        "artistBio": "Greek, Iráklion (Candia) 1541–1614 Toledo",
+        "date": "ca. 1610",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 459088,
+        "accession": "1975.1.146",
+        "creditLine": "Robert Lehman Collection, 1975",
+        "page": "https://www.metmuseum.org/art/collection/search/459088",
+        "originalImage": "https://images.metmuseum.org/CRDImages/rl/original/DT3103.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "El Greco (Domenikos Theotokopoulos), \"Saint Jerome as Scholar\", ca. 1610. The Met, Robert Lehman Collection, 1975. Public domain (CC0)."
+    },
+    {
+      "id": "G1",
+      "island": "Generative models",
+      "short": "Gen models",
+      "track": "generative",
+      "hue": "#F43BFF",
+      "files": {
+        "hero": "images/G1-hero.webp",
+        "heroDepth": "depth/G1-hero-depth.webp",
+        "card": "images/G1-card.webp",
+        "cardDepth": "depth/G1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A woman painter in a blue silk dress sits at her easel while two pupils stand behind her watching.",
+      "why": "A painter at her easel with two students. Generative models learn to make new images from what they have seen.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.3,
+        "focusCard": 0.32,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Self-Portrait with Two Pupils, Marie Gabrielle Capet (1761–1818) and Marie Marguerite Carraux de Rosemond (1765–1788)",
+        "artist": "Adélaïde Labille-Guiard",
+        "artistBio": "French, Paris 1749–1803 Paris",
+        "date": "1785",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436840,
+        "accession": "53.225.5",
+        "creditLine": "Gift of Julia A. Berwind, 1953",
+        "page": "https://www.metmuseum.org/art/collection/search/436840",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP320103.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Adélaïde Labille-Guiard, \"Self-Portrait with Two Pupils, Marie Gabrielle Capet (1761–1818) and Marie Marguerite Carraux de Rosemond (1765–1788)\", 1785. The Met, Gift of Julia A. Berwind, 1953. Public domain (CC0)."
+    },
+    {
+      "id": "G2",
+      "island": "Diffusion and flow matching",
+      "short": "Diffusion",
+      "track": "generative",
+      "hue": "#F43BFF",
+      "files": {
+        "hero": "images/G2-hero.webp",
+        "heroDepth": "depth/G2-hero-depth.webp",
+        "card": "images/G2-card.webp",
+        "cardDepth": "depth/G2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A whaling ship half lost in a blizzard of white sea spray, a whale breaching at the left.",
+      "why": "Turner's whalers dissolve into mist and spray. Diffusion turns noise into a picture.",
+      "motion": {
+        "strength": 1.2,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.25,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Whalers",
+        "artist": "Joseph Mallord William Turner",
+        "artistBio": "British, London 1775–1851 London",
+        "date": "ca. 1845",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437854,
+        "accession": "96.29",
+        "creditLine": "Catharine Lorillard Wolfe Collection, Wolfe Fund, 1896",
+        "page": "https://www.metmuseum.org/art/collection/search/437854",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-13360-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Joseph Mallord William Turner, \"Whalers\", ca. 1845. The Met, Catharine Lorillard Wolfe Collection, Wolfe Fund, 1896. Public domain (CC0)."
+    },
+    {
+      "id": "R1",
+      "island": "Reinforcement learning foundations",
+      "short": "RL basics",
+      "track": "rl",
+      "hue": "#FF3D3D",
+      "files": {
+        "hero": "images/R1-hero.webp",
+        "heroDepth": "depth/R1-hero-depth.webp",
+        "card": "images/R1-card.webp",
+        "cardDepth": "depth/R1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young man and a young woman in gold play chess at a table while richly dressed onlookers watch.",
+      "why": "Two players at a chessboard. Reinforcement learning was first proven on games.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.35,
+        "focusCard": 0.54,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "The Chess Players",
+        "artist": "Liberale da Verona",
+        "artistBio": "Italian, Verona ca. 1445–1527/29 Verona",
+        "date": "ca. 1475",
+        "medium": "Tempera on wood",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436884,
+        "accession": "43.98.8",
+        "creditLine": "Maitland F. Griggs Collection, Bequest of Maitland F. Griggs, 1943",
+        "page": "https://www.metmuseum.org/art/collection/search/436884",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DT226950.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Liberale da Verona, \"The Chess Players\", ca. 1475. The Met, Maitland F. Griggs Collection, Bequest of Maitland F. Griggs, 1943. Public domain (CC0)."
+    },
+    {
+      "id": "R2",
+      "island": "Deep reinforcement learning",
+      "short": "Deep RL",
+      "track": "rl",
+      "hue": "#FF3D3D",
+      "files": {
+        "hero": "images/R2-hero.webp",
+        "heroDepth": "depth/R2-hero-depth.webp",
+        "card": "images/R2-card.webp",
+        "cardDepth": "depth/R2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Saint Michael in red armour on a gold ground raises his sword over a writhing dragon.",
+      "why": "Saint Michael fights the dragon. An agent learning by struggling against its environment.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.62,
+        "focusCard": 0.56,
+        "glow": 0.45,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Saint Michael and the Dragon",
+        "artist": "Spanish (Valencian) Painter(?)",
+        "artistBio": "active in Italy, early 15th century",
+        "date": "ca. 1405",
+        "medium": "Tempera on wood, gold ground",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437742,
+        "accession": "12.192",
+        "creditLine": "Rogers Fund, 1912",
+        "page": "https://www.metmuseum.org/art/collection/search/437742",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-24152-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Spanish (Valencian) Painter(?), \"Saint Michael and the Dragon\", ca. 1405. The Met, Rogers Fund, 1912. Public domain (CC0)."
+    },
+    {
+      "id": "M1",
+      "island": "ML systems design",
+      "short": "ML systems",
+      "track": "mlops",
+      "hue": "#B8FF1F",
+      "files": {
+        "hero": "images/M1-hero.webp",
+        "heroDepth": "depth/M1-hero-depth.webp",
+        "card": "images/M1-card.webp",
+        "cardDepth": "depth/M1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Piazza San Marco in Venice, the bell tower rising over the square and the basilica at the far end.",
+      "why": "A whole square planned as one system: buildings, tower, arcades and the flow of people.",
+      "motion": {
+        "strength": 1.1,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Piazza San Marco",
+        "artist": "Canaletto (Giovanni Antonio Canal)",
+        "artistBio": "Italian, Venice 1697–1768 Venice",
+        "date": "late 1720s",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 435839,
+        "accession": "1988.162",
+        "creditLine": "Purchase, Mrs. Charles Wrightsman Gift, 1988",
+        "page": "https://www.metmuseum.org/art/collection/search/435839",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-009.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Canaletto (Giovanni Antonio Canal), \"Piazza San Marco\", late 1720s. The Met, Purchase, Mrs. Charles Wrightsman Gift, 1988. Public domain (CC0)."
+    },
+    {
+      "id": "M2",
+      "island": "MLOps in practice",
+      "short": "MLOps",
+      "track": "mlops",
+      "hue": "#B8FF1F",
+      "files": {
+        "hero": "images/M2-hero.webp",
+        "heroDepth": "depth/M2-hero-depth.webp",
+        "card": "images/M2-card.webp",
+        "cardDepth": "depth/M2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A Venetian lagoon with a stone canal lock, a tall column and a domed church on the shore.",
+      "why": "A canal lock controls what flows through and when. MLOps is the lock system for your models.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.3,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "A Lock, a Column, and a Church beside a Lagoon",
+        "artist": "Canaletto (Giovanni Antonio Canal)",
+        "artistBio": "Italian, Venice 1697–1768 Venice",
+        "date": "",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 438105,
+        "accession": "2019.141.6",
+        "creditLine": "Bequest of Mrs. Charles Wrightsman, 2019",
+        "page": "https://www.metmuseum.org/art/collection/search/438105",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/Wrightsman20.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Canaletto (Giovanni Antonio Canal), \"A Lock, a Column, and a Church beside a Lagoon\", . The Met, Bequest of Mrs. Charles Wrightsman, 2019. Public domain (CC0)."
+    },
+    {
+      "id": "A1",
+      "island": "AI safety foundations",
+      "short": "Safety basics",
+      "track": "safety",
+      "hue": "#7F8CFF",
+      "files": {
+        "hero": "images/A1-hero.webp",
+        "heroDepth": "depth/A1-hero-depth.webp",
+        "card": "images/A1-card.webp",
+        "cardDepth": "depth/A1-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "The angel Raphael walks with young Tobias, who kneels by a river holding a fish, mountains behind.",
+      "why": "Tobias travels with a guardian angel at his side. Safety is about keeping a powerful helper on our side.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.35,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Tobias and the Angel",
+        "artist": "Davide Ghirlandaio (David Bigordi)",
+        "artistBio": "Italian, Florence 1452–1525 Florence",
+        "date": "ca. 1479",
+        "medium": "Tempera and gold on wood",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 436488,
+        "accession": "13.119.3",
+        "creditLine": "Francis L. Leland Fund, 1913",
+        "page": "https://www.metmuseum.org/art/collection/search/436488",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DT210659.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Davide Ghirlandaio (David Bigordi), \"Tobias and the Angel\", ca. 1479. The Met, Francis L. Leland Fund, 1913. Public domain (CC0)."
+    },
+    {
+      "id": "A2",
+      "island": "Alignment and interpretability",
+      "short": "Alignment",
+      "track": "safety",
+      "hue": "#7F8CFF",
+      "files": {
+        "hero": "images/A2-hero.webp",
+        "heroDepth": "depth/A2-hero-depth.webp",
+        "card": "images/A2-card.webp",
+        "cardDepth": "depth/A2-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "Young Tobias, guided by an angel, touches his blind father's eyes to cure him while others look on.",
+      "why": "Tobias restores his father's sight. Interpretability lets us finally see inside the model.",
+      "motion": {
+        "strength": 0.9,
+        "focusHero": 0.3,
+        "focusCard": 0.3,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Tobias Curing His Father's Blindness",
+        "artist": "Bernardo Strozzi",
+        "artistBio": "Italian, Genoa 1581–1644 Venice",
+        "date": "1630–35",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 437763,
+        "accession": "57.23",
+        "creditLine": "Purchase, Mary Wetmore Shively Bequest, in memory of her husband, Henry L. Shively, M.D., 1957",
+        "page": "https://www.metmuseum.org/art/collection/search/437763",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP277247.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Bernardo Strozzi, \"Tobias Curing His Father's Blindness\", 1630–35. The Met, Purchase, Mary Wetmore Shively Bequest, in memory of her husband, Henry L. Shively, M.D., 1957. Public domain (CC0)."
+    },
+    {
+      "id": "SK",
+      "island": "Terminal, Git and GitHub",
+      "short": "Git & tools",
+      "track": "understand",
+      "hue": "#00E5FF",
+      "files": {
+        "hero": "images/SK-hero.webp",
+        "heroDepth": "depth/SK-hero-depth.webp",
+        "card": "images/SK-card.webp",
+        "cardDepth": "depth/SK-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A goldsmith in a red robe sits at his counter weighing a ring on small scales, while a young couple waits beside him and his shop shelves hold tools, jewels and samples of his work.",
+      "why": "A workshop with every tool in its place and every piece weighed and recorded: the terminal and Git are the craft tools that keep your work.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.42,
+        "focusCard": 0.45,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "A Goldsmith in his Shop",
+        "artist": "Petrus Christus",
+        "artistBio": "Netherlandish, Baarle-Hertog (Baerle-Duc), active by 1444–died 1475/76 Bruges",
+        "date": "1449",
+        "medium": "Oil on oak panel",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 459052,
+        "accession": "1975.1.110",
+        "creditLine": "Robert Lehman Collection, 1975",
+        "page": "https://www.metmuseum.org/art/collection/search/459052",
+        "originalImage": "https://images.metmuseum.org/CRDImages/rl/original/DP-42353-001.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Petrus Christus, \"A Goldsmith in his Shop\", 1449. The Met, Robert Lehman Collection, 1975. Public domain (CC0)."
+    },
+    {
+      "id": "U5",
+      "island": "Security and privacy",
+      "short": "Security",
+      "track": "use",
+      "hue": "#FF2A6D",
+      "files": {
+        "hero": "images/U5-hero.webp",
+        "heroDepth": "depth/U5-hero-depth.webp",
+        "card": "images/U5-card.webp",
+        "cardDepth": "depth/U5-card-depth.webp"
+      },
+      "size": {
+        "hero": [
+          1600,
+          900
+        ],
+        "heroDepth": [
+          800,
+          450
+        ],
+        "card": [
+          800,
+          800
+        ],
+        "cardDepth": [
+          400,
+          400
+        ]
+      },
+      "alt": "A young woman writes a letter at a table while another leans over her shoulder to read it, and a third stands waiting in a satin gown.",
+      "why": "Someone reading over your shoulder: what you write, and what you send to a model, may not stay private.",
+      "motion": {
+        "strength": 1.0,
+        "focusHero": 0.55,
+        "focusCard": 0.52,
+        "glow": 0.4,
+        "tint": 0
+      },
+      "artwork": {
+        "title": "Curiosity",
+        "artist": "Gerard ter Borch the Younger",
+        "artistBio": "Dutch, Zwolle 1617–1681 Deventer",
+        "date": "ca. 1660–62",
+        "medium": "Oil on canvas",
+        "museum": "The Metropolitan Museum of Art, New York",
+        "objectID": 435714,
+        "accession": "49.7.38",
+        "creditLine": "The Jules Bache Collection, 1949",
+        "page": "https://www.metmuseum.org/art/collection/search/435714",
+        "originalImage": "https://images.metmuseum.org/CRDImages/ep/original/DP145405.jpg"
+      },
+      "license": {
+        "name": "CC0 1.0 (public domain)",
+        "via": "The Met Open Access",
+        "url": "https://www.metmuseum.org/policies/terms-and-conditions",
+        "verified": "isPublicDomain=true from the Met Collection API, 2026-11-10"
+      },
+      "credit": "Gerard ter Borch the Younger, \"Curiosity\", ca. 1660–62. The Met, The Jules Bache Collection, 1949. Public domain (CC0)."
+    }
+  ]
+}

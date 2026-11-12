@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Atlas · Island art library</title>
+<style>
+:root{--paper:#0B0810;--card:#120E19;--card2:#1A1424;--line:#2A2236;--line2:#3B3149;--ink:#EFE9F7;--ink2:#BEB4CE;--ink3:#8F85A2;
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Helvetica Neue","Segoe UI",sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--hue:#00E5FF}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(90% 50% at 50% -10%,rgba(180,92,255,.22),transparent 60%),var(--paper);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:40px 24px 80px}
+.eyebrow{font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--hue);margin:0 0 10px;text-shadow:0 0 14px color-mix(in oklab,var(--hue) 60%,transparent)}
+h1{font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-.03em;margin:0 0 12px;font-weight:700}
+.lede{color:var(--ink2);max-width:62ch;margin:0 0 32px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.viewer{border-radius:18px;overflow:hidden;border:1px solid color-mix(in oklab,var(--hue) 40%,var(--line2));box-shadow:0 0 0 1px rgba(0,0,0,.4),0 30px 80px -30px color-mix(in oklab,var(--hue) 45%,transparent);background:var(--card)}
+.viewer spatial-photo{width:100%}
+.cap{padding:18px 20px 20px;display:grid;gap:8px}
+.cap-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.num{font:700 13px var(--mono);width:40px;height:40px;border-radius:8px;display:grid;place-items:center;background:var(--hue);color:#0B0810;box-shadow:0 0 18px color-mix(in oklab,var(--hue) 70%,transparent)}
+.ttl{font-size:21px;font-weight:650;letter-spacing:-.015em}
+.trk{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--hue);padding:4px 8px;border:1px solid color-mix(in oklab,var(--hue) 45%,transparent);border-radius:4px}
+.why{color:var(--ink2);margin:0}
+.credit{font:12px/1.5 var(--mono);color:var(--ink3);margin:0}
+.credit a{color:var(--ink2)}
+.side{display:grid;gap:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.k{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:0 0 10px}
+.side spatial-photo{aspect-ratio:1;border-radius:10px;border:1px solid var(--line2)}
+label{display:grid;grid-template-columns:70px 1fr 38px;align-items:center;gap:8px;font:12px var(--mono);color:var(--ink2);margin:6px 0}
+input[type=range]{accent-color:var(--hue);width:100%}
+output{text-align:right;color:var(--ink)}
+.modes{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+button{font:600 12px var(--mono);color:var(--ink);background:var(--card2);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;cursor:pointer}
+button[aria-pressed=true]{background:var(--hue);color:#0B0810;border-color:var(--hue)}
+button:focus-visible,.tile:focus-visible{outline:2px solid var(--hue);outline-offset:2px}
+pre{margin:0;font:11.5px/1.5 var(--mono);color:var(--ink2);white-space:pre-wrap;word-break:break-all;background:#0B0810;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:170px;overflow:auto}
+.copy{margin-top:8px;width:100%}
+.tracks{margin-top:44px;display:grid;gap:28px}
+.track h2{font:700 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;margin:0 0 12px;color:var(--th)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.tile{all:unset;cursor:pointer;display:grid;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:transform .25s,border-color .25s,box-shadow .25s}
+.tile:hover{transform:translateY(-3px);border-color:var(--th);box-shadow:0 14px 34px -16px var(--th)}
+.tile[aria-current=true]{border-color:var(--th);box-shadow:0 0 0 1px var(--th),0 0 26px -6px var(--th)}
+.tile img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.tile span{display:flex;gap:8px;align-items:center;padding:9px 11px;font-size:13px;font-weight:600}
+.tile b{font:700 11px var(--mono);color:var(--th)}
+.note{margin-top:44px;color:var(--ink3);font-size:13px;max-width:80ch}
+@media (max-width:900px){.stage{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.side{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">AI Atlas · island art library</p>
+  <h1>One old master per island,<br>in spatial depth.</h1>
+  <p class="lede">29 public-domain paintings from The Met (CC0), each with a depth map and a 2.5D parallax effect. Move your pointer over the image. Pick an island below. Tune the sliders, then copy the tag for your build.</p>
+  <p style="margin:-14px 0 32px"><a href="site/index.html" style="display:inline-flex;gap:8px;align-items:center;padding:12px 20px;border-radius:999px;background:#D9B26A;color:#2A1F0D;font-weight:600;text-decoration:none">Open the full site prototype →</a></p>
+
+  <section class="stage" aria-label="Preview">
+    <figure class="viewer" style="margin:0">
+      <spatial-photo id="hero" intro></spatial-photo>
+      <figcaption class="cap">
+        <div class="cap-top"><span class="num" id="num">01</span><span class="ttl" id="ttl"></span><span class="trk" id="trk"></span></div>
+        <p class="why" id="why"></p>
+        <p class="credit" id="credit"></p>
+      </figcaption>
+    </figure>
+    <aside class="side">
+      <div class="panel">
+        <p class="k">Square card · map hover</p>
+        <spatial-photo id="card" mode="pointer"></spatial-photo>
+      </div>
+      <div class="panel">
+        <p class="k">Tune</p>
+        <label>strength<input type="range" id="strength" min="0" max="2" step=".05"><output></output></label>
+        <label>focus<input type="range" id="focus" min="0" max="1" step=".01"><output></output></label>
+        <label>glow<input type="range" id="glow" min="0" max="1" step=".05"><output></output></label>
+        <label>tint<input type="range" id="tint" min="0" max="1" step=".05"><output></output></label>
+        <div class="modes" role="group" aria-label="Motion mode">
+          <button data-mode="pointer" aria-pressed="true">pointer</button><button data-mode="scroll">scroll</button><button data-mode="idle">idle</button><button data-mode="static">static</button>
+        </div>
+        <div class="modes"><button id="replay">replay reveal</button></div>
+      </div>
+      <div class="panel">
+        <p class="k">Tag for this island</p>
+        <pre id="tag"></pre>
+        <button class="copy" id="copy">Copy</button>
+      </div>
+    </aside>
+  </section>
+
+  <section class="tracks" id="tracks" aria-label="All islands"></section>
+  <p class="note">All paintings are public-domain works from The Metropolitan Museum of Art's Open Access collection (CC0). Depth maps were made with Depth Anything V2 Small (Apache-2.0). Credits for every image are in <code>islands.json</code>.</p>
+</main>
+
+<script type="module">
+import "./spatial-photo.js";
+const NAMES = {understand:"Foundations",use:"Use models",train:"Train models",build:"Build a model",vision:"Vision",language:"Language",generative:"Generative media",rl:"Reinforcement learning",mlops:"MLOps",safety:"Safety and alignment"};
+const { islands } = await (await fetch("islands.json")).json();
+const $ = (s) => document.querySelector(s);
+const hero = $("#hero"), card = $("#card");
+const ctl = ["strength", "focus", "glow", "tint"];
+let cur, mode = "pointer";
+
+const tracks = $("#tracks");
+Object.keys(NAMES).forEach((t) => {
+  const list = islands.filter((i) => i.track === t); if (!list.length) return;
+  const sec = document.createElement("div"); sec.className = "track"; sec.style.setProperty("--th", list[0].hue);
+  sec.innerHTML = `<h2>${NAMES[t]}</h2><div class="grid"></div>`;
+  list.forEach((i) => {
+    const b = document.createElement("button"); b.className = "tile"; b.dataset.id = i.id;
+    b.innerHTML = `<img src="${i.files.hero}" alt="" loading="lazy"><span><b>${i.id}</b>${i.island}</span>`;
+    b.onclick = () => { pick(i); window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); };
+    sec.querySelector(".grid").append(b);
+  });
+  tracks.append(sec);
+});
+
+function apply() {
+  const v = Object.fromEntries(ctl.map((k) => [k, $("#" + k).value]));
+  [hero, card].forEach((el) => { ctl.forEach((k) => el.setAttribute(k, v[k])); el.setAttribute("mode", mode); el.setAttribute("hue", cur.hue); });
+  card.setAttribute("focus", cur.motion.focusCard + (v.focus - cur.motion.focusHero));
+  ctl.forEach((k) => ($("#" + k).nextElementSibling.value = (+v[k]).toFixed(2)));
+  $("#tag").textContent =
+`<spatial-photo
+  src="island-art/${cur.files.hero}"
+  depth="island-art/${cur.files.heroDepth}"
+  alt="${cur.alt}"
+  hue="${cur.hue}" strength="${v.strength}" focus="${v.focus}"
+  glow="${v.glow}" tint="${v.tint}"${mode !== "pointer" ? ` mode="${mode}"` : ""} intro>
+</spatial-photo>`;
+}
+
+function pick(i) {
+  cur = i;
+  document.body.style.setProperty("--hue", i.hue);
+  hero.setAttribute("src", i.files.hero); hero.setAttribute("depth", i.files.heroDepth); hero.setAttribute("alt", i.alt);
+  card.setAttribute("src", i.files.card); card.setAttribute("depth", i.files.cardDepth); card.setAttribute("alt", i.alt);
+  $("#strength").value = i.motion.strength; $("#focus").value = i.motion.focusHero; $("#glow").value = i.motion.glow; $("#tint").value = i.motion.tint;
+  $("#num").textContent = String(islands.indexOf(i) + 1).padStart(2, "0");
+  $("#ttl").textContent = i.island; $("#trk").textContent = NAMES[i.track];
+  $("#why").textContent = i.why;
+  const a = i.artwork;
+  $("#credit").innerHTML = `${a.artist || "Unknown artist"}, <i>${a.title}</i>, ${a.date}. <a href="${a.page}" target="_blank" rel="noopener">The Met</a> · CC0`;
+  document.querySelectorAll(".tile").forEach((t) => t.setAttribute("aria-current", t.dataset.id === i.id));
+  apply(); hero.play(); card.play();
+  history.replaceState(null, "", "#" + i.id);
+}
+
+ctl.forEach((k) => $("#" + k).addEventListener("input", apply));
+document.querySelectorAll("[data-mode]").forEach((b) => b.onclick = () => {
+  mode = b.dataset.mode; document.querySelectorAll("[data-mode]").forEach((x) => x.setAttribute("aria-pressed", x === b)); apply();
+});
+$("#replay").onclick = () => { hero.play(); card.play(); };
+$("#copy").onclick = async () => { try { await navigator.clipboard.writeText($("#tag").textContent); $("#copy").textContent = "Copied"; setTimeout(() => ($("#copy").textContent = "Copy"), 1400); } catch {} };
+pick(islands.find((i) => i.id === location.hash.slice(1)) || islands[0]);
+</script>
+</body>
+</html>
