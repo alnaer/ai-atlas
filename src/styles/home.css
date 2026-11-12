@@ -1,0 +1,371 @@
+/* Home page. Sections in order: genesis (opening scene) · machine · marquee · ten path chapters · story · demo · atlas teaser.
+   The path index (styles/rail.css) starts in the opening title card and then stays at the edge. */
+:root{--g-title:clamp(38px,4vw,52px)}
+
+/* ===== A. Genesis: the opening "creation" scene =====
+   A pinned stage. Layers back to front: sky · veil · chart lines · hands · spark · title card · cue.
+   Transforms are split over nested boxes so the entrance (CSS, once), the idle
+   float (JS, every frame) and the scroll choreography (--p) never fight:
+     .hand      places the fingertip at the touch point, minus half the gap (--g)
+     .h-scroll  (kept for the layering; scroll moves the whole hands layer instead)
+   Scroll (--p 0 → 1, set by JS): the hands close the gap and touch. Then the next section's heading
+   rises over the still scene and, once it is well in view, the scene is cut away (.cut), as in a film.
+     .h-in      glides in once
+     .h-float   bobs and breathes                                              */
+.genesis{position:relative;height:200vh;background:var(--ink);--ty:34%;--p:0;--ch:430px;
+  /* hand width: 48vw, but never so big that the hands slide under the nav or push the card off the stage */
+  --hw:min(48vw,820px,calc((34svh - 76px) * 4.7),calc((66svh - 26px - var(--ch)) * 8.77))}
+.nav-over .genesis{margin-top:calc(-1 * var(--nav-h) - 1px)}   /* the top bar's height and its hairline */
+.g-stick{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate}
+
+.g-sky{position:absolute;inset:-2%;transform-origin:50% 40%}
+.g-sky-in{position:absolute;inset:0;transform:scale(calc(1 + var(--p) * .06));transform-origin:50% var(--ty)}
+.g-veil{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(34% 46% at 50% 62%,rgba(12,10,13,.5),transparent 75%),
+    linear-gradient(180deg,rgba(12,10,13,.55),rgba(12,10,13,.2) 9%,transparent 18%,transparent 68%,var(--ink))}
+.g-dark{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none}
+/* the exit: as the next heading rises (--q 0 → 1) */
+.genesis{--q:0}
+/* only the figure and the card fade; the landscape stays behind the next section (fixed to the window)
+   and dims a little for the words, until the first path painting fades in over it (.sky-off) */
+.genesis .hand,.genesis .spark,.genesis .g-card,.genesis .g-lines{opacity:calc(1 - var(--q))}
+.g-sky-in{filter:brightness(calc(1 - var(--q) * .4))}
+html.gen-pin .g-sky,html.gen-pin .g-veil{position:fixed}
+html.gen-pin .genesis.sky-off .g-sky,html.gen-pin .genesis.sky-off .g-veil{visibility:hidden}
+html.gen-pin .genesis + .hero{position:relative;z-index:3;margin-top:-100svh;background:transparent}
+html.gen-pin .genesis + .hero .h1,html.gen-pin .genesis + .hero .eyebrow{text-shadow:0 2px 24px rgba(0,0,0,.55)}
+/* gilt chart lines drawn around the touch point while the scene loads; they dissolve as the painting arrives */
+.g-lines{position:absolute;left:50%;top:var(--ty);width:220vmax;height:220vmax;transform:translate(-50%,-50%);z-index:1;pointer-events:none;display:none}
+.g-lines circle,.g-lines line{fill:none;stroke:rgba(217,178,106,.5);stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+
+.g-hands{position:absolute;inset:0;z-index:2;pointer-events:none;--g:46px;--sp:0}
+.hand{position:absolute;left:50%;top:var(--ty)}
+.hand .h-scroll,.hand .h-in,.hand .h-float{position:absolute;inset:0;transform-origin:var(--ox) var(--oy)}
+.hand .h-float{will-change:transform}
+.hand.human{--ox:98.7%;--oy:20.9%;width:calc(var(--hw) * .78);aspect-ratio:1001/700;transform:translate(calc(-98.7% - var(--g) / 2),-20.9%)}
+/* the machine's mind: a live 3D neural network (scripts/net3d.js) whose input node sits on the touch point */
+.g-net{position:absolute;inset:0;width:100%;height:100%;display:block;transition:opacity 1.8s var(--ease) .6s}
+.js .g-stick:not(.ready) .g-net{opacity:0}
+
+.spark{position:absolute;left:50%;top:var(--ty);width:0;height:0;opacity:var(--sp)}
+.spark .core{position:absolute;width:18px;height:18px;left:-9px;top:-9px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 20%,var(--gold-2) 35%,rgba(217,178,106,0) 70%);transform:scale(calc(.6 + var(--sp) * 1.3));filter:blur(.3px);
+  box-shadow:0 0 calc(var(--sp) * 60px) calc(var(--sp) * 14px) rgba(241,212,154,.55),0 0 calc(var(--sp) * 140px) calc(var(--sp) * 30px) rgba(0,229,255,.18)}
+.spark svg{position:absolute;left:-90px;top:-40px;width:180px;height:80px;overflow:visible}
+.spark polyline{fill:none;stroke:#FFF6DE;stroke-width:1.2;filter:drop-shadow(0 0 4px var(--gold-2)) drop-shadow(0 0 10px var(--t-understand))}
+.ripple{position:absolute;left:50%;top:var(--ty);width:10px;height:10px;margin:-5px;border-radius:50%;border:1.5px solid var(--gold-2);animation:g-rip 1.6s var(--ease) forwards;pointer-events:none}
+@keyframes g-rip{to{transform:scale(90);opacity:0;border-width:.2px}}
+.touch{all:unset;position:absolute;left:50%;top:var(--ty);width:72px;height:72px;margin:-36px;border-radius:50%;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.touch:focus-visible{outline:2px dashed var(--gold-2);outline-offset:4px}
+.flash{position:absolute;inset:0;z-index:4;background:radial-gradient(circle at 50% var(--ty),rgba(255,250,235,.9),rgba(241,212,154,.25) 30%,transparent 60%);opacity:0;pointer-events:none}
+.flash.go{animation:g-flash 1.4s var(--ease)}
+@keyframes g-flash{12%{opacity:1}100%{opacity:0}}
+/* the line that answers the touch sits just above the hands, on its own dark pill so it reads over anything */
+.g-msg{position:absolute;z-index:4;left:50%;top:max(calc(var(--nav-h) + 10px),calc(var(--ty) - var(--hw) * .212 - 50px));transform:translateX(-50%);
+  width:max-content;max-width:88vw;margin:0;padding:7px 18px 8px;border-radius:999px;background:rgba(12,10,13,.74);text-align:center;
+  font:italic 500 21px/1.3 var(--serif);color:var(--gold-2);opacity:0;transition:opacity .6s;pointer-events:none}
+.g-msg:empty{display:none}
+.g-msg.show{opacity:1}
+
+/* the card hangs just below the lowest finger: 35% of the human hand's height sits under the touch point */
+.g-card{position:absolute;z-index:3;left:50%;top:calc(var(--ty) + var(--hw) * .114 + 12px);width:min(360px,86vw);transform:translateX(-50%);
+  padding:20px 24px 18px;color:var(--ivory);transition:opacity .35s var(--ease)}
+/* on the first scroll the title and the index leave for the edge of the page (the rail) and the card lets go */
+html[data-rail=side] .g-card{opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility 0s .35s}
+/* a smoked-glass fill keeps the text readable wherever the painting is bright (AA contrast) */
+.g-card::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(12,10,13,.56);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.g-card .bd{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+.g-card .bd rect{fill:none;stroke:rgba(243,235,221,.75);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0}
+.g-card .over{font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,235,221,.88);margin:0 0 12px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+/* The title and the index shown in the card are the rail's own (components/Rail.astro), moved here by scripts/rail.js.
+   .g-title and .g-index only hold their places: same type, same boxes, not painted. Without scripts the title shows as is. */
+.g-title{font:560 var(--g-title)/1 var(--serif);letter-spacing:-.03em;margin:0 0 12px;white-space:nowrap;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.js .g-title,.g-index{visibility:hidden}
+html:not(.js) .g-index{display:none}
+.g-card .sub{font:italic 400 16px/1.4 var(--serif);color:rgba(243,235,221,.94);margin-bottom:14px;text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.g-index{list-style:none;margin:0;padding:0;display:grid}
+.g-index li{display:flex;min-width:0}
+.g-index .ix-it{min-height:24px}
+
+.g-cue,.g-credit{position:absolute;z-index:3;bottom:26px;opacity:calc(1 - var(--p) * 3)}
+html[data-rail=side] .g-cue{opacity:0;transition:opacity .3s}          /* the index lands where the cue was */
+html:not(.js) .g-cue{display:none}
+.g-cue{left:clamp(20px,4vw,56px)}
+.g-cue-in{display:grid;justify-items:center;gap:10px;font:600 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,235,221,.78)}
+.g-cue i{width:1px;height:44px;background:linear-gradient(var(--gold-2),transparent);animation:g-cue 2.2s var(--ease) infinite}
+@keyframes g-cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.g-credit{right:clamp(20px,4vw,56px);margin:0;max-width:calc(50vw - 180px - clamp(20px,4vw,56px) - 28px);text-align:right;text-wrap:balance;
+  font:11.5px/1.6 var(--mono);color:rgba(243,235,221,.72)}
+.g-credit-in{display:block}
+.g-credit a{color:rgba(243,235,221,.92);text-underline-offset:3px}
+.g-credit .nw{white-space:nowrap}
+
+/* entrance timeline (starts when the three pictures have loaded; see scripts/home.js) */
+.js .g-lines{display:block}
+.js .g-lines circle,.js .g-lines line{animation:g-draw 1.8s var(--ease-io) calc(var(--i) * 45ms) both}
+.js .g-stick.ready .g-lines{opacity:0;visibility:hidden;transition:opacity .9s var(--ease) .3s,visibility 0s 1.2s}
+.js .g-stick:not(.ready) .g-sky{opacity:0;transform:scale(1.08)}
+.js .g-stick:not(.ready) .hand.human .h-in{transform:translateX(-70vw) rotate(-8deg)}
+.js .g-stick:not(.ready) .g-card .bd rect{stroke-dashoffset:1}
+.js .g-stick:not(.ready) .g-card::before{opacity:0}
+.js .g-stick:not(.ready) .g-card [data-in],.js .g-stick:not(.ready) .g-cue-in,.js .g-stick:not(.ready) .g-credit-in{opacity:0}
+.js .g-stick.ready .g-sky{animation:g-fade 1s var(--ease) both,g-settle 1.6s var(--ease) both}
+.js .g-stick.ready .hand.human .h-in{animation:g-hand-l 1.3s var(--ease-glide) .1s both}
+.js .g-stick.ready .g-card .bd rect{animation:g-draw .9s var(--ease-io) .3s both}
+.js .g-stick.ready .g-card::before{animation:g-fade .8s var(--ease) .2s both}
+.js .g-stick.ready .g-card [data-in]{animation:g-rise .8s var(--ease) both;animation-delay:calc(.35s + var(--i,0) * 35ms)}
+.js .g-stick.ready .g-cue-in,.js .g-stick.ready .g-credit-in{animation:g-fade .8s var(--ease) .9s both}
+.spark.ignite .core::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1.5px solid var(--gold-2);animation:g-ignite .9s var(--ease) both}
+@keyframes g-fade{from{opacity:0}to{opacity:1}}
+@keyframes g-settle{from{transform:scale(1.08)}to{transform:none}}
+@keyframes g-hand-l{from{transform:translateX(-70vw) rotate(-8deg)}to{transform:none}}
+@keyframes g-hand-r{from{transform:translateX(70vw) rotate(8deg)}to{transform:none}}
+@keyframes g-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes g-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes g-ignite{from{transform:scale(.2);opacity:1}to{transform:scale(3.2);opacity:0}}
+html:not(.js) .g-hands{--sp:.8}
+
+/* Layouts of the title card.
+   roomy (default): one column, like a table of contents.
+   compact: two columns, on phones, on touch screens (44px rows) and in windows up to 760px tall.
+   --ch is the card's height in each layout; --hw uses it so the hands shrink before the card runs off the stage. */
+@media (max-width:760px),(pointer:coarse),(max-height:760px){
+  .g-index{grid-template-rows:repeat(5,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);column-gap:18px}
+  .g-index .ix-it{min-height:44px}
+}
+@media (min-width:761px) and (pointer:coarse),(min-width:761px) and (max-height:760px){
+  :root{--g-title:40px}
+  .genesis{--ch:362px}
+  .g-card{width:min(500px,86vw);padding:16px 22px 12px}
+  .g-card .over{margin-bottom:8px}
+  .g-title{margin-bottom:8px}
+  .g-card .sub{margin-bottom:8px}
+}
+@media (min-width:761px) and (max-height:760px) and (pointer:fine){
+  .genesis{--ch:290px}
+  .g-index .ix-it{min-height:30px}
+}
+@media (max-width:760px){
+  .genesis{--ty:24%;--hw:62vw}
+  .g-card{top:calc(var(--ty) + var(--hw) * .114 + 26px);width:min(372px,90vw);padding:18px 20px 12px}
+  .g-card .sub{font-size:15.5px;margin-bottom:8px}
+  .g-index{column-gap:12px}
+  .g-index .ix-it{white-space:normal}          /* long names take two lines in a narrow column */
+  .g-msg{font-size:18px}
+  .g-cue,.g-credit{display:none}
+}
+@media (max-width:1179px),(max-height:619px){.g-credit{display:none}.g-cue{bottom:calc(var(--row) + 22px)}}   /* the index bar runs along the bottom here; the full art list sits at the foot of the page */
+/* very short windows (a small laptop, a phone on its side): no pin, the stage is as tall as it needs */
+@media (max-height:600px){
+  .genesis{height:auto}
+  .g-stick{position:relative;height:auto;min-height:680px}
+}
+@media (max-height:600px) and (min-width:761px){.genesis{--hw:min(48vw,600px)}}
+/* where the scene is not pinned the index rests at the edge from the start: the card keeps its own title and stays */
+@media (max-height:600px),(prefers-reduced-motion:reduce){
+  .js .g-title{visibility:visible}
+  .g-index{display:none}
+  html[data-rail=side] .g-card{opacity:1;visibility:visible}
+  .g-cue{display:none}
+}
+@media (prefers-reduced-motion:reduce){.genesis{height:auto}.g-stick{position:relative}.g-cue i{animation:none;transform:none}.js .g-lines{display:none}}
+
+/* ===== B. The machine ===== */
+/* starts on the same ink the opening scene ends on, then lets the page glow back in */
+html:not(.gen-pin) .genesis + .hero::before{content:"";position:absolute;inset:0 0 auto;height:220px;background:linear-gradient(var(--ink),transparent);pointer-events:none}
+.hero{min-height:calc(100svh - var(--nav-h));display:grid;align-items:center;padding-block:40px 80px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center;width:100%}
+.hero .h1{font-size:var(--fs-6);line-height:1.02;letter-spacing:-.03em;margin-bottom:26px}
+.hero .lede{margin-bottom:34px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:clamp(20px,4vw,48px);margin:48px 0 0;padding-top:24px;border-top:1px solid var(--line)}
+.stats div{display:flex;flex-direction:column-reverse}
+.stats dd{margin:0;font:600 clamp(28px,3vw,38px)/1 var(--serif);color:var(--ivory);font-variant-numeric:lining-nums}
+.stats dt{font-size:14px;color:var(--muted);margin-top:6px}
+.machine-col{justify-self:center;width:min(100%,560px)}
+.machine{position:relative;aspect-ratio:4/5;width:100%}
+.machine .rings{position:absolute;inset:-6% -14%;width:128%;height:112%;color:var(--gold);opacity:.38;pointer-events:none}
+.machine .rings g{transform-origin:50% 50%;animation:spin 140s linear infinite}
+.machine .rings g.r2{animation-duration:220s;animation-direction:reverse}
+.machine .rings text{font-family:var(--mono);font-size:11px;letter-spacing:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.machine::before{content:"";position:absolute;inset:8% 12%;border-radius:50%;background:radial-gradient(closest-side,rgba(217,178,106,.22),transparent);filter:blur(10px)}
+.machine .armor{position:absolute;inset:0}
+.callouts{position:absolute;inset:0;pointer-events:none;list-style:none;margin:0;padding:0}
+.machine>svg.leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.leaders path{fill:none;stroke:var(--c);stroke-width:1.2;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 0 4px var(--c));vector-effect:non-scaling-stroke}
+.leaders circle{fill:var(--c)}
+.co{position:absolute;pointer-events:auto;transform:translateY(-50%);text-decoration:none;display:grid;gap:2px;padding:8px 12px;border-radius:10px;min-height:44px;align-content:center;
+  background:rgba(12,10,13,.78);border:1px solid color-mix(in oklab,var(--c) 45%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap;
+  transition:border-color .2s,box-shadow .2s}
+.co:hover,.co:focus-visible{border-color:var(--c);box-shadow:0 0 22px -4px var(--c)}
+.co small{font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.co span{font:600 15px var(--sans);color:var(--ivory)}
+/* leader lines draw, then the labels arrive, once the section is on screen */
+.js .machine .leaders path{stroke-dashoffset:1;transition:stroke-dashoffset 1.2s var(--ease) var(--d)}
+.js .machine .leaders circle{opacity:0;transition:opacity .4s var(--d)}
+.js .machine .co{opacity:0;transition:opacity .5s var(--ease) calc(var(--d) + .5s),border-color .2s,box-shadow .2s}
+.js .machine.on .leaders path{stroke-dashoffset:0}
+.js .machine.on .leaders circle,.js .machine.on .co{opacity:1}
+.machine-col .credit{text-align:center;margin-top:18px}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}.machine-col{width:min(100%,440px)}}
+@media (max-width:560px){.co{padding:6px 9px}.co span{font-size:13px}.co small{font-size:9.5px}}
+
+/* ===== C. Marquee ===== */
+
+/* ===== D. Learn · Build · Grow (sticky story) ===== */
+.story .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px)}
+.story-vis{position:sticky;top:110px;height:min(72vh,640px);align-self:start}
+.story-fig{position:absolute;inset:0;margin:0;display:grid;grid-template-rows:minmax(0,1fr) auto;opacity:0;visibility:hidden;transform:scale(.97);
+  transition:opacity .8s var(--ease),transform .8s var(--ease),visibility 0s .8s}
+.story-fig.on{opacity:1;visibility:visible;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.story-fig .frame{min-height:0}
+.story-fig .frame.free{border:0;box-shadow:none;background:radial-gradient(closest-side,rgba(217,178,106,.16),transparent);overflow:visible;border-radius:0}
+.story-fig .engr{position:absolute;inset:0}
+.story-fig .engr img{position:absolute;inset:0}
+.chapters{display:grid}
+.chapter{min-height:78vh;display:grid;align-content:center;padding-block:40px}
+.chapter .num{font:500 clamp(80px,10vw,140px)/.8 var(--serif);color:transparent;-webkit-text-stroke:1px var(--line-2);margin-bottom:14px}
+.chapter h3{font-size:var(--fs-5);line-height:1.08;margin-bottom:18px}
+.chapter ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:10px;color:var(--ivory-2)}
+.chapter li{display:flex;gap:12px}
+.chapter li::before{content:"";flex:none;width:7px;height:7px;margin-top:10px;transform:rotate(45deg);background:var(--gold)}
+.chapter-art{display:none;margin:0 0 28px}
+.chapter-art .frame{aspect-ratio:4/5;max-height:70svh;margin-inline:auto}
+.chapter-art .frame.free{border:0;box-shadow:none;border-radius:0;overflow:visible;aspect-ratio:1400/1304;background:radial-gradient(closest-side,rgba(217,178,106,.16),transparent)}
+.chapter-art .engr{height:100%}
+.chapter-art img{width:100%;height:100%;object-fit:cover}
+.chapter-art .frame.free img{object-fit:contain;filter:drop-shadow(0 0 22px rgba(217,178,106,.35))}
+@media (max-width:860px){
+  .story .wrap{grid-template-columns:1fr}
+  .story-vis{display:none}
+  .chapter{min-height:0;padding-block:36px}
+  .chapter-art{display:block}
+}
+
+/* ===== E. Ten paths: a heading, then one scene per path =====
+   Each .pch is a chapter. Small screens, short windows and reduced motion read them one under another.
+   On larger screens (the "pin" query below, shared with scripts/rail.js) every scene is pinned for a
+   moment and the next one slides up over it behind a dry-brush edge of ink. scripts/home.js feeds three
+   numbers per chapter: --e 0 → 1 while it slides in, --d 0 → 1 while it is pinned, --x 0 → 1 while the
+   next one covers it. Their defaults leave everything in place, so the page reads the same without scripts.
+   Layers, back to front: art · veil · words · credit · dim. */
+
+.pch{position:relative;z-index:var(--z);--e:1;--d:0;--x:0;--hue:var(--c);--tw:calc(100vw - 2 * var(--pad));background:var(--ink)}
+.pch-stage{position:relative;min-height:88svh;overflow:hidden;display:grid;grid-template-rows:1fr auto;isolation:isolate}
+.pch-art{position:absolute;inset:0;z-index:0}
+.pch.flat .pch-art::after{content:"";position:absolute;inset:0;background:color-mix(in oklab,var(--c) 22%,#d8d0c4);mix-blend-mode:multiply;pointer-events:none}
+.pch.flat .pch-art img{filter:brightness(1.18) contrast(1.05)}
+/* the self-portrait is a tall picture: set it to the right so the face is not behind the title */
+@media (min-width:861px){#path-understand .pch-art{left:34%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%);mask-image:linear-gradient(90deg,transparent,#000 22%)}}
+.pch-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(12,10,13,.95) 0,rgba(12,10,13,.8) 34%,rgba(12,10,13,.28) 62%,transparent 82%),
+    linear-gradient(180deg,var(--ink) 0,rgba(12,10,13,.4) 12%,transparent 24%,transparent 72%,rgba(12,10,13,.6) 90%,var(--ink) 100%)}
+.pch.cut .pch-stage{background:radial-gradient(48% 62% at 74% 52%,color-mix(in oklab,var(--c) 20%,transparent),transparent 72%)}
+.pch.cut .pch-art{inset:11% 4% 6% auto;width:min(40%,74svh)}
+.pch.cut .pch-veil{background:linear-gradient(180deg,var(--ink) 0,transparent 16%,transparent 84%,var(--ink) 100%)}
+
+.pch-body{position:relative;z-index:3;align-self:center;min-width:0;display:grid;justify-items:start;
+  padding:calc(var(--nav-h) + 20px) max(var(--pad),env(safe-area-inset-right,0px)) 56px max(var(--pad),env(safe-area-inset-left,0px))}
+.pch-body .eyebrow{color:var(--c);margin-bottom:clamp(12px,2svh,20px);text-shadow:0 1px 10px rgba(0,0,0,.8)}
+/* the longest word in a path name runs 5.5em wide at display sizes and 6.6em at small ones (the serif's optical sizing):
+   the title is as large as lets that word fit in the room it has (--tw) */
+.pch-title{font-size:clamp(38px,min(var(--tw) / 6.7,14svh),132px);line-height:.92;letter-spacing:-.035em;margin:0 0 clamp(14px,2.6svh,26px);max-width:100%;text-shadow:0 2px 40px rgba(0,0,0,.55)}
+/* each word rises out of its own line box; the padding keeps descenders from being clipped */
+.pch-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.08em .05em .16em 0;margin:-.08em -.05em -.16em 0}
+.pch-title .w>span{display:inline-block;transition:translate .9s var(--ease-glide) calc(var(--j) * 70ms)}
+.js .pch:not(.in) .pch-title .w>span{translate:0 112%}
+.pch-blurb{font:400 clamp(17px,1.35vw,20px)/1.55 var(--sans);color:var(--ivory);max-width:52ch;margin:0 0 clamp(12px,2svh,20px);text-wrap:pretty;text-shadow:0 1px 14px rgba(0,0,0,.65)}
+.pch-meta{display:flex;flex-wrap:wrap;gap:6px 24px;margin:0 0 clamp(12px,2svh,18px);font:500 12.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ivory-2)}
+.pch-meta span{display:inline-flex;align-items:baseline;gap:8px}
+.pch-meta b{font:600 clamp(21px,1.8vw,26px)/1 var(--serif);letter-spacing:0;color:var(--c);font-variant-numeric:lining-nums}
+/* the route: one medallion per island, in order */
+.pch-route{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 clamp(16px,2.6svh,26px);padding:0;max-width:min(100%,540px)}
+.pch-route li{display:block}
+.pch-route a{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;overflow:hidden;border:1px solid var(--line-2);background:var(--panel);text-decoration:none;
+  font:600 12px var(--mono);color:var(--ivory-2);transition:transform .25s var(--ease),border-color .2s,box-shadow .2s}
+.pch-route img{width:100%;height:100%;object-fit:cover}
+.pch-route a:hover,.pch-route a:focus-visible{transform:translateY(-3px) scale(1.14);border-color:var(--c);box-shadow:0 0 16px -2px var(--c)}
+@media (pointer:coarse){.pch-route a{width:44px;height:44px}}
+/* beside a cut-out figure the words keep to their half of the stage */
+@media (min-width:861px){
+  .pch.cut .pch-title{font-size:clamp(38px,min(var(--tw) * .08,14svh),132px);max-width:calc(var(--tw) * .56)}
+  .pch.cut .pch-blurb{max-width:min(52ch,var(--tw) * .52)}
+  .pch.cut .pch-route{max-width:min(540px,var(--tw) * .52)}
+}
+.pch .btn:not(.ghost){--b:var(--c);color:var(--on-hue)}
+.pch .btn.ghost{background:rgba(12,10,13,.45)}
+.pch .btn.ghost:hover{border-color:var(--c);background:color-mix(in oklab,var(--c) 12%,rgba(12,10,13,.5))}
+.pch-credit{position:absolute;z-index:3;right:clamp(16px,3vw,40px);bottom:16px;margin:0;max-width:min(44vw,460px);text-align:right;text-wrap:balance;font:11.5px/1.5 var(--mono);color:rgba(243,235,221,.72)}
+.pch-credit a{color:rgba(243,235,221,.92);text-underline-offset:3px}
+.pch-credit .nw{white-space:nowrap}
+.pch-dim{position:absolute;inset:0;z-index:4;background:var(--ink);opacity:0;pointer-events:none}
+.pch-edge{display:none;position:absolute;left:0;top:-63px;width:100%;height:64px;fill:var(--ink);pointer-events:none}
+
+/* small screens: the picture on top, the words below it */
+@media (max-width:860px){
+  .pch-stage{min-height:max(88svh,600px)}
+  .pch.flat .pch-art{inset:0 0 auto;height:min(70svh,600px)}
+  .pch-veil,.pch.cut .pch-veil{background:linear-gradient(180deg,var(--ink) 0,rgba(12,10,13,.3) 12%,rgba(12,10,13,.1) 30%,rgba(12,10,13,.84) 58%,var(--ink) 78%)}
+  .pch.cut .pch-stage{background:radial-gradient(70% 34% at 50% 26%,color-mix(in oklab,var(--c) 22%,transparent),transparent 72%)}
+  .pch.cut .pch-art{inset:calc(var(--nav-h) + 6px) 8% auto;width:auto;height:min(42svh,360px)}
+  .pch-body{align-self:end;padding-top:min(44svh,350px);padding-bottom:18px}
+  .pch.cut .pch-body{padding-top:calc(var(--nav-h) + min(42svh,360px) + 20px)}
+  .pch-credit{position:relative;right:auto;bottom:auto;max-width:none;text-align:left;padding:0 max(var(--pad),env(safe-area-inset-right,0px)) 22px max(var(--pad),env(safe-area-inset-left,0px))}
+}
+
+/* pinned scenes */
+@media (min-width:861px) and (min-height:661px) and (prefers-reduced-motion:no-preference){
+  .pch{height:calc(200svh + var(--dwell));--dwell:40svh;scroll-margin-top:calc(-1 * var(--nav-h) - 12px)}   /* a link to a chapter lands with its scene exactly in place */
+  .pch + .pch,.pch-after{margin-top:-100svh}
+  .pch-stage{position:sticky;top:0;height:100svh;min-height:0}
+  /* Dissolve: the painting holds still while you scroll; the next chapter's painting is fixed to the
+     window and fades in over it (--e 0 → 1) while its title rises with the page. */
+  .pch{background:transparent}
+  .pch-stage::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--ink);opacity:var(--e);pointer-events:none}
+  .pch.cut .pch-stage::before{background:radial-gradient(48% 62% at 74% 52%,color-mix(in oklab,var(--c) 20%,transparent),transparent 72%),var(--ink)}
+  .pch.cut .pch-stage{background:none}
+  .pch-art,.pch-veil{position:fixed;opacity:var(--e);pointer-events:none}
+  .pch.flat .pch-art{transform:scale(calc(1.06 - var(--e) * .06 + var(--d) * .04))}
+  .pch.gone .pch-stage::before,.pch.gone .pch-art,.pch.gone .pch-veil{visibility:hidden}
+  /* the first painting waits until the section above has mostly left, so it never sits behind that text */
+  #paths + .pch .pch-stage::before,#paths + .pch .pch-art,#paths + .pch .pch-veil{opacity:clamp(0,(var(--e) - .55) * 2.23,1)}
+  .pch-body{transform:translateY(calc(var(--x) * -9svh));opacity:calc(1 - var(--x) * 1.5)}
+  .pch-body .eyebrow,.pch-title,.pch-blurb{text-shadow:0 2px 24px rgba(0,0,0,.6)}
+  .pch-credit{opacity:calc(1 - var(--x) * 3)}
+  /* what follows the last chapter slides over it the same way */
+  .pch-after{position:relative;z-index:20;background:var(--ink)}
+  .pch-after::before{content:"";position:absolute;inset:0 0 auto;height:150svh;max-height:100%;z-index:-1;background:linear-gradient(var(--ink) 0,var(--ink) 100svh,transparent);pointer-events:none}
+}
+/* the index rail is showing: words start to its right */
+@media (min-width:1180px) and (min-height:620px){
+  .pch{--tw:calc(100vw - var(--rail-space) - var(--pad) - 28px)}
+  .pch-body{padding-left:calc(var(--rail-space) + clamp(4px,1.6vw,28px))}
+}
+/* the index bar is showing: keep clear of it while a scene is pinned */
+@media (min-width:861px) and (max-width:1179px) and (min-height:661px) and (prefers-reduced-motion:no-preference){
+  .pch-body{padding-bottom:calc(var(--row) + 30px)}
+  .pch-credit{bottom:calc(var(--row) + 14px)}
+}
+/* ===== F. Demo ===== */
+.demo-sec{padding-top:0}
+.demo-sec h2{margin-bottom:28px}
+
+/* ===== G. Atlas teaser ===== */
+.teaser-sec{padding-top:0}
+.teaser{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,5vw,72px);align-items:center}
+.teaser .frame{display:block;aspect-ratio:16/10}
+.teaser h2{margin-bottom:18px}
+.teaser .lede{margin-bottom:28px}
+@media (max-width:860px){.teaser{grid-template-columns:1fr}}
+
+/* ===== Art on this page ===== */
+.artlist{border-top:1px solid var(--line);padding-block:26px}
+.artlist summary{cursor:pointer;font:600 12px/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--ivory-2);min-height:44px;display:flex;align-items:center;gap:10px;list-style:none;width:fit-content}
+.artlist summary::-webkit-details-marker{display:none}
+.artlist summary::before{content:"";width:7px;height:7px;transform:rotate(45deg);background:var(--gold);transition:transform var(--t-2) var(--ease)}
+.artlist details[open] summary::before{transform:rotate(135deg) scale(1.15)}
+.artlist ul{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:10px 32px}
+.artlist li{font-size:15px;line-height:1.5;color:var(--ivory-2)}
+.artlist li b{display:block;font:600 11.5px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.artlist li a{color:var(--ivory);text-underline-offset:3px}

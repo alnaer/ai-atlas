@@ -1,0 +1,306 @@
+---
+// Home. Sections: genesis (opening scene) · machine · ten path chapters · story · demo · atlas teaser.
+// The path index (components/Rail.astro) starts in the opening title card and then stays at the edge.
+// Copy in this file is design copy; every name, blurb and number comes from data/atlas.json.
+import Base from "../layouts/Base.astro";
+import AtlasMap from "../components/AtlasMap.astro";
+import SpatialPhoto from "../components/SpatialPhoto.astro";
+import Credit from "../components/Credit.astro";
+import Rail from "../components/Rail.astro";
+import "../styles/home.css";
+import { atlas as A, pageBy, artBy, isl, numOf, spatialOf, artFile, pathHours, resourceCount, numberWord, capital, roman, pathArtOf } from "../lib/data";
+import { brushEdge } from "../lib/brush";
+import { pages } from "../lib/site";
+
+const sky = pageBy["hero-sky"], human = pageBy["hero-figure-human"];
+const armor = pageBy["home-hero"], learn = pageBy["home-learn"], build = pageBy["home-build"], grow = pageBy["home-grow"], map = pageBy["map"];
+const skyWide = spatialOf(sky, "hero"), skyTall = spatialOf(sky, "tall");
+const humanCut = spatialOf(human, "cut");
+
+const nIslands = A.islands.length, nPaths = A.order.length, nCore = A.core.length;
+const goalBy = Object.fromEntries(A.goals.map((g) => [g.id, g]));
+
+// The machine: [path, body part, anchor x,y on the armour (0..400, 0..500), label x%, y%, side]
+const CALLOUTS: [string, string, number, number, number, number, "l" | "r"][] = [
+  ["vision", "Eyes", 200, 48, 2, 7, "l"], ["language", "Voice", 206, 78, 98, 13, "r"],
+  ["safety", "Heart", 214, 160, 98, 33, "r"], ["train", "Arms", 135, 175, 2, 30, "l"],
+  ["use", "Hands", 128, 262, 2, 53, "l"], ["rl", "Reflexes", 232, 372, 98, 72, "r"],
+];
+const callouts = CALLOUTS.map(([key, part, ax, ay, lx, ly, side], i) => {
+  const ex = lx * 4 + (side === "l" ? 70 : -70), ey = ly * 5, mx = (ax + ex) / 2;
+  return {
+    key, part, ax, ay, ly, side, name: A.paths[key].name, hue: A.pathHue[key],
+    d: `M${ax} ${ay} C${mx} ${ay} ${mx} ${ey} ${ex} ${ey}`, delay: 300 + i * 140,
+    pos: side === "l" ? `left:${lx}%` : `right:${100 - lx}%`,
+  };
+});
+
+
+const chapters = [
+  {
+    num: "I", eyebrow: "Learn", title: "Map the world before you sail it.", art: learn,
+    lede: "Start on the foundation islands: what AI really is, Python, the math and how models learn. Short, honest explanations and the best free courses, picked and ordered for you.",
+    points: [`${capital(numberWord(nCore))} foundation islands shared by nearly every path`, "Free courses first, paid only when clearly better", "A checklist of ideas to explain out loud before moving on"],
+  },
+  {
+    num: "II", eyebrow: "Build", title: "Every age has its inventions. Build this one's.", art: build,
+    lede: "Each island ends with a real project: a script, a chatbot over your PDFs, a fine-tuned model, a GPT written from an empty file. You learn by making the thing.",
+    points: ["One project per island, sized for a weekend or two", "Live demos you can play with right on the page", "Projects stack into a portfolio"],
+  },
+  {
+    num: "III", eyebrow: "Grow", title: "Grow alongside the machines.", art: grow,
+    lede: "Choose a path for where you want to go: build apps on models, train your own, build one from scratch, or go deep in vision, language, generative media, robotics-style RL, MLOps or safety.",
+    points: [`${capital(numberWord(nPaths))} paths with honest trade-offs and real job data`, "Track your progress island by island", `Your pace: ${A.paces.slice(0, -1).join(", ")} or ${A.paces.at(-1)} hours a week`],
+  },
+];
+
+// One scroll chapter per path. Everything shown comes from the atlas data.
+const pathChapters = A.order.map((key, i) => {
+  const p = A.paths[key], art = pathArtOf(key);
+  return {
+    key, num: roman(i + 1), name: p.name, words: p.name.split(" "), blurb: p.blurb, hue: A.pathHue[key], art, cut: art.kind === "cutout",
+    kind: goalBy[key] ? goalBy[key].tag ?? "Goal" : "Specialisation", hours: pathHours(key),
+    steps: p.steps.map((id) => ({ id, num: numOf(id), title: isl[id].title, thumb: artBy[id] ? `thumbs/islands/${id}.webp` : null })),
+  };
+});
+
+
+// Chart lines drawn around the touch point while the opening scene loads: the rhumb lines of a sea chart.
+const RINGS = [70, 150, 330, 560];
+const RAYS = Array.from({ length: 32 }, (_, i) => {
+  const a = (i * Math.PI) / 16, r0 = i % 2 ? 150 : 70, r1 = i % 4 === 0 ? 1400 : i % 2 ? 560 : 1400;
+  return [Math.cos(a) * r0, Math.sin(a) * r0, Math.cos(a) * r1, Math.sin(a) * r1].map((v) => +v.toFixed(1));
+});
+
+const works: [string, typeof sky][] = [
+  ["Opening sky", sky], ["The machine", armor],
+  ["Learn", learn], ["Build", build], ["Grow", grow],
+  ...A.order.map((k): [string, typeof sky] => [A.paths[k].name, pathArtOf(k)]),
+  ["The atlas", map],
+];
+---
+<Base
+  title="AI Atlas · Learn AI, island by island"
+  description={`A map for learning AI from zero: ${nIslands} islands, ${nPaths} paths, free courses, projects and live demos.`}
+  active="home" overlayNav rail>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={skyWide.src} media="(min-width:761px)" fetchpriority="high" />
+    <link rel="preload" as="image" href={skyTall.src} media="(max-width:760px)" fetchpriority="high" />
+    <link rel="preload" as="image" href={humanCut.src} />
+  </Fragment>
+
+  <main id="main">
+    <Rail title="The AI Atlas" titleHref="#genesis" href={(k) => `#path-${k}`} />
+
+    <!-- A. Genesis: the opening scene -->
+    <section class="genesis" id="genesis" aria-label="Opening">
+      <div class="g-stick">
+        <div class="g-sky"><div class="g-sky-in"><SpatialPhoto art={skyWide} small={skyTall} mode="pointer" eager depth /></div></div>
+        <div class="g-veil"></div>
+        <svg class="g-lines" viewBox="-1000 -1000 2000 2000" aria-hidden="true">
+          {RINGS.map((r, i) => <circle r={r} pathLength="1" style={`--i:${i}`} />)}
+          {RAYS.map(([x1, y1, x2, y2], i) => <line x1={x1} y1={y1} x2={x2} y2={y2} pathLength="1" style={`--i:${3 + (i % 8)}`} />)}
+        </svg>
+        <div class="g-hands">
+          <div class="hand human" aria-hidden="true"><div class="h-scroll"><div class="h-in"><div class="h-float">
+            <SpatialPhoto art={humanCut} mode="idle" eager decorative />
+          </div></div></div></div>
+          <div class="spark" aria-hidden="true"><div class="core"></div><svg viewBox="-90 -40 180 80"><polyline /><polyline /></svg></div>
+          <button class="touch" type="button" aria-label="Connect the human and the machine"></button>
+        </div>
+        <div class="flash"></div>
+        <p class="g-msg" aria-live="polite"></p>
+        <div class="g-card">
+          <svg class="bd" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" pathLength="1" /></svg>
+          <p class="over" data-in>MMXXVI · A learning atlas</p>
+          <!-- The title and the index are the page's rail (see <Rail>); these invisible copies hold their places in the card. -->
+          <p class="g-title" aria-hidden="true">The AI Atlas</p>
+          <p class="sub" data-in style="--i:2">Where human curiosity meets machine intelligence.</p>
+          <ol class="g-index" aria-hidden="true">
+            {A.order.map((k, i) => <li><span class="ix-it"><span class="n">{roman(i + 1)}</span><span class="t">{A.paths[k].name}</span></span></li>)}
+          </ol>
+        </div>
+        <div class="g-cue" aria-hidden="true"><div class="g-cue-in"><span>Scroll to begin the voyage</span><i></i></div></div>
+        <p class="g-credit"><span class="g-credit-in">
+          {[sky].map((e) => (
+            <Fragment><a href={e.artwork.page} target="_blank" rel="noopener">{e.artwork.artist.replace(/\s*\(.*?\)/, "")}, <i>{e.artwork.title}</i></a> · </Fragment>
+          ))}<span class="nw">The Met, CC0</span> · <span class="nw">flying woman: generated for this site</span>
+        </span></p>
+        <div class="g-dark"></div>
+      </div>
+    </section>
+
+    <!-- B. The machine -->
+    <section class="hero" aria-labelledby="machine-h">
+      <div class="wrap">
+        <div>
+          <p class="eyebrow" data-reveal>A learning atlas for the age of AI</p>
+          <h2 class="h1" id="machine-h" data-reveal style="--d:80ms">Learn AI the way the Renaissance learned <em class="gilt">everything</em>.</h2>
+          <p class="lede" data-reveal style="--d:160ms">{capital(numberWord(nIslands))} islands, {numberWord(nPaths)} paths and the best free courses, in an order that makes sense. Every island ends with something you build and a demo you can play with, so you understand the machine, not just use it.</p>
+          <div class="cta" data-reveal style="--d:240ms">
+            <a class="btn" href={pages.atlas}>Open the atlas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+            <a class="btn ghost" href="#paths">Find your path</a>
+          </div>
+          <dl class="stats" data-reveal style="--d:320ms">
+            <div><dt>islands</dt><dd>{nIslands}</dd></div>
+            <div><dt>paths</dt><dd>{nPaths}</dd></div>
+            <div><dt>courses, books &amp; guides</dt><dd>{resourceCount}</dd></div>
+          </dl>
+        </div>
+        <div class="machine-col" data-reveal="fade">
+          <div class="machine" id="machine">
+            <svg class="rings" viewBox="0 0 600 600" aria-hidden="true" fill="none" stroke="currentColor">
+              <g><circle cx="300" cy="300" r="290" stroke-width=".8" /><circle cx="300" cy="300" r="270" stroke-width=".5" stroke-dasharray="1 7" />
+                <path d="M300 10v40M300 550v40M10 300h40M550 300h40" stroke-width=".8" />
+                <path id="ring-arc" d="M60 300a240 240 0 0 1 480 0" stroke="none" />
+                <text fill="currentColor" stroke="none"><textPath href="#ring-arc" startOffset="8%">MACHINA · DISCIT · ET · CRESCIT · MMXXVI</textPath></text></g>
+              <g class="r2"><circle cx="300" cy="300" r="210" stroke-width=".6" /><circle cx="300" cy="300" r="200" stroke-width="6" stroke-dasharray="1 11" opacity=".6" />
+                <path d="M300 90 L312 300 300 510 288 300z" stroke-width=".6" /><path d="M90 300 L300 312 510 300 300 288z" stroke-width=".6" /></g>
+            </svg>
+            <div class="armor"><SpatialPhoto art={spatialOf(armor, "cut")} mode="pointer" intro /></div>
+            <svg class="leaders" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
+              {callouts.map((c) => (
+                <Fragment><path d={c.d} pathLength="1" style={`--c:${c.hue};--d:${c.delay}ms`} /><circle cx={c.ax} cy={c.ay} r="3.5" style={`--c:${c.hue};--d:${c.delay}ms`} /></Fragment>
+              ))}
+            </svg>
+            <ul class="callouts" aria-label="Each path builds part of the machine">
+              {callouts.map((c) => (
+                <li><a class="co" href={pages.path(c.key)} style={`--c:${c.hue};--d:${c.delay}ms;${c.pos};top:${c.ly}%`}><small>{c.part}</small><span>{c.name}</span></a></li>
+              ))}
+            </ul>
+          </div>
+          <Credit art={armor} />
+        </div>
+      </div>
+    </section>
+
+    <!-- Atlas: pick a path on the chart and see its basic facts -->
+    <AtlasMap compact bg={{ wide: skyWide.src, tall: skyTall.src }} />
+
+    <!-- E. Ten paths: one scroll chapter each. The rail follows along. -->
+    <div id="paths"></div>
+    {pathChapters.map((c, i) => (
+      <section class:list={["pch", c.cut ? "cut" : "flat"]} id={`path-${c.key}`} data-key={c.key} style={`--c:${c.hue};--z:${i + 1}`} aria-labelledby={`pch-${c.key}`}>
+        <svg class="pch-edge" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true"><path d={brushEdge(i * 7 + 3)} opacity=".5" transform="translate(0 -9)" /><path d={brushEdge(i * 7 + 5)} /></svg>
+        <div class="pch-stage">
+          <div class="pch-art">
+            {c.cut
+              ? <SpatialPhoto art={spatialOf(c.art, "cut")} mode="pointer" />
+              : <SpatialPhoto art={spatialOf(c.art, "hero")} small={spatialOf(c.art, "tall")} mode="pointer" />}
+          </div>
+          <div class="pch-veil"></div>
+          <div class="pch-body">
+            <p class="eyebrow" data-reveal>Path {c.num} · {c.kind}</p>
+            <h3 class="pch-title" id={`pch-${c.key}`} aria-label={c.name}>{c.words.map((w, j) => <Fragment><span class="w" aria-hidden="true"><span style={`--j:${j}`}>{w}</span></span>{" "}</Fragment>)}</h3>
+            <p class="pch-blurb" data-reveal style="--d:120ms">{c.blurb}</p>
+            <p class="pch-meta" data-reveal style="--d:180ms"><span><b>{c.steps.length}</b> islands</span><span><b>{c.hours[0]}–{c.hours[1]}</b> hours</span></p>
+            <ol class="pch-route" aria-label={`The route of ${c.name}, island by island`} data-reveal style="--d:240ms">
+              {c.steps.map((st) => (
+                <li><a href={pages.island(st.id)} aria-label={`${st.num} · ${st.title}`} title={st.title}>
+                  {st.thumb ? <img src={st.thumb} alt="" width="112" height="112" loading="lazy" decoding="async" /> : <span aria-hidden="true">{st.num}</span>}
+                </a></li>
+              ))}
+            </ol>
+            <div class="cta" data-reveal style="--d:300ms">
+              <a class="btn" href={pages.path(c.key)}>Open this path <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+              <a class="btn ghost" href={`${pages.atlas}#${c.key}`}>See it on the map</a>
+            </div>
+          </div>
+          <p class="pch-credit"><a href={c.art.artwork.page} target="_blank" rel="noopener">{c.art.artwork.artist.replace(/\s*\(.*?\)/, "")}, <i>{c.art.artwork.title.replace(/^New Inventions of Modern Times \[Nova Reperta\], /, "")}</i></a> · <span class="nw">The Met, CC0</span></p>
+          <div class="pch-dim"></div>
+        </div>
+      </section>
+    ))}
+
+    <!-- D. Learn · Build · Grow -->
+    <section class="sec story pch-after" aria-labelledby="story-h">
+      <svg class="pch-edge" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true"><path d={brushEdge(91)} opacity=".5" transform="translate(0 -9)" /><path d={brushEdge(97)} /></svg>
+      <h2 id="story-h" class="sr">How the atlas works</h2>
+      <div class="wrap">
+        <div class="story-vis">
+          <figure class="story-fig on">
+            <div class="frame" style="--hue:var(--gold)"><SpatialPhoto art={spatialOf(learn, "tall")} mode="pointer" /></div>
+            <figcaption><Credit art={learn} /></figcaption>
+          </figure>
+          <figure class="story-fig">
+            <div class="frame" style="--hue:var(--gold)"><div class="engr"><img src={artFile(build, "tall")} alt={build.alt} width={build.size.tall[0]} height={build.size.tall[1]} loading="lazy" decoding="async" /></div></div>
+            <figcaption><Credit art={build} /></figcaption>
+          </figure>
+          <figure class="story-fig">
+            <div class="frame free"><SpatialPhoto art={spatialOf(grow, "cut")} mode="pointer" /></div>
+            <figcaption><Credit art={grow} /></figcaption>
+          </figure>
+        </div>
+        <div class="chapters">
+          {chapters.map((c, i) => (
+            <article class="chapter" data-i={i}>
+              <figure class="chapter-art">
+                {c.art.kind === "cutout"
+                  ? <div class="frame free"><img src={artFile(c.art, "cut")} alt={c.art.alt} width={c.art.size.cut[0]} height={c.art.size.cut[1]} loading="lazy" decoding="async" /></div>
+                  : c.art === build
+                    ? <div class="frame" style="--hue:var(--gold)"><div class="engr"><img src={artFile(c.art, "tall")} alt={c.art.alt} width={c.art.size.tall[0]} height={c.art.size.tall[1]} loading="lazy" decoding="async" /></div></div>
+                    : <div class="frame" style="--hue:var(--gold)"><img src={artFile(c.art, "tall")} alt={c.art.alt} width={c.art.size.tall[0]} height={c.art.size.tall[1]} loading="lazy" decoding="async" /></div>}
+                <figcaption><Credit art={c.art} /></figcaption>
+              </figure>
+              <div class="num" aria-hidden="true">{c.num}</div>
+              <p class="eyebrow">{c.eyebrow}</p>
+              <h3>{c.title}</h3>
+              <p class="lede">{c.lede}</p>
+              <ul>{c.points.map((p) => <li>{p}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- F. Demo -->
+    <section class="sec demo-sec" aria-labelledby="demo-h">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Try it now</p>
+        <h2 id="demo-h" data-reveal>How does a model pick its next word?</h2>
+        <div class="demo" id="demoU1" style="--hue:var(--t-use)" data-hue={A.pathHue.use} data-reveal></div>
+      </div>
+    </section>
+
+    <!-- G. Atlas teaser -->
+    <section class="sec teaser-sec" aria-labelledby="atlas-h">
+      <div class="wrap">
+        <div class="teaser">
+          <div data-reveal="zoom">
+            <a class="frame engr" href={pages.atlas} style="--hue:var(--gold)" aria-label="Open the atlas">
+              <img src={artFile(map, "hero")} alt="" width={map.size.hero[0]} height={map.size.hero[1]} loading="lazy" decoding="async" />
+            </a>
+            <Credit art={map} />
+          </div>
+          <div>
+            <p class="eyebrow" data-reveal>The atlas</p>
+            <h2 id="atlas-h" data-reveal>One chart. Every island. Your route drawn in light.</h2>
+            <p class="lede" data-reveal>See the whole field at once, pick a goal and watch your route draw itself across the sea. Hover any island to see its painting come alive.</p>
+            <a class="btn" href={pages.atlas} data-reveal>Open the atlas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="artlist" aria-label="Art credits">
+      <div class="wrap">
+        <details>
+          <summary>Art on this page</summary>
+          <ul>
+            {works.map(([label, e]) => (
+              <li><b>{label}</b>{e.artwork.artist}, <i>{e.artwork.title}</i>, {e.artwork.date}. <a href={e.artwork.page} target="_blank" rel="noopener">The Met</a> · CC0</li>
+            ))}
+          </ul>
+        </details>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    import { initHome } from "../scripts/home.js";
+    import { initAtlas } from "../scripts/atlas.js";
+    initHome();
+    initAtlas();
+  </script>
+</Base>

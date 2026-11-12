@@ -1,0 +1,29 @@
+{
+  "note": "One learn-by-doing project per path, added at Hassan's request (2026-11-10). Each step belongs to one island of the path, in route order, and links that island's own resources from the atlas data.",
+  "projects": {
+    "understand": {
+      "title": "Your own study assistant, built from the ground up",
+      "pitch": "Pick a subject you care about and a folder of notes or PDFs on it. Island by island, you turn it into an assistant that answers questions about that subject, and by the end every part of it, from the math to the model it runs on, is something you have built or trained yourself.",
+      "result": "A deployed assistant for your subject: retrieval with page citations, a fine-tuned open model served by you, a test set that proves it works, and a GitHub repository that tells the story step by step.",
+      "steps": {
+        "S0": "Choose your subject and collect 20 real questions you would want answered. Ask three AI tools each question and write down where each one is wrong. These 20 questions become your first test set.",
+        "S1": "Write a Python script that loads your documents and your questions from a CSV file and prints a short summary: how many files, pages, words and questions.",
+        "SK": "Put the project on GitHub. From here on, commit every step of this project in small, clearly named commits.",
+        "S2": "Turn each paragraph and each question into a vector of word counts and write cosine similarity yourself in NumPy, to find the paragraph that best matches each question.",
+        "S3": "Label your questions by topic and train two scikit-learn classifiers to predict the topic. Compare them on questions they have not seen.",
+        "S4": "Train a small PyTorch network on the same topic task and compare it with the two classic models.",
+        "B1": "Write backpropagation for that network yourself, in the style of micrograd, and check that your gradients match PyTorch's.",
+        "B2": "Train a tiny GPT on your documents and generate a few paragraphs in their style.",
+        "U1": "Answer your questions through an LLM API, with a system prompt that says how to answer and when to admit it doesn't know.",
+        "U2": "Add retrieval over your documents, so every answer quotes its source and shows the page it came from.",
+        "U3": "Give the assistant two tools: a web search for when your documents don't have the answer, and a way to save good answers to a notes file.",
+        "U4": "Grow your test set to 50 questions, score every answer, fix the worst failure, and put the assistant online as a small web app.",
+        "U5": "Attack your own assistant: write ten prompts that try to break its rules, hide an instruction inside one of your documents, fix what gets through, and keep every API key on the server.",
+        "T1": "Run an open-weight model on your own machine and compare it with the API model on your 50 test questions.",
+        "T2": "Fine-tune that open model with LoRA on about 1,000 question-and-answer pairs from your documents, and show that it beats the base model on your tests.",
+        "T3": "Use DPO to fix one behavior, for example always citing a page, then rerun your tests to check that nothing else broke.",
+        "T4": "Quantize your fine-tuned model, serve it behind your own API, point the web app at it, and run the full test set one last time."
+      }
+    }
+  }
+}

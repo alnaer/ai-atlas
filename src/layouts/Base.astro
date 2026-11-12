@@ -1,0 +1,98 @@
+---
+// Shared page shell: fonts, tokens, nav, footer, skip link and page motion.
+import "../styles/site.css";
+import Logo from "../components/Logo.astro";
+import { rootOf, pages, CREDITS } from "../lib/site";
+import { brushEdge } from "../lib/brush";
+
+// Self-hosted variable fonts (Latin, with Latin Extended on demand).
+import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url";
+import frauncesExtUrl from "@fontsource-variable/fraunces/files/fraunces-latin-ext-opsz-normal.woff2?url";
+import frauncesItalicUrl from "@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2?url";
+import frauncesItalicExtUrl from "@fontsource-variable/fraunces/files/fraunces-latin-ext-full-italic.woff2?url";
+import interUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import interExtUrl from "@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url";
+import interItalicUrl from "@fontsource-variable/inter/files/inter-latin-wght-italic.woff2?url";
+import monoUrl from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Which nav link is current. */
+  active?: "home" | "atlas" | "paths" | "start";
+  /** Track colour of the page (sets --hue). */
+  hue?: string;
+  /** Let the first section run under the nav (home opening scene). */
+  overlayNav?: boolean;
+  /** The page carries the path rail (components/Rail.astro): content makes room for it. */
+  rail?: boolean;
+}
+const { title, description, active, hue, overlayNav = false, rail = false } = Astro.props;
+const root = rootOf(Astro.url.pathname);
+
+const LATIN = "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
+const LATIN_EXT = "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF";
+const face = (family: string, style: string, weight: string, url: string, range: string) =>
+  `@font-face{font-family:"${family}";font-style:${style};font-weight:${weight};font-display:swap;src:url(${url}) format("woff2");unicode-range:${range}}`;
+const fonts = [
+  face("Fraunces", "normal", "100 900", frauncesUrl, LATIN), face("Fraunces", "normal", "100 900", frauncesExtUrl, LATIN_EXT),
+  face("Fraunces", "italic", "100 900", frauncesItalicUrl, LATIN), face("Fraunces", "italic", "100 900", frauncesItalicExtUrl, LATIN_EXT),
+  face("Inter", "normal", "100 900", interUrl, LATIN), face("Inter", "normal", "100 900", interExtUrl, LATIN_EXT),
+  face("Inter", "italic", "100 900", interItalicUrl, LATIN),
+  face("JetBrains Mono", "normal", "100 800", monoUrl, LATIN),
+].join("");
+
+const links: { href: string; label: string; key: Props["active"]; keep?: boolean }[] = [
+  { href: root + pages.home, label: "Home", key: "home" },
+  { href: root + pages.atlas, label: "Atlas", key: "atlas", keep: true },
+  { href: (active === "home" ? "" : root + pages.home) + "#paths", label: "Paths", key: "paths" },
+];
+---
+<!doctype html>
+<html lang="en" style={hue ? `--hue:${hue}` : undefined}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#0C0A0D" />
+  <link rel="preload" as="font" type="font/woff2" href={frauncesUrl} crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href={interUrl} crossorigin />
+  <style is:inline set:html={fonts}></style>
+  <script is:inline>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("ai-atlas-wipe")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("pt-enter");sessionStorage.removeItem("ai-atlas-wipe")}catch(e){}</script>
+  <slot name="head" />
+</head>
+<body class:list={[{ "nav-over": overlayNav, "has-rail": rail }]}>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" id="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href={root + pages.home}><Logo /><span>AI Atlas</span></a>
+      <nav class="nav-links" aria-label="Main">
+        {links.map((l) => <a href={l.href} class:list={[{ keep: l.keep }]} aria-current={l.key === active ? "page" : undefined}>{l.label}</a>)}
+      </nav>
+      <a class="btn sm" href={root + pages.island("S0")} aria-current={active === "start" ? "page" : undefined}>Start learning</a>
+    </div>
+  </header>
+
+  <slot />
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>{CREDITS}</p>
+      <p class="mono"><a href={root + pages.library}>Art library</a> · AI Atlas · MMXXVI</p>
+    </div>
+  </footer>
+
+  <!-- page wipe: a sheet of ink with dry-brush edges that covers the page on the way out and lifts off the next one (scripts/pagewipe.js) -->
+  <div class="pt" aria-hidden="true">
+    <svg class="pt-edge top" viewBox="0 0 1200 64" preserveAspectRatio="none"><path d={brushEdge(41)} opacity=".5" transform="translate(0 -9)" /><path d={brushEdge(43)} /></svg>
+    <div class="pt-ink"><svg class="pt-mark" viewBox="-50 -50 100 100"><circle r="44" /><circle r="30" /><path d="M0-46V46M-46 0H46M-30-30L30 30M30-30L-30 30" /><path class="n" d="M0-40L7 0 0 40-7 0Z" /></svg></div>
+    <svg class="pt-edge bot" viewBox="0 0 1200 64" preserveAspectRatio="none"><path d={brushEdge(47)} opacity=".5" transform="translate(0 -9)" /><path d={brushEdge(53)} /></svg>
+  </div>
+
+  <script>
+    import { initMotion } from "../scripts/motion.js";
+    initMotion();
+  </script>
+</body>
+</html>

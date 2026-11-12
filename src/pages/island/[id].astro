@@ -1,0 +1,121 @@
+---
+// Island page (DESIGN.md §4.4): one page per island. Content is the atlas data's, unchanged.
+// Beyond the prototype it also shows the data's prerequisites, gap note and quiz, so no content is dropped.
+import Base from "../../layouts/Base.astro";
+import SpatialPhoto from "../../components/SpatialPhoto.astro";
+import Credit from "../../components/Credit.astro";
+import "../../styles/island.css";
+import { atlas as A, isl, artBy, demoBy, hueOf, trackOf, numOf, spatialOf } from "../../lib/data";
+import { pages, rootOf } from "../../lib/site";
+
+export function getStaticPaths() {
+  return A.islands.map((i) => ({ params: { id: i.id } }));
+}
+
+const { id } = Astro.params as { id: string };
+const root = rootOf(Astro.url.pathname);
+const is = isl[id], art = artBy[id], hue = hueOf(id), track = trackOf(id), num = numOf(id);
+const demo = demoBy[id];
+const LIVE = ["S2", "S3", "U1"];
+const inPaths = A.order.filter((k) => A.paths[k].steps.includes(id));
+const tutor = A.tutorPrompt.replace("[topic]", is.title.toLowerCase());
+const thumb = (x: string) => (artBy[x] ? root + `thumbs/islands/${x}.webp` : null);
+// Prev / next along the island's own track path; the script swaps in the learner's goal path when it includes this island.
+const navOf = (k: string) => { const s = A.paths[k].steps, n = s.indexOf(id); return { k, pv: s[n - 1] ?? null, nx: s[n + 1] ?? null }; };
+const navs = inPaths.map(navOf);
+const own = navs.find((n) => n.k === track) ?? navs[0];
+const tile = (x: string | null) => (x ? { id: x, title: isl[x].title, href: root + pages.island(x), img: thumb(x), hue: hueOf(x) } : null);
+const navData = Object.fromEntries(navs.map((n) => [n.k, { pv: tile(n.pv), nx: tile(n.nx) }]));
+const pv = tile(own?.pv ?? null), nx = tile(own?.nx ?? null);
+---
+<Base title={`${is.title} · AI Atlas`} description={is.learn} active="atlas" hue={hue}>
+  <main id="main" data-island={id}>
+    <section class:list={["i-hero", { bare: !art }]} aria-labelledby="ih">
+      {art
+        ? <div class="i-art"><SpatialPhoto art={spatialOf(art, "hero")} mode="pointer" eager /></div>
+        : <div class="i-art i-blank" aria-hidden="true"><span>{num}</span></div>}
+      <div class="i-head"><div class="wrap">
+        <p class="i-num">Island {num} · {A.paths[track].name}</p>
+        <h1 id="ih">{is.title}</h1>
+        <div class="i-meta">
+          <span>{is.hrs[0]}–{is.hrs[1]} hours</span>
+        </div>
+      </div></div>
+    </section>
+
+    <div class="wrap i-body">
+      <div>
+        <section class="block" data-reveal>
+          <p class="eyebrow">What you'll learn</p>
+          <p class="lede" style="max-width:none">{is.learn}</p>
+          {is.note && <p class="note">{is.note}</p>}
+          {is.gap && <p class="note gap"><b>Mind the gap.</b> {is.gap}</p>}
+        </section>
+
+        {is.pre && is.pre.length > 0 && (
+          <section class="block" data-reveal aria-labelledby="pre-h">
+            <p class="eyebrow">Before you start</p><h2 id="pre-h" class="sr">Before you start</h2>
+            <dl class="pre">{is.pre.map(([t, d]) => <><dt>{t}</dt><dd>{d}</dd></>)}</dl>
+          </section>
+        )}
+
+        <section class="block" data-reveal>
+          <div class="card build-card"><p class="label" style="color:var(--hue)">Build this before you move on</p><p>{is.build}</p></div>
+        </section>
+
+        {demo && (
+          <section class="block" aria-labelledby="dm-h">
+            <p class="eyebrow" data-reveal>Play with the idea</p><h2 id="dm-h" class="sr">Interactive demo</h2>
+            {LIVE.includes(id)
+              ? <div class="demo" data-demo={id} data-hue={hue} data-reveal></div>
+              : <div class="card spec" data-reveal><p class="label" style="color:var(--hue)">Demo · coming to this island</p><h3>{demo.title}</h3>
+                  <dl><dt>You do</dt><dd>{demo.does}</dd><dt>You learn</dt><dd>{demo.shows}</dd>{demo.needs && <><dt>Needs</dt><dd>{demo.needs}</dd></>}</dl></div>}
+          </section>
+        )}
+
+        <section class="block" aria-labelledby="rs-h">
+          <p class="eyebrow" data-reveal>Resources</p><h2 id="rs-h" data-reveal>Courses, books and guides</h2>
+          <p class="small" data-reveal style="margin-bottom:18px">Highlighted ones are the recommended picks. Free first; paid only when clearly better.</p>
+          <div class="res">
+            {is.res.map(([ty, t, by, det, cost, url, pick], j) => (
+              <a class:list={["r", { pick: !!pick }]} href={url} target="_blank" rel="noopener" data-reveal style={`--d:${j * 50}ms`}>
+                <span class="ty">{pick ? "★ " : ""}{ty}</span><span><b>{t}</b><small>{by} · {det}</small></span>
+                <span class:list={["cost", { free: /^free/i.test(cost) }]}>{cost}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {is.quiz && is.quiz.length > 0 && (
+          <section class="block" aria-labelledby="qz-h">
+            <p class="eyebrow" data-reveal>Check yourself</p><h2 id="qz-h" data-reveal>Can you answer these?</h2>
+            <p class="small" data-reveal style="margin-bottom:18px">Answer out loud first, then open the answer.</p>
+            <div class="quiz">{is.quiz.map(([q, a]) => <details class="card" data-reveal><summary>{q}</summary><p>{a}</p></details>)}</div>
+          </section>
+        )}
+      </div>
+
+      <aside><div class="sticky">
+        <div class="card know"><p class="label">By the end, you can explain</p>
+          <ul id="iKnow">{is.know.map((k, j) => <li><label><input type="checkbox" data-j={j} /><span>{k}</span></label></li>)}</ul>
+          <div class="bar"><i id="kBar"></i></div>
+          <p class="small" style="margin:12px 0 0">Tick one only when you can explain it out loud, without notes.</p></div>
+        <button class="btn" id="iDone" type="button" style="width:100%">Mark island as finished</button>
+        <div class="card tutor"><p class="label">Ask an AI tutor</p>
+          <p class="small" style="margin:8px 0 0">Paste this into Claude or any assistant so it teaches instead of answering for you.</p>
+          <pre id="iTutor">{tutor}</pre><button class="btn sm ghost" id="iCopy" type="button" style="width:100%">Copy prompt</button></div>
+        {art && <div class="card artnote"><p class="label" style="margin-bottom:8px">About the painting</p>{art.why && <p style="margin:0 0 8px">{art.why}</p>}<Credit art={art} /></div>}
+      </div></aside>
+    </div>
+
+    <nav class="wrap ipn" id="iPn" aria-label="Previous and next island">
+      {pv ? <a class="card" href={pv.href} style={`--hue:${pv.hue}`}>{pv.img ? <img src={pv.img} alt="" /> : <span class="ph">{numOf(pv.id)}</span>}<span><small>← Previous island</small><b>{pv.title}</b></span></a> : <span></span>}
+      {nx ? <a class="card next" href={nx.href} style={`--hue:${nx.hue}`}><span><small>Next island →</small><b>{nx.title}</b></span>{nx.img ? <img src={nx.img} alt="" /> : <span class="ph">{numOf(nx.id)}</span>}</a> : <span></span>}
+    </nav>
+    <script type="application/json" id="island-nav" set:html={JSON.stringify(navData)} />
+  </main>
+  <script>
+    import { initIsland } from "../../scripts/island.js";
+    initIsland();
+  </script>
+</Base>

@@ -1,0 +1,53 @@
+---
+// The atlas chart (DESIGN.md §4.2), shared by the Atlas page and the home page.
+// compact (home): pick a path and see its basic facts; the step list, pace and full details live on the Atlas and path pages.
+import "../styles/atlas.css";
+import { atlas as A, artBy, artFile, hueOf, trackOf, numOf, pathHours, roman } from "../lib/data";
+import { pages, rootOf } from "../lib/site";
+
+interface Props { compact?: boolean; bg?: { wide: string; tall: string } }   // bg: the opening landscape, under the chart lines (home)
+const { compact = false, bg } = Astro.props;
+const root = rootOf(Astro.url.pathname);
+const thumb = (id: string) => (artBy[id] && artBy[id].files.card ? root + artFile(artBy[id], "card") : null);
+const DATA = {
+  islands: A.islands.map((i) => ({ id: i.id, x: i.x, y: i.y, k: i.k, short: i.short, title: i.title, hrs: i.hrs, learn: i.learn,
+    num: numOf(i.id), hue: hueOf(i.id), track: trackOf(i.id), img: thumb(i.id), href: root + pages.island(i.id) })),
+  linkPairs: A.linkPairs, order: A.order, specs: A.specs, paces: A.paces, pathHue: A.pathHue,
+  paths: Object.fromEntries(Object.entries(A.paths).map(([k, p]) => [k, { name: p.name, steps: p.steps, blurb: p.blurb, hours: pathHours(k), href: root + pages.path(k) }])),
+  cartouche: `${roman(A.islands.length)} INSULAE · ${roman(Object.keys(A.paths).length)} ITINERA · MMXXVI`,
+};
+---
+<section class:list={["atlas", { compact }]} id={compact ? "atlas" : undefined} aria-label="AI Atlas map">
+  {bg && <picture class="a-bg" aria-hidden="true"><source media="(max-width:760px)" srcset={bg.tall} /><img src={bg.wide} alt="" loading="lazy" decoding="async" /></picture>}
+  {bg && <div class="a-veil" aria-hidden="true"></div>}
+  <div class="stage" id="stage"><div class="board" id="board"></div></div>
+
+  <aside class="panel" id="panel" aria-label="Your route">
+    {compact ? (
+      <div class="panel-top"><p class="eyebrow" style="margin-bottom:8px">Your path</p><h2 class="panel-h" id="pathName"></h2></div>
+    ) : (
+      <div class="panel-top">
+        <p class="eyebrow" style="margin-bottom:10px">The atlas · MMXXVI</p>
+        <h1>Chart your route</h1>
+        <p class="small" style="margin:0" id="blurb"></p>
+        <div class="goals" id="goals" role="group" aria-label="Goal"></div>
+      </div>
+    )}
+    {!compact && <div class="sum" id="sum"></div>}
+    {!compact && <div class="pace" role="group" aria-label="Hours per week">Pace <span id="pace"></span> hours a week</div>}
+    {!compact && <ol class="steps" id="steps"></ol>}
+    <div class="panel-foot">
+      <a class="btn sm" id="openPath" href="#">Open this path</a>
+      {compact ? <a class="btn sm ghost" href={root + pages.atlas}>Full atlas</a> : <a class="btn sm ghost" id="startIsl" href="#">Start</a>}
+    </div>
+  </aside>
+
+  <div class="legend" aria-hidden="true"><span><i style="background:var(--hue);box-shadow:0 0 8px var(--hue)"></i>Your route</span><span><i style="background:#4ADE80"></i>Finished</span><span><i style="background:rgba(217,178,106,.5)"></i>Sea lanes</span></div>
+  <div class="ctrls">
+    <div class="seg" role="group" aria-label="Camera" id="views"></div>
+    <div class="seg" role="group" aria-label="Zoom"><button id="zout" aria-label="Zoom out">−</button><button id="zin" aria-label="Zoom in">+</button><button id="zre" aria-label="Reset view">Reset</button></div>
+  </div>
+  <noscript><p class="wrap" style="position:absolute;inset:auto 0 20px;z-index:6">The chart needs JavaScript. Every path is also listed on the <a href={root + pages.home + "#paths"}>home page</a>.</p></noscript>
+</section>
+<div class="peek" id="peek" role="dialog" aria-live="polite"><div class="in"><div id="peekArt"></div><div class="tx"><div class="meta"><span id="pkN"></span><span id="pkH"></span></div><h3 id="pkT"></h3><p id="pkL"></p></div></div></div>
+<script type="application/json" id="atlas-data" set:html={JSON.stringify(DATA)} />

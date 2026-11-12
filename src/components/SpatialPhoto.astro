@@ -1,0 +1,43 @@
+---
+// A painting or cut-out with depth. Ships as a plain image and is upgraded to a
+// live <spatial-photo> by src/scripts/spatial.js: at once when `eager`, otherwise
+// when it comes near the screen (keeps WebGL work off the first paint).
+import type { SpatialProps } from "../lib/data";
+import { rootOf } from "../lib/site";
+
+interface Props {
+  art: SpatialProps;
+  /** A second crop used on phones (up to 760px wide), e.g. the tall version of a hero. */
+  small?: SpatialProps;
+  mode?: "pointer" | "scroll" | "idle" | "static";
+  /** Keep the depth effect even while the rest of the site is flat (the opening landscape). */
+  depth?: boolean;
+  intro?: boolean;
+  eager?: boolean;
+  bg?: string;
+  class?: string;
+  /** Leave the alt text out when the image is decoration inside an aria-hidden layer. */
+  decorative?: boolean;
+  /** Multiplies the picture's depth strength, for full-screen scenes where the default reads as flat. */
+  boost?: number;
+}
+const { art, small, mode = "pointer", intro = false, eager = false, bg = "#0C0A0D", class: cls, decorative = false, boost = 1, depth = false } = Astro.props;
+const root = rootOf(Astro.url.pathname);
+const alt = decorative ? "" : art.alt;
+const attrsOf = (a: SpatialProps) => JSON.stringify({
+  src: root + a.src, depth: root + a.depth, alt, hue: a.hue, strength: +(a.strength * boost).toFixed(3), focus: a.focus,
+  glow: 0, tint: 0,   // no neon rim and no colour wash: the paintings stay as painted
+  mode, fit: a.fit, bg, transparent: a.transparent, intro,
+});
+const loading = eager ? "eager" : "lazy";
+---
+<div class:list={["sp", cls]} data-sp={eager ? "eager" : "lazy"} data-sp-depth={depth ? "1" : undefined} data-fit={art.fit} data-attrs={attrsOf(art)} data-attrs-small={small ? attrsOf(small) : undefined}>
+  {small ? (
+    <picture>
+      <source media="(max-width:760px)" srcset={root + small.src} width={small.width} height={small.height} />
+      <img src={root + art.src} alt={alt} width={art.width} height={art.height} loading={loading} decoding="async" />
+    </picture>
+  ) : (
+    <img src={root + art.src} alt={alt} width={art.width} height={art.height} loading={loading} decoding="async" />
+  )}
+</div>

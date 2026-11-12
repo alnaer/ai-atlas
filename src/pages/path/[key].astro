@@ -1,0 +1,160 @@
+---
+// Path page (DESIGN.md §4.3): one page per path. The route lists the path's islands in order.
+// Content is the atlas data's, unchanged.
+import Base from "../../layouts/Base.astro";
+import SpatialPhoto from "../../components/SpatialPhoto.astro";
+import Credit from "../../components/Credit.astro";
+import "../../styles/path.css";
+import { atlas as A, isl, hueOf, numOf, pathHours, spatialOf, pathArtOf, roman } from "../../lib/data";
+import { pages, rootOf } from "../../lib/site";
+import PROJECTS from "../../data/projects.json";
+
+export function getStaticPaths() {
+  return A.order.map((key) => ({ params: { key } }));
+}
+
+const { key } = Astro.params as { key: string };
+const root = rootOf(Astro.url.pathname);
+const p = A.paths[key], info = A.info[key], art = pathArtOf(key), hue = A.pathHue[key];
+const i = A.order.indexOf(key);
+const goal = A.goals.find((g) => g.id === key);
+const kind = goal ? goal.tag ?? "Goal" : "Specialisation";
+const hrs = pathHours(key);
+const weeks = [Math.ceil(hrs[0] / 10), Math.ceil(hrs[1] / 10)];
+const cut = art.kind === "cutout";
+const core = new Set(A.core);
+const thumb = (id: string) => root + `thumbs/islands/${id}.webp`;
+const hasThumb = (_id: string) => true;
+const effortName: Record<string, string> = A.effortNames ?? { math: "Math", code: "Code", gpu: "GPU", money: "Money" };
+const pv = A.order[(i + A.order.length - 1) % A.order.length], nx = A.order[(i + 1) % A.order.length];
+
+// Route groups: the shared foundation first, then the path's own islands.
+let sharedShown = false, ownShown = false;
+const stops = p.steps.map((id, n) => {
+  const head = core.has(id) && !sharedShown ? "Shared foundation" : !core.has(id) && !ownShown && sharedShown ? p.name : null;
+  if (core.has(id)) sharedShown = true; else if (sharedShown) ownShown = true;
+  return { id, n: String(n + 1).padStart(2, "0"), num: numOf(id), is: isl[id], c: hueOf(id), head };
+});
+// The path's learn-by-doing project: one step per island, each with that island's own resources (recommended first).
+const proj = (PROJECTS.projects as Record<string, { title: string; pitch: string; result: string; steps: Record<string, string> }>)[key];
+const projSteps = proj ? p.steps.filter((id) => proj.steps[id]).map((id, n) => {
+  const res = [...isl[id].res].sort((a, b) => (b[6] ? 1 : 0) - (a[6] ? 1 : 0)).slice(0, 2);
+  return { id, n: String(n + 1).padStart(2, "0"), num: numOf(id), is: isl[id], c: hueOf(id), text: proj.steps[id], res };
+}) : [];
+const ticks = [0, 1, 2, 3, 4, 5].map((t) => { const a = Math.PI * (1 - t / 5); return [100 + Math.cos(a) * 64, 100 - Math.sin(a) * 64, 100 + Math.cos(a) * 70, 100 - Math.sin(a) * 70]; });
+---
+<Base title={`${p.name} · AI Atlas`} description={p.blurb} active="paths" hue={hue}>
+  <main id="main" data-path={key}>
+    <section class="p-hero" aria-labelledby="ph"><div class="wrap">
+      <div class="p-copy">
+        <p class="eyebrow" data-reveal>Path {roman(i + 1)} · {kind}</p>
+        <h1 id="ph" data-reveal style="--d:80ms">{p.name}</h1>
+        <p class="lede" data-reveal style="--d:160ms">{p.blurb}</p>
+        <div class="btns" data-reveal style="--d:240ms">
+          <a class="btn" id="pStart" href={root + pages.island(p.steps[0])}>Start the first island</a>
+          <a class="btn ghost" href="#route">See the route</a>
+        </div>
+        <div class="facts" data-reveal style="--d:320ms">
+          <div class="fact"><b>{p.steps.length}</b><span>islands</span></div>
+          <div class="fact"><b>{hrs[0]}–{hrs[1]}</b><span>hours</span></div>
+          <div class="fact"><b>{weeks[0]}–{weeks[1]}</b><span>weeks at 10 h/week</span></div>
+        </div>
+      </div>
+      <figure class:list={["p-art", { cut }]} data-reveal="fade">
+        {cut
+          ? <div class="p-art-in"><SpatialPhoto art={spatialOf(art, "cut")} mode="pointer" eager /></div>
+          : <div class="frame"><SpatialPhoto art={spatialOf(art, "tall")} mode="pointer" eager /></div>}
+        <figcaption><Credit art={art} /></figcaption>
+      </figure>
+    </div></section>
+
+    <nav class="subnav" aria-label="On this page"><div class="wrap">
+      <a href="#route">Route</a>{proj && <a href="#project">Project</a>}<a href="#overview">Overview</a><a href="#effort">Effort</a><a href="#careers">Careers</a>
+    </div></nav>
+
+    <section class="sec" id="route" aria-labelledby="rt-h"><div class="wrap">
+      <p class="eyebrow" data-reveal>The route</p>
+      <h2 id="rt-h" data-reveal>Island by island</h2>
+      <p class="lede" data-reveal style="margin-bottom:40px">{p.steps.length} islands, in the order to sail them.</p>
+      <div class="route" id="pRoute"><div class="fill" aria-hidden="true"></div>
+        {stops.map((s) => (<>
+          {s.head && <p class="shared">{s.head}</p>}
+          <a class="stop" href={root + pages.island(s.id)} data-id={s.id} style={`--c:${s.c}`} data-reveal>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="th">{hasThumb(s.id) ? <img src={thumb(s.id)} alt="" loading="lazy" decoding="async" /> : <span class="ph">{s.num}</span>}</span>
+            <span class="tx"><span class="k">Step {s.n} · Island {s.num}</span><h3>{s.is.title}</h3><p>{s.is.learn}</p></span>
+            <span class="hrs">{s.is.hrs[0]}–{s.is.hrs[1]} h</span>
+          </a>
+        </>))}
+      </div>
+    </div></section>
+
+    {proj && <section class="sec" id="project" aria-labelledby="pj-h"><div class="wrap">
+      <p class="eyebrow" data-reveal>Learn by doing · the path project</p>
+      <h2 id="pj-h" data-reveal>{proj.title}</h2>
+      <p class="lede" data-reveal>{proj.pitch}</p>
+      <ol class="proj">
+        {projSteps.map((s) => (
+          <li style={`--c:${s.c}`} data-reveal>
+            <span class="pn">{s.n}</span>
+            <div class="pb">
+              <a class="pi" href={root + pages.island(s.id)}>Island {s.num} · {s.is.title}</a>
+              <p>{s.text}</p>
+              <div class="pr">{s.res.map((r) => <a href={r[5]} target="_blank" rel="noopener"><small>{r[0]}</small>{r[1]} <span aria-hidden="true">↗</span></a>)}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="card proj-end" data-reveal><small>When you finish</small><p>{proj.result}</p></div>
+    </div></section>}
+
+    <section class="sec" id="overview" aria-labelledby="ov-h"><div class="wrap">
+      <p class="eyebrow" data-reveal>What you'll be able to build</p>
+      <h2 id="ov-h" class="sr">Overview</h2>
+      <p class="quote" data-reveal>{info.build}</p>
+      <p class="lede" data-reveal style="margin-bottom:40px">{info.fit}</p>
+      <div class="two">
+        <div class="card list-card" data-reveal><h3>Why take it</h3>
+          <ul>{info.benefits.map((b) => <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--hue)" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>{b}</span></li>)}</ul></div>
+        <div class="card list-card" data-reveal style="--d:100ms"><h3>What it costs you</h3>
+          <ul>{info.tradeoffs.map((b) => <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted)" aria-hidden="true"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><span>{b}</span></li>)}</ul></div>
+      </div>
+    </div></section>
+
+    <section class="sec" id="effort" aria-labelledby="ef-h"><div class="wrap">
+      <p class="eyebrow" data-reveal>Effort</p>
+      <h2 id="ef-h" data-reveal style="margin-bottom:36px">What it will take</h2>
+      <div class="dials">
+        {Object.entries(info.effort).map(([e, [v, note]]) => (
+          <div class="card dial" data-dial style={`--v:${v}`}>
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <path d="M20 100a80 80 0 0 1 160 0" fill="none" stroke="rgba(243,235,221,.12)" stroke-width="10" stroke-linecap="round" />
+              <path d="M20 100a80 80 0 0 1 160 0" fill="none" stroke="var(--hue)" stroke-width="10" stroke-linecap="round" pathLength="5" stroke-dasharray={`${v} 5`} />
+              {ticks.map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(217,178,106,.6)" />)}
+              <g class="needle"><line x1="100" y1="100" x2="100" y2="34" stroke="var(--gold-2)" stroke-width="2.5" stroke-linecap="round" /><circle cx="100" cy="100" r="6" fill="var(--gold)" /></g>
+            </svg>
+            <h3>{effortName[e] ?? e} <span class="mono">{v}/5</span></h3><p>{note}</p>
+          </div>
+        ))}
+      </div>
+    </div></section>
+
+    <section class="sec" id="careers" aria-labelledby="cr-h"><div class="wrap">
+      <p class="eyebrow" data-reveal>Careers</p>
+      <h2 id="cr-h" data-reveal>Where it leads</h2>
+      <div class="roles" data-reveal>{info.roles.map((r) => <span>{r}</span>)}</div>
+      <div class="stats">
+        {info.demand.map((d, j) => <div class="card stat" data-reveal style={`--d:${j * 80}ms`}><p>{d.t}</p><a href={d.u} target="_blank" rel="noopener">{d.s} ↗</a></div>)}
+      </div>
+    </div></section>
+
+    <section class="sec pn-sec"><div class="wrap pn">
+      <a class="card" href={root + pages.path(pv)} style={`--hue:${A.pathHue[pv]}`}><small>← Previous path</small><b>{A.paths[pv].name}</b></a>
+      <a class="card next" href={root + pages.path(nx)} style={`--hue:${A.pathHue[nx]}`}><small>Next path →</small><b>{A.paths[nx].name}</b></a>
+    </div></section>
+  </main>
+  <script>
+    import { initPath } from "../../scripts/path.js";
+    initPath();
+  </script>
+</Base>

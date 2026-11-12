@@ -1,0 +1,12 @@
+---
+// Museum credit for one or more artworks, each linking to its Met object page.
+import type { ArtEntry } from "../lib/data";
+interface Props { art: ArtEntry | ArtEntry[]; class?: string; labels?: string[] }
+const { art, class: cls, labels } = Astro.props;
+const list = Array.isArray(art) ? art : [art];
+---
+<p class:list={["credit", cls]}>
+  {list.map((e, i) => (
+    <span class="credit-item">{labels?.[i] && <b>{labels[i]}: </b>}{e.artwork.artist}, <i>{e.artwork.title}</i>, {e.artwork.date}. <a href={e.artwork.page} target="_blank" rel="noopener">The Met</a> · CC0</span>
+  ))}
+</p>

@@ -1,0 +1,31 @@
+---
+// The path index that stays with the reader: a rail at the left edge on wide screens,
+// a bar along the bottom on small ones. On the home page it starts inside the opening
+// scene's title card and moves to the edge on the first scroll (see scripts/rail.js).
+import "../styles/rail.css";
+import { atlas as A, numberWord, capital, roman } from "../lib/data";
+
+interface Props {
+  /** Where each path's link goes: a chapter on this page ("#path-vision") or another page. */
+  href: (key: string) => string;
+  /** Page title shown in the title card; given on the home page, where it is the h1. */
+  title?: string;
+  /** Link of the title (the top of the page). */
+  titleHref?: string;
+}
+const { href, title, titleHref = "#top" } = Astro.props;
+const label = `${capital(numberWord(A.order.length))} paths`;
+---
+<div class="rail" id="rail" data-state="side">
+  {title && <h1 class="rail-title"><a href={titleHref} data-scroll-offset="0"><span class="rt">{title}</span></a></h1>}
+  <nav class="rail-nav" aria-label={label}>
+    <p class="rail-label" aria-hidden="true">{label}</p>
+    <ol class="rail-index">
+      {A.order.map((k, i) => (
+        <li style={`--i:${i};--c:${A.pathHue[k]}`}>
+          <a href={href(k)} data-key={k} data-scroll-offset="0"><span class="it ix-it"><span class="n" aria-hidden="true">{roman(i + 1)}</span><span class="t">{A.paths[k].name}</span></span></a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</div>

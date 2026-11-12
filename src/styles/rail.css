@@ -1,0 +1,97 @@
+/* The path index that stays with the reader.
+   Wide and tall screens: a rail at the left edge. Otherwise: a bar along the bottom.
+   States (data-state on .rail, mirrored as data-rail on <html>):
+     card  the title and the index sit in the opening scene's title card (home, top of the page)
+     side  they rest at the edge
+   Each item keeps one size in both states; scripts/rail.js measures where it rests and where
+   its place in the card is, and the difference is applied as a transform (--fx, --fy) on the
+   link itself, so the thing you see is the thing you click. */
+:root{--rail-w:216px;--rail-x:max(clamp(20px,2.4vw,40px),env(safe-area-inset-left,0px));--rail-space:calc(var(--rail-x) + var(--rail-w) + 28px);--row:27px}
+
+.rail{position:fixed;z-index:60;left:0;bottom:0;pointer-events:none}          /* above the top bar: the title flies over it to land on the brand */
+.js .rail:not([data-init]){visibility:hidden}
+.rail.booting *,.rail.booting *::before{transition:none!important}          /* the first state is set, not animated */
+
+/* one item: numeral + name. The same box is used for the invisible place-holders in the title card. */
+.ix-it{display:inline-flex;align-items:center;min-height:var(--row);padding-right:12px;font:600 14.5px/1.2 var(--sans);letter-spacing:-.005em;white-space:nowrap;color:var(--ivory);
+  text-shadow:0 1px 12px rgba(0,0,0,.75)}
+.ix-it .n{flex:none;width:27px;margin-right:9px;text-align:right;font:500 12px/1 var(--serif);letter-spacing:.03em;color:rgba(243,235,221,.82);font-variant-numeric:lining-nums}
+
+.rail-title{position:fixed;left:0;top:0;margin:0;font:560 var(--g-title,46px)/1 var(--serif);letter-spacing:-.03em;white-space:nowrap;pointer-events:none}
+.rail-title a{display:inline-block;color:var(--ivory);text-decoration:none;transform-origin:0 0;
+  transform:translate(var(--bx,0px),var(--by,0px)) scale(var(--bs,1));opacity:0;
+  transition:transform .74s var(--ease-io),opacity .26s linear .4s}
+.rail-title .rt{display:inline-block;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.rail[data-state=card] .rail-title a{transform:translate(var(--fx,0px),var(--fy,0px)) scale(1);opacity:1;transition:transform .74s var(--ease-io),opacity .2s linear;pointer-events:auto}
+html:not(.js) .rail-title{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}   /* the card shows the title itself */
+/* while the big title shows, the top bar's own name steps back; it returns as the title lands on it */
+.has-rail .brand span{transition:opacity .3s linear .42s}
+html[data-rail=card] .brand span,html.js:not([data-rail]) .has-rail.nav-over .brand span{opacity:0;transition:opacity .2s linear}
+
+.rail-index{list-style:none;margin:0;padding:0}
+.rail-index a{display:flex;text-decoration:none;outline:0;pointer-events:auto;transition:transform .74s var(--ease-io) calc(var(--i) * 20ms)}
+.rail[data-state=card] .rail-index a{transform:translate(var(--fx,0px),var(--fy,0px))}
+.rail-index .it{position:relative;flex:none;transition:opacity .3s}          /* never squeezed by its seat: a name wraps only where the card says so (--fw) */
+.rail-index .t{transition:color .2s,transform .35s var(--ease)}
+.rail-index .n{transition:color .2s}
+.rail-index a:hover .t,.rail-index a:focus-visible .t{color:var(--c);transform:translateX(6px)}
+.rail-index a:hover .n,.rail-index a:focus-visible .n{color:var(--c)}
+.rail-index a:focus-visible .it{outline:2px solid var(--gold-2);outline-offset:2px;border-radius:4px}
+/* where you are: the numeral lights up in the path's colour and a short stroke is drawn beside it */
+.rail-index .it::before{content:"";position:absolute;left:-13px;top:50%;width:2px;height:15px;margin-top:-7.5px;border-radius:2px;background:var(--c);box-shadow:0 0 10px var(--c);
+  transform:scaleY(0);transition:transform .35s var(--ease)}
+.rail[data-state=side] .rail-index a[aria-current] .it::before{transform:none}
+.rail[data-state=side] .rail-index a[aria-current] .n{color:var(--c)}
+.rail[data-state=side][data-active] .rail-index a:not([aria-current]):not(:hover):not(:focus-visible) .it{opacity:.6}
+.rail-label{margin:0 0 10px;font:600 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:0;transition:opacity .4s}
+.rail[data-state=side] .rail-label{opacity:1;transition-delay:.5s}
+.rail.measuring a{transform:none!important}
+.rail.measuring .it{white-space:nowrap!important;max-width:none!important}
+/* kept apart from the rule above on purpose (the build's minifier folds translate into transform when they share a rule).
+   !important beats the entrance animation's translate without restarting it. */
+.rail.measuring .rail-index .it,.rail.measuring .rail-title .rt{translate:none!important}
+.rail.measuring a,.rail.settling a{transition:none!important}
+.rail.measuring .rail-index li{width:auto!important}
+
+/* the entrance on the home page: hidden until the opening scene starts, then they rise in one by one */
+.rail-wait .rail .it,.rail-wait .rail .rt{opacity:0}
+.rail-in .rail[data-state=card] .rt{animation:rail-rise .8s var(--ease) 1.745s both}
+.rail-in .rail[data-state=card] .it{animation:rail-rise .8s var(--ease) both;animation-delay:calc(1.835s + var(--i) * 45ms)}
+@keyframes rail-rise{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
+
+/* ---- rail at the left edge ---- */
+@media (min-width:1180px) and (min-height:620px){
+  .rail{top:0;width:calc(var(--rail-x) + var(--rail-w))}
+  .rail-nav{position:absolute;left:var(--rail-x);bottom:clamp(26px,6.5svh,60px);width:var(--rail-w)}
+  .rail-index{display:grid}
+  /* a soft pool of ink behind the list keeps it readable over any painting */
+  .rail-nav::before{content:"";position:absolute;z-index:-1;inset:-46px -96px -70px -60px;background:radial-gradient(closest-side,rgba(12,10,13,.8),rgba(12,10,13,.55) 55%,transparent);
+    opacity:0;transition:opacity .5s;pointer-events:none}
+  .rail[data-state=side] .rail-nav::before{opacity:1;transition-delay:.3s}
+  /* the page makes room: content starts to the right of the rail, the top bar lines up with it */
+  .has-rail main .wrap,.has-rail .foot .wrap{margin-left:calc(var(--rail-space) + max(0px, (100vw - var(--rail-space) - var(--max)) / 2));margin-right:auto;max-width:min(var(--max),100vw - var(--rail-space));padding-left:clamp(4px,1.6vw,28px)}
+  .has-rail .nav .wrap{max-width:none;padding-left:var(--rail-x)}
+}
+/* ---- bar along the bottom ---- */
+@media (max-width:1179px),(max-height:619px){
+  :root{--row:48px}
+  .rail{right:0}
+  .rail-nav{position:relative}
+  .rail-nav::before{content:"";position:absolute;inset:0;background:color-mix(in oklab,var(--ink) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);opacity:0;transition:opacity .35s}
+  .rail[data-state=side] .rail-nav::before{opacity:1}
+  .rail-label{display:none}
+  .rail-index{position:relative;display:flex;gap:2px;padding:0 max(14px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(6px,env(safe-area-inset-left,0px));scrollbar-width:none}
+  .rail-index::-webkit-scrollbar{display:none}
+  .rail.docked .rail-nav{pointer-events:auto}
+  .rail.docked .rail-index{overflow-x:auto;overscroll-behavior-x:contain}
+  .rail-index li{flex:none}
+  .ix-it{padding-right:14px}
+  .rail-index .it::before{left:36px;right:14px;top:auto;bottom:7px;width:auto;height:2px;margin:0;transform:scaleX(0);transform-origin:0 50%}
+  .rail-index a:hover .t,.rail-index a:focus-visible .t{transform:none}
+  body.has-rail{padding-bottom:calc(var(--row) + 1px + env(safe-area-inset-bottom,0px))}
+}
+/* narrow title cards hold long names on two lines; the item takes its place-holder's width while it is there (--fw, set by the script) */
+@media (max-width:760px){
+  .rail[data-state=card] .rail-index .it{white-space:normal;max-width:var(--fw,none)}
+}

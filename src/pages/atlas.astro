@@ -1,0 +1,17 @@
+---
+// The Atlas map (DESIGN.md §4.2): every island on an engraved sea chart, your route drawn across it.
+// The content is the original map's, unchanged; the chart is drawn in the browser by scripts/atlas.js.
+import Base from "../layouts/Base.astro";
+import AtlasMap from "../components/AtlasMap.astro";
+import { atlas as A } from "../lib/data";
+
+---
+<Base title="The Atlas · AI Atlas" description={`Every island of the AI Atlas on one chart: ${A.islands.length} islands, ${Object.keys(A.paths).length} paths. Pick a goal and your route draws itself.`} active="atlas" hue="var(--gold)">
+  <main id="main">
+    <AtlasMap />
+  </main>
+  <script>
+    import { initAtlas } from "../scripts/atlas.js";
+    initAtlas();
+  </script>
+</Base>
