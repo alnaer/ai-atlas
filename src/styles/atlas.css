@@ -16,7 +16,9 @@
 .rose{color:var(--gold);opacity:.75}
 .region{font:italic 500 26px var(--serif);fill:rgba(243,235,221,.34);letter-spacing:.06em;text-anchor:middle}
 .link{fill:none;stroke:rgba(217,178,106,.32);stroke-width:2;stroke-dasharray:2 7;stroke-linecap:round}
-.route{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:url(#glow)}
+.route{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.route.halo-1{stroke-width:10;stroke-opacity:.3}
+.route.halo-2{stroke-width:18;stroke-opacity:.12}
 .route.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw var(--dur,2.4s) var(--ease) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 /* the ship: its own small layer above the chart, moved with transform (scripts/atlas.js) */

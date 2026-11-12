@@ -121,8 +121,12 @@ export function initAtlas() {
     const linked = new Set(A.linkPairs.flatMap(([a, b]) => [a + ">" + b, b + ">" + a])), parent = {}; A.linkPairs.forEach(([a, b]) => (parent[b] ||= a));
     const segs = []; steps.forEach((id, i) => { if (!i) return; const prev = steps[i - 1]; const from = linked.has(prev + ">" + id) ? prev : (parent[id] && steps.includes(parent[id]) ? parent[id] : prev); segs.push([from, id]); });
     const g = document.getElementById("route"); const d = segs.map(([a, b]) => curve(a, b)).join(" ");
-    g.innerHTML = `<path class="route ${animate && !RM ? "draw" : ""}" d="${d}" stroke="${c}"/>`;
-    const p = g.firstChild, len = p.getTotalLength(); p.style.setProperty("--len", len); p.style.setProperty("--dur", Math.min(3.2, 0.8 + len / 1400) + "s");
+    // The glow is the same line drawn wide and faint under the sharp one: an SVG blur filter here is redone
+    // on every scroll frame in Safari and made the page stutter.
+    const dr = animate && !RM ? "draw" : "";
+    g.innerHTML = ["halo-2", "halo-1", ""].map((h) => `<path class="route ${h} ${dr}" d="${d}" stroke="${c}"/>`).join("");
+    const len = g.lastChild.getTotalLength(), dur = Math.min(3.2, 0.8 + len / 1400) + "s";
+    g.querySelectorAll("path").forEach((q) => { q.style.setProperty("--len", len); q.style.setProperty("--dur", dur); });
     // ship sails each segment in order
     // The ship is its own small layer (not part of the chart SVG), so moving it never repaints the chart.
     // The course is worked out once and handed to the browser as a transform animation, which runs on the
