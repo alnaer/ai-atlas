@@ -1,0 +1,1560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI Atlas · learning map</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&amp;display=swap">
+<style>
+html{scroll-padding-top:88px}
+body{margin:0;background:#0B0810}
+a{color:#7CF4FF}a:hover{color:#B8FAFF}
+.atlas{--paper:#0B0810;--paper2:#16111E;--card:#120E19;--card2:#1A1424;--line:#2A2236;--line2:#3B3149;--ink:#EFE9F7;--ink2:#BEB4CE;--ink3:#8F85A2;--acc:#00E5FF;--on-acc:#0B0810;--pink:#FF2A6D;--cyan:#00E5FF;--yellow:#FCEE0A;--violet:#B45CFF;--done:#3DFF8F;--on-done:#0B0810;--r-sm:8px;--r-md:14px;--r-lg:18px;--acc-ink:color-mix(in oklab,var(--acc) 80%,#EFE9F7);--acc-soft:color-mix(in oklab,var(--acc) 13%,var(--card));--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","SF Pro",Inter,"Helvetica Neue","Segoe UI",sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--shadow-1:inset 0 1px 0 rgba(239,233,247,.04),0 12px 32px -14px rgba(0,0,0,.75);--shadow-2:inset 0 1px 0 rgba(239,233,247,.05),0 30px 70px -30px rgba(0,0,0,.9);background:radial-gradient(900px 520px at 6% 0%,rgba(255,42,109,.16),transparent 70%),radial-gradient(800px 520px at 100% 6%,rgba(0,229,255,.12),transparent 70%),radial-gradient(1100px 700px at 50% 100%,rgba(180,92,255,.12),transparent 70%),var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.47;letter-spacing:-.011em;min-height:100vh;overflow-x:clip;-webkit-font-smoothing:antialiased}
+.atlas *{box-sizing:border-box}
+.wrap{max-width:1280px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px);box-sizing:content-box!important}
+.disp{font-family:var(--sans);font-optical-sizing:auto;letter-spacing:-.02em}
+.mono{font-family:var(--mono);letter-spacing:0;font-variant-numeric:tabular-nums}
+.code{font-family:var(--mono);letter-spacing:0}
+.atlas button{font:inherit;color:inherit}
+.goal:focus-visible,.chip:focus-visible,.cam-btn:focus-visible,.pace-btn:focus-visible,.step-head:focus-visible,.done-btn:focus-visible,.ghost-btn:focus-visible,.cmp-pick:focus-visible,.isl-top:focus-visible,.out-item:focus-visible,.copy-btn:focus-visible,.atlas a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.atlas .goal:active,.atlas .chip:active,.atlas .cam-btn:active,.atlas .pace-btn:active,.atlas .done-btn:active,.atlas .ghost-btn:active,.atlas .cmp-pick:active,.atlas .copy-btn:active,.atlas .out-item:active,.atlas .lnav a:active{transform:scale(.97);transition:transform .1s ease-out}
+
+.topbar-shell{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--paper) 76%,transparent);-webkit-backdrop-filter:saturate(160%) blur(18px);backdrop-filter:saturate(160%) blur(18px)}
+.topbar-shell::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--pink) 18%,var(--acc) 50%,var(--yellow) 82%,transparent);opacity:.75}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;min-height:60px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:26px;height:26px;filter:drop-shadow(0 0 6px color-mix(in oklab,var(--acc) 60%,transparent))}
+.brand-name{font-weight:700;font-size:19px;letter-spacing:-.02em}
+.brand-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-ink);padding:4px 8px;border-radius:4px;border:1px solid color-mix(in oklab,var(--acc) 45%,transparent)}
+.lnav{display:flex;align-items:center;gap:2px;margin-inline:auto}
+.lnav a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink2);text-decoration:none;transition:background-color .2s,color .2s,text-shadow .2s}
+.lnav a:hover{color:var(--ink);background:color-mix(in oklab,var(--acc) 12%,transparent);text-shadow:0 0 12px color-mix(in oklab,var(--acc) 80%,transparent)}
+.progress{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink2)}
+.progress b{color:var(--ink);font-weight:600}
+.progress-bar{width:120px;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.progress-fill{display:block;height:100%;border-radius:999px;background:repeating-linear-gradient(45deg,var(--done) 0 6px,color-mix(in oklab,var(--done) 65%,#0B0810) 6px 12px);background-size:17px 17px;box-shadow:0 0 10px var(--done);animation:stripes 1s linear infinite;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+@keyframes stripes{to{background-position:17px 0}}
+.progress-short{display:none}
+
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:40px 64px;padding-block:64px 80px;align-items:start}
+.eyebrow{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);margin:0 0 14px;text-shadow:0 0 14px color-mix(in oklab,var(--acc) 65%,transparent);animation:flicker 7s linear infinite}
+.eyebrow::before{content:"// ";color:var(--pink)}
+@keyframes flicker{0%,90%,94%,100%{opacity:1}91%{opacity:.5}92.5%{opacity:.9}93%{opacity:.6}}
+.h1{font-weight:800;font-size:clamp(44px,5.6vw,80px);line-height:1.03;letter-spacing:-.03em;margin:0 0 24px;text-wrap:balance;text-shadow:0 0 34px rgba(180,92,255,.28)}
+.h1-grad{background:linear-gradient(100deg,var(--acc) 0%,color-mix(in oklab,var(--acc) 35%,#FF2A6D) 60%,#FF2A6D 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 22px color-mix(in oklab,var(--acc) 45%,transparent))}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;pointer-events:none;text-shadow:none;mix-blend-mode:screen}
+.glitch::before{color:var(--cyan);clip-path:inset(0 0 100% 0);animation:glitch-a 6s steps(1) infinite}
+.glitch::after{color:var(--pink);clip-path:inset(100% 0 0 0);animation:glitch-b 6s steps(1) infinite}
+@keyframes glitch-a{0%,88%,100%{clip-path:inset(0 0 100% 0);transform:none}89%{clip-path:inset(8% 0 72% 0);transform:translate(-5px,1px)}90.5%{clip-path:inset(52% 0 28% 0);transform:translate(4px,-1px)}92%{clip-path:inset(30% 0 52% 0);transform:translate(-3px,0)}93.5%{clip-path:inset(0 0 100% 0);transform:none}}
+@keyframes glitch-b{0%,89%,100%{clip-path:inset(100% 0 0 0);transform:none}90%{clip-path:inset(62% 0 14% 0);transform:translate(5px,0)}91.5%{clip-path:inset(18% 0 66% 0);transform:translate(-4px,1px)}93%{clip-path:inset(44% 0 36% 0);transform:translate(3px,-1px)}94.5%{clip-path:inset(100% 0 0 0);transform:none}}
+.lede{font-size:19px;line-height:1.5;letter-spacing:-.014em;color:var(--ink2);margin:0 0 14px;max-width:52ch;text-wrap:pretty}
+.tip{display:flex;gap:14px;align-items:flex-start;margin-top:28px;padding:16px 18px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--acc);max-width:560px;box-shadow:var(--shadow-1)}
+.tip svg{flex:none;width:22px;height:22px;fill:none;stroke:var(--acc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:2px;filter:drop-shadow(0 0 6px color-mix(in oklab,var(--acc) 70%,transparent))}
+.tip p{margin:0;font-size:15px;color:var(--ink2)}
+.tip b{color:var(--ink);font-weight:600}
+
+.picker{position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line2);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow-2),0 0 50px -24px color-mix(in oklab,var(--acc) 70%,transparent)}
+.picker::before,.picker::after,.prompt-card::before,.prompt-card::after{content:"";position:absolute;width:22px;height:22px;pointer-events:none;border:2px solid var(--acc);filter:drop-shadow(0 0 6px var(--acc))}
+.picker::before,.prompt-card::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-top-left-radius:var(--r-lg)}
+.picker::after,.prompt-card::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-bottom-right-radius:var(--r-lg)}
+.picker-h{font-weight:700;font-size:24px;letter-spacing:-.022em;margin:0 0 18px}
+.goal-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:12px}
+.goal{--gc:var(--acc);--gc-on:#0B0810;appearance:none;cursor:pointer;text-align:start;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:var(--r-md);background:var(--card2);border:1px solid var(--line);min-height:190px;transition:border-color .2s,background-color .2s,transform .2s,box-shadow .2s}
+.goal:hover{border-color:color-mix(in oklab,var(--gc) 60%,var(--line));transform:translateY(-2px);box-shadow:0 0 26px -8px color-mix(in oklab,var(--gc) 70%,transparent)}
+.goal.sel{border-color:var(--gc);background:color-mix(in oklab,var(--gc) 10%,var(--card2));box-shadow:0 0 0 1px var(--gc),0 0 30px -6px color-mix(in oklab,var(--gc) 70%,transparent)}
+.goal-icon{width:38px;height:38px;border-radius:var(--r-sm);display:grid;place-items:center;background:color-mix(in oklab,var(--gc) 14%,var(--card));border:1px solid color-mix(in oklab,var(--gc) 45%,transparent);margin-bottom:6px}
+.goal.sel .goal-icon{background:var(--gc);box-shadow:0 0 18px color-mix(in oklab,var(--gc) 75%,transparent)}
+.goal-icon svg{width:20px;height:20px;fill:none;stroke:var(--gc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.goal.sel .goal-icon svg{stroke:var(--gc-on)}
+.goal-name{font-weight:650;font-size:17px;color:var(--ink)}
+.goal-desc{font-size:14px;line-height:1.45;color:var(--ink2);flex:1}
+.goal-meta{font-size:12px;line-height:1.35;color:var(--ink3)}
+.goal.sel .goal-meta{color:color-mix(in oklab,var(--gc) 80%,#EFE9F7)}
+.goal.feature{grid-column:1 / -1;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:16px;row-gap:4px;align-content:start;min-height:0;padding:18px}
+.goal.feature .goal-icon{grid-row:1 / span 4;width:44px;height:44px;margin:0}
+.goal.feature > :not(.goal-icon){grid-column:2}
+.goal.feature .goal-name{font-size:19px;letter-spacing:-.016em}
+.goal-tag{justify-self:start;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;line-height:1;padding:5px 10px;background:var(--gc);color:var(--gc-on);clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.picker-sub{margin:24px 0 12px;font-size:14px;color:var(--ink3)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{--gc:var(--acc);--gc-on:#0B0810;appearance:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--card2);font-size:14px;font-weight:500;color:var(--ink2);transition:border-color .2s,background-color .2s,color .2s,box-shadow .2s}
+.chip svg{width:16px;height:16px;fill:none;stroke:var(--gc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.chip:hover{border-color:color-mix(in oklab,var(--gc) 60%,var(--line));color:var(--ink);box-shadow:0 0 20px -6px color-mix(in oklab,var(--gc) 75%,transparent)}
+.chip.sel{background:var(--gc);border-color:var(--gc);color:var(--gc-on);box-shadow:0 0 24px -4px color-mix(in oklab,var(--gc) 80%,transparent)}
+.chip.sel svg{stroke:var(--gc-on)}
+
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px;margin-bottom:24px}
+.sec-h{font-weight:800;font-size:clamp(30px,3.4vw,44px);letter-spacing:-.028em;line-height:1.08;margin:0 0 10px}
+.sec-p{margin:0;color:var(--ink2);max-width:62ch;font-size:17px;text-wrap:pretty}
+.seg{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:12px;background:var(--paper2);border:1px solid var(--line)}
+.cam-btn,.pace-btn{appearance:none;border:0;background:transparent;cursor:pointer;min-height:44px;padding:0 18px;border-radius:9px;font-size:14px;font-weight:500;color:var(--ink2);transition:background-color .2s,color .2s,box-shadow .2s}
+.cam-btn:hover,.pace-btn:hover{color:var(--ink)}
+.cam-btn.sel,.pace-btn.sel{background:var(--acc);color:var(--on-acc);font-weight:600;box-shadow:0 0 20px -4px color-mix(in oklab,var(--acc) 80%,transparent)}
+.pace{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pace-l{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+
+.map-sec{padding-block:8px}
+.map{position:relative;border-radius:var(--r-lg);border:1px solid color-mix(in oklab,var(--acc) 35%,var(--line2));background:radial-gradient(110% 70% at 50% -10%,rgba(180,92,255,.3),transparent 60%),radial-gradient(90% 60% at 50% 110%,rgba(0,229,255,.16),transparent 65%),radial-gradient(40% 45% at 10% 62%,rgba(255,42,109,.16),transparent 70%),#0D0913;overflow:hidden;--k:1;box-shadow:var(--shadow-1),0 0 60px -24px color-mix(in oklab,var(--acc) 75%,transparent)}
+.map::after{content:"";position:absolute;left:0;right:0;top:-64px;bottom:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(to bottom,rgba(239,233,247,.04) 0 1px,transparent 1px 4px);animation:scan 6s linear infinite}
+@keyframes scan{to{transform:translateY(64px)}}
+.map-hold{position:relative;width:calc(1280px * var(--k));height:calc(700px * var(--k));margin-inline:auto}
+.stage{position:absolute;top:0;left:0;width:1280px;height:700px;transform:scale(var(--k));transform-origin:0 0}
+.persp{position:absolute;inset:0;perspective:4200px;perspective-origin:50% 42%}
+.board{position:absolute;left:50%;top:50%;width:1600px;height:1600px;margin:-800px 0 0 -800px;transform-style:preserve-3d;transform:rotateX(var(--tilt)) rotateZ(var(--spin)) scale3d(var(--zoom),var(--zoom),var(--zoom));transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.sea{position:absolute;inset:0;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 48px,rgba(0,229,255,.1) 48px 49.5px),linear-gradient(rgba(255,42,109,.24) 1px,transparent 1px) 0 0/50px 50px,linear-gradient(90deg,rgba(0,229,255,.2) 1px,transparent 1px) 0 0/50px 50px;-webkit-mask-image:radial-gradient(closest-side,#000 48%,transparent 100%);mask-image:radial-gradient(closest-side,#000 48%,transparent 100%)}
+.sea::after{content:"";position:absolute;left:50%;top:50%;width:1300px;height:1300px;margin:-650px 0 0 -650px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 84%,color-mix(in oklab,var(--acc) 22%,transparent) 99.4%,transparent 100%);animation:radar 9s linear infinite}
+@keyframes radar{to{transform:rotate(360deg)}}
+.lanes{position:absolute;left:0;top:0;width:1600px;height:1600px;overflow:visible;transform:translateZ(1px);pointer-events:none}
+.lane{fill:none;stroke:rgba(239,233,247,.2);stroke-width:2;stroke-dasharray:6 8}
+.route-glow{fill:none;stroke:var(--acc);stroke-opacity:.28;stroke-width:18;stroke-linecap:round;stroke-linejoin:round}
+.route-line{fill:none;stroke:var(--acc);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2 14;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-16}}
+
+.isl{--hue:#00E5FF;--hue-on:#0B0810;position:absolute;width:var(--s);height:var(--s);margin-top:calc(var(--s) / -2);margin-left:calc(var(--s) / -2);transform-style:preserve-3d;transform:translateZ(var(--lift));transition:transform .9s cubic-bezier(.2,.8,.2,1);--lift:14px;--top1:color-mix(in oklab,var(--hue) 16%,#17121F);--top2:color-mix(in oklab,var(--hue) 32%,#17121F);--fw:color-mix(in oklab,var(--hue) 28%,#120D18);--fs:color-mix(in oklab,var(--hue) 18%,#0B0810);--fn:color-mix(in oklab,var(--hue) 24%,#0F0B14);--fe:color-mix(in oklab,var(--hue) 14%,#0B0810)}
+.isl.k-c{--s:96px;--h:28px;--t:44px}
+.isl.k-p{--s:84px;--h:24px;--t:40px}
+.isl.k-s{--s:70px;--h:18px;--t:34px}
+.isl.on{--lift:46px;--top1:color-mix(in oklab,var(--hue) 62%,#17121F);--top2:var(--hue);--fw:color-mix(in oklab,var(--hue) 64%,#0B0810);--fs:color-mix(in oklab,var(--hue) 40%,#0B0810);--fn:color-mix(in oklab,var(--hue) 52%,#0B0810);--fe:color-mix(in oklab,var(--hue) 32%,#0B0810)}
+.isl.on.focus{--lift:62px}
+.isl-glow{position:absolute;inset:-24%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in oklab,var(--hue) 22%,transparent),transparent);transform:translateZ(calc(var(--lift) * -1 + .5px));transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.isl.on .isl-glow{background:radial-gradient(closest-side,color-mix(in oklab,var(--hue) 60%,transparent),transparent)}
+.isl-rise{position:absolute;inset:0;transform-style:preserve-3d;animation:rise 1.2s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{transform:translateZ(-140px) scale3d(.3,.3,.3)}to{transform:translateZ(0) scale3d(1,1,1)}}
+.isl-bob{position:absolute;inset:0;transform-style:preserve-3d;animation:bob 7s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateZ(0)}50%{transform:translateZ(7px)}}
+.face{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden;pointer-events:none}
+.face-n{left:0;top:0;width:var(--s);height:var(--h);transform-origin:50% 0;transform:rotateX(90deg);background:var(--fn)}
+.face-s{left:0;top:calc(var(--s) - var(--h));width:var(--s);height:var(--h);transform-origin:50% 100%;transform:rotateX(-90deg);background:var(--fs)}
+.face-w{left:0;top:0;width:var(--h);height:var(--s);transform-origin:0 50%;transform:rotateY(-90deg);background:var(--fw)}
+.face-e{left:calc(var(--s) - var(--h));top:0;width:var(--h);height:var(--s);transform-origin:100% 50%;transform:rotateY(90deg);background:var(--fe)}
+.isl-top{appearance:none;border:0;padding:0;margin:0;position:absolute;left:0;top:0;width:var(--s);height:var(--s);transform:translateZ(var(--h));border-radius:6px;background:linear-gradient(135deg,var(--top1),var(--top2));box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--hue) 60%,transparent);display:grid;place-items:center;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:filter .25s}
+.isl-top::before{content:"";width:40%;height:40%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in oklab,var(--hue) 40%,transparent),transparent)}
+.isl-top:hover{filter:brightness(1.2) saturate(1.15)}
+.isl.on .isl-top{box-shadow:inset 0 0 0 1.5px color-mix(in oklab,var(--hue) 45%,#EFE9F7),0 0 44px color-mix(in oklab,var(--hue) 65%,transparent)}
+.isl.done .isl-top{box-shadow:inset 0 0 0 3px var(--done),0 0 26px color-mix(in oklab,var(--done) 45%,transparent)}
+.isl.on.done .isl-top{box-shadow:inset 0 0 0 3px var(--done),0 0 44px color-mix(in oklab,var(--hue) 55%,transparent)}
+.isl.focus .isl-top{animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%,100%{box-shadow:inset 0 0 0 2px #EFE9F7,0 0 26px color-mix(in oklab,var(--hue) 45%,transparent)}50%{box-shadow:inset 0 0 0 3px #EFE9F7,0 0 76px color-mix(in oklab,var(--hue) 90%,transparent)}}
+.bb{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;transform:translateZ(calc(var(--h) + 28px)) rotateZ(var(--bspin)) rotateX(var(--btilt)) scale(var(--inv));transition:transform 1.1s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.tok{position:absolute;left:0;bottom:0;width:var(--t);height:var(--t);margin-left:calc(var(--t) / -2);transform-style:preserve-3d;animation:sway 6.5s ease-in-out infinite;--tk1:color-mix(in oklab,var(--hue) 26%,#1C1626);--tk2:color-mix(in oklab,var(--hue) 46%,#1C1626);--tks:color-mix(in oklab,var(--hue) 32%,#0B0810);--tki:color-mix(in oklab,var(--hue) 85%,#EFE9F7)}
+.isl.on .tok{--tk1:color-mix(in oklab,var(--hue) 55%,#EFE9F7);--tk2:var(--hue);--tks:color-mix(in oklab,var(--hue) 45%,#0B0810);--tki:var(--hue-on)}
+.isl.done .tok{--tk1:#A6FFCB;--tk2:var(--done);--tks:#13723F;--tki:#0B0810}
+.tl{position:absolute;inset:0;border-radius:30%;background:var(--tks)}
+.tl.t1{transform:translateZ(2.5px)}
+.tl.t2{transform:translateZ(5px)}
+.tl.t3{transform:translateZ(7.5px)}
+.tf{position:absolute;inset:0;overflow:hidden;border-radius:30%;background:linear-gradient(150deg,var(--tk1),var(--tk2));transform:translateZ(10px);display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px color-mix(in oklab,var(--hue) 60%,transparent)}
+.tf svg{position:relative;z-index:1;width:54%;height:54%;fill:none;stroke:var(--tki);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.isl.on .tf::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(239,233,247,.6) 50%,transparent 62%);background-size:300% 100%;animation:shine 3.6s linear infinite}
+@keyframes shine{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes sway{0%,100%{transform:rotateY(-32deg) rotateX(8deg)}50%{transform:rotateY(32deg) rotateX(-4deg)}}
+.isl:hover .tok{animation:spin 1.1s cubic-bezier(.3,.7,.2,1),sway 6.5s ease-in-out 1.1s infinite}
+@keyframes spin{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
+.isl.focus .tok{animation-duration:3.4s}
+.lbl{position:absolute;left:0;bottom:calc(var(--t) + 10px);transform:translateX(-50%);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;border-radius:6px;background:#120E19;border:1px solid color-mix(in oklab,var(--hue) 60%,#2A2236);box-shadow:0 0 16px -2px color-mix(in oklab,var(--hue) 55%,transparent);font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1;color:var(--ink);opacity:0;transition:opacity .35s}
+.lbl-num{font-size:11px;font-weight:700;background:var(--hue);color:var(--hue-on);border-radius:4px;padding:3px 5px}
+.lbl-num:empty{display:none}
+.isl.on .lbl,.isl.focus .lbl,.isl:hover .lbl{opacity:1}
+.isl:not(.on) .lbl{padding-inline-start:10px}
+.isl.focus .lbl{background:var(--hue);color:var(--hue-on);border-color:var(--hue);box-shadow:0 0 26px color-mix(in oklab,var(--hue) 75%,transparent)}
+.isl.focus .lbl-num{background:#0B0810;color:var(--hue)}
+.isl.done .lbl-num{background:var(--done);color:var(--on-done)}
+.reg{position:absolute;left:0;bottom:calc(var(--t) + 12px);transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in oklab,var(--hue) 75%,#EFE9F7);text-shadow:0 0 10px color-mix(in oklab,var(--hue) 80%,transparent);transition:opacity .35s}
+.isl.on .reg,.isl:hover .reg,.isl.focus .reg{opacity:0}
+.board.v-top .reg{font-size:9.5px;letter-spacing:.06em}
+
+.map-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;padding-block:16px 0}
+.map-status{margin:0;font-size:15px;color:var(--ink2)}
+.map-status b{color:var(--ink);font-weight:600}
+.map-status a{margin-inline-start:10px;font-weight:600;color:var(--acc-ink)}
+.legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink3)}
+.legend li{display:inline-flex;align-items:center;gap:8px}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+.sw-route{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.sw-done{background:var(--card);box-shadow:inset 0 0 0 3px var(--done)}
+.sw-off{background:linear-gradient(135deg,#00E5FF,#FF2A6D 50%,#FCEE0A);opacity:.55}
+
+.route-sec{padding-block:80px 24px}
+.route-meta{margin:0 0 10px;font-size:13px;color:var(--ink3)}
+.prof{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-bottom:64px}
+.pcard{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--r-md);padding:26px;min-width:0;box-shadow:var(--shadow-1)}
+.pc-build{grid-column:span 3}
+.pc-time{grid-column:span 3}
+.pc-pros,.pc-cons,.pc-effort{grid-column:span 2}
+.pc-jobs{grid-column:span 6}
+.k{font-family:var(--mono);font-size:11px;line-height:1.4;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:0 0 10px}
+.k::before{content:"> ";color:var(--acc)}
+.lead{margin:0 0 16px;font-size:18px;line-height:1.55;color:var(--ink);text-wrap:pretty}
+.fit{margin:0;padding:12px 14px;border-radius:var(--r-sm);background:var(--acc-soft);border-inline-start:3px solid var(--acc);color:var(--ink2);font-size:15px}
+.big{font-size:44px;line-height:1.04;font-weight:800;letter-spacing:-.03em;margin:0 0 6px;color:var(--acc-ink);text-shadow:0 0 26px color-mix(in oklab,var(--acc) 55%,transparent)}
+.sub{margin:0 0 18px;color:var(--ink2);font-size:15px}
+.tbar{display:flex;gap:3px;height:36px;border-radius:8px;overflow:hidden}
+.tseg{--hue:var(--acc);--hue-on:#0B0810;flex-basis:0;min-width:0;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--hue-on);background:var(--hue);box-shadow:inset 0 0 12px rgba(11,8,16,.25);overflow:hidden;white-space:nowrap}
+.tseg.dn{background:var(--done);color:var(--on-done)}
+.tkey{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink3)}
+.tkey li{display:inline-flex;align-items:center;gap:6px}
+.tkey i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.tk-own{background:linear-gradient(90deg,#00E5FF,#B45CFF 50%,#FF2A6D)}
+.tk-done{background:var(--done)}
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.plist li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:15px;line-height:1.5;color:var(--ink2)}
+.plist svg{width:22px;height:22px;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pros svg{stroke:var(--done);filter:drop-shadow(0 0 4px color-mix(in oklab,var(--done) 70%,transparent))}
+.cons svg{stroke:var(--pink);filter:drop-shadow(0 0 4px color-mix(in oklab,var(--pink) 70%,transparent))}
+.meters{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.meters li{display:grid;grid-template-columns:64px auto;column-gap:12px;row-gap:2px;align-items:center;justify-content:start}
+.m-name{font-weight:600;font-size:14px}
+.dots{display:inline-flex;gap:5px}
+.dot{width:12px;height:12px;border-radius:3px;background:var(--line2)}
+.dot.on{background:var(--acc);box-shadow:0 0 8px color-mix(in oklab,var(--acc) 75%,transparent)}
+.m-note{grid-column:1 / -1;font-size:13px;line-height:1.45;color:var(--ink3)}
+.roles{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.role{padding:6px 12px;border-radius:8px;background:var(--card2);border:1px solid color-mix(in oklab,var(--acc) 35%,var(--line));font-size:14px;font-weight:500}
+.evid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px}
+.evid li{padding:16px;border-radius:var(--r-sm);background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.evid p{margin:0;font-size:15px;line-height:1.5;color:var(--ink2)}
+.evid a{font-size:13px;font-weight:600;color:var(--acc-ink)}
+
+.steps-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:16px}
+.steps-h{font-weight:800;font-size:28px;letter-spacing:-.024em;margin:0}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.step{--hue:var(--acc);--hue-on:#0B0810;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card);box-shadow:var(--shadow-1);transition:border-color .25s,background-color .25s,box-shadow .25s;scroll-margin-top:88px}
+.step.open{border-color:color-mix(in oklab,var(--hue) 60%,var(--line));background:color-mix(in oklab,var(--hue) 5%,var(--card));box-shadow:0 0 0 1px color-mix(in oklab,var(--hue) 35%,transparent),0 0 40px -14px color-mix(in oklab,var(--hue) 65%,transparent)}
+.step-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px}
+.step-head{appearance:none;border:0;background:transparent;cursor:pointer;text-align:start;flex:1 1 320px;min-width:0;display:flex;align-items:center;gap:14px;min-height:52px;padding:4px 8px;border-radius:var(--r-sm);transition:background-color .2s}
+.step-head:hover{background:color-mix(in oklab,var(--hue) 9%,transparent)}
+.step-num{flex:none;font-size:13px;font-weight:700;width:40px;height:40px;border-radius:var(--r-sm);display:grid;place-items:center;background:color-mix(in oklab,var(--hue) 14%,var(--card2));color:color-mix(in oklab,var(--hue) 85%,#EFE9F7);border:1px solid color-mix(in oklab,var(--hue) 40%,transparent)}
+.step.open .step-num{background:var(--hue);color:var(--hue-on);border-color:var(--hue);box-shadow:0 0 18px color-mix(in oklab,var(--hue) 75%,transparent)}
+.step.is-done .step-num{background:var(--done);color:var(--on-done);border-color:var(--done)}
+.step-ico{flex:none;display:grid;place-items:center}
+.step-ico svg{width:22px;height:22px;fill:none;stroke:color-mix(in oklab,var(--hue) 75%,#8F85A2);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.step-title{font-weight:600;font-size:19px;line-height:1.3;letter-spacing:-.016em;color:var(--ink);min-width:0}
+.step-meta{margin-inline-start:auto;font-size:13px;color:var(--ink3);white-space:nowrap}
+.chev{flex:none;width:20px;height:20px;fill:none;stroke:var(--ink3);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.step.open .chev{transform:rotate(180deg);stroke:var(--hue)}
+.done-btn{appearance:none;cursor:pointer;flex:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line2);background:transparent;font-size:14px;font-weight:500;color:var(--ink2);transition:background-color .2s,color .2s,border-color .2s,box-shadow .2s}
+.done-btn:hover{color:var(--done);border-color:var(--done)}
+.done-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.45}
+.done-btn.on{background:var(--done);border-color:var(--done);color:var(--on-done);box-shadow:0 0 18px -4px color-mix(in oklab,var(--done) 80%,transparent)}
+.done-btn.on svg{opacity:1}
+.step-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:28px 40px;padding:8px 28px 28px;padding-inline-start:74px}
+.v{margin:0 0 20px;color:var(--ink2);font-size:15px;line-height:1.6;text-wrap:pretty}
+.note{margin:0;padding:12px 14px;border-radius:var(--r-sm);background:var(--paper);border:1px dashed color-mix(in oklab,var(--yellow) 45%,var(--line2));font-size:14px;line-height:1.55;color:var(--ink2)}
+.time-line{margin:0 0 20px;font-size:14px;color:var(--ink2)}
+.time-line b{color:var(--ink);font-weight:600}
+.res-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.res{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;row-gap:3px;align-items:start}
+.res-kind{grid-column:1 / -1;display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;line-height:1.4;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.tier{letter-spacing:.06em;font-size:10.5px;font-weight:700;padding:3px 8px;background:color-mix(in oklab,var(--hue) 20%,var(--card));color:color-mix(in oklab,var(--hue) 85%,#EFE9F7);border:1px solid color-mix(in oklab,var(--hue) 50%,transparent);clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+.res-title{grid-column:1;font-weight:600;font-size:15px;line-height:1.35;color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in oklab,var(--hue) 65%,transparent);text-underline-offset:3px}
+.res-title:hover{color:color-mix(in oklab,var(--hue) 80%,#EFE9F7);text-shadow:0 0 12px color-mix(in oklab,var(--hue) 60%,transparent)}
+.cost{grid-column:2;grid-row:2;font-size:11px;font-weight:600;line-height:1;padding:5px 8px;border-radius:6px;white-space:nowrap;border:1px solid var(--line2);color:var(--ink2)}
+.cost.free{color:var(--done);border-color:color-mix(in oklab,var(--done) 50%,transparent)}
+.res-by{grid-column:1;font-size:13px;line-height:1.45;color:var(--ink3)}
+.empty{margin:0;font-size:14px;color:var(--ink3)}
+.outcomes{grid-column:1 / -1;padding:18px 20px 16px;border-radius:var(--r-md);background:color-mix(in oklab,var(--done) 6%,var(--card));border:1px solid color-mix(in oklab,var(--done) 32%,var(--line))}
+.out-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;margin-bottom:10px}
+.out-head .k{margin:0;color:var(--done)}
+.out-head .k::before{color:var(--done)}
+.out-count{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--done)}
+.out-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 24px}
+.out-item{appearance:none;border:0;background:transparent;cursor:pointer;width:100%;display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;align-items:start;text-align:start;padding:8px 6px;border-radius:8px;font-size:15px;line-height:1.45;color:var(--ink);transition:background-color .2s}
+.out-item:hover{background:color-mix(in oklab,var(--done) 8%,transparent)}
+.out-box{width:22px;height:22px;margin-top:1px;border-radius:5px;border:1.5px solid color-mix(in oklab,var(--done) 55%,var(--line2));display:grid;place-items:center;background:var(--card);transition:background-color .2s,border-color .2s,box-shadow .2s}
+.out-box svg{width:14px;height:14px;fill:none;stroke:var(--on-done);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.6);transition:opacity .15s,transform .3s cubic-bezier(.3,1.4,.5,1)}
+.out-item.on .out-box{background:var(--done);border-color:var(--done);box-shadow:0 0 14px color-mix(in oklab,var(--done) 75%,transparent)}
+.out-item.on .out-box svg{opacity:1;transform:scale(1)}
+.out-item.on .out-t{color:var(--ink2)}
+.out-hint{margin:10px 0 0;font-size:13px;color:var(--ink3)}
+
+.learn-sec{padding-block:80px 24px}
+.learn-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start}
+.rules{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.rule{--rc:var(--acc);display:flex;gap:14px;padding:20px;border-radius:var(--r-md);background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);box-shadow:var(--shadow-1);transition:border-color .2s,box-shadow .2s}
+.rule:nth-child(1){--rc:#00E5FF}.rule:nth-child(2){--rc:#FF2A6D}.rule:nth-child(3){--rc:#FCEE0A}.rule:nth-child(4){--rc:#B45CFF}.rule:nth-child(5){--rc:#B8FF1F}.rule:nth-child(6){--rc:#FF8A1F}
+.rule:hover{border-color:color-mix(in oklab,var(--rc) 55%,var(--line));box-shadow:0 0 30px -12px var(--rc)}
+.rule-n{flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:700;background:color-mix(in oklab,var(--rc) 15%,var(--card));color:var(--rc);border:1px solid color-mix(in oklab,var(--rc) 55%,transparent);box-shadow:0 0 14px -4px var(--rc)}
+.rule-h{margin:3px 0 6px;font-size:17px;font-weight:650;letter-spacing:-.016em;line-height:1.3}
+.rule p{margin:0;font-size:15px;line-height:1.5;color:var(--ink2);text-wrap:pretty}
+.prompt-card{position:sticky;top:84px;padding:24px;border-radius:var(--r-lg);background:#07060A;color:#DDFBEA;border:1px solid color-mix(in oklab,var(--done) 35%,var(--line));box-shadow:var(--shadow-2),0 0 44px -20px color-mix(in oklab,var(--done) 75%,transparent)}
+.prompt-card::before,.prompt-card::after{border-color:var(--done);filter:drop-shadow(0 0 6px var(--done))}
+.prompt-card .k{color:var(--done)}
+.prompt-card .k::before{color:var(--done)}
+.prompt{margin:0 0 18px;white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:#D9FBE8}
+.prompt::after{content:"";display:inline-block;width:.6em;height:1.1em;margin-inline-start:3px;vertical-align:text-bottom;background:var(--done);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.copy-btn{appearance:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--done);color:var(--on-done);font-size:15px;font-weight:700;box-shadow:0 0 22px -6px var(--done)}
+.copy-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.prompt-note{margin:14px 0 0;font-size:13px;line-height:1.5;color:#9DBFAE}
+.studies{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:16px;margin-top:20px}
+.study{--sc:var(--cyan);display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:var(--r-md);background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-top:2px solid var(--sc);box-shadow:var(--shadow-1)}
+.study:nth-child(2){--sc:var(--pink)}
+.study-src{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.study-big{margin:0;font-size:44px;line-height:1.04;font-weight:800;letter-spacing:-.03em;color:var(--sc);text-shadow:0 0 26px color-mix(in oklab,var(--sc) 60%,transparent)}
+.study-d{margin:0;font-size:15px;line-height:1.55;color:var(--ink2);text-wrap:pretty}
+.study a{font-size:14px;font-weight:600;color:color-mix(in oklab,var(--sc) 80%,#EFE9F7)}
+
+.cmp-sec{padding-block:72px 24px}
+.market{margin:0 0 20px;max-width:80ch;color:var(--ink2);font-size:15px}
+.market a{font-weight:600;color:var(--acc-ink)}
+.cmp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card);box-shadow:var(--shadow-1)}
+.cmp{min-width:1040px}
+.cmp-row{--gc:var(--acc);display:grid;grid-template-columns:220px 190px 130px 96px 96px 96px minmax(0,1fr);align-items:center;column-gap:16px;padding:10px 20px;border-top:1px solid var(--line)}
+.cmp-row.head{border-top:0;padding-block:14px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.cmp-row.sel{background:color-mix(in oklab,var(--gc) 10%,var(--card));box-shadow:inset 3px 0 0 var(--gc)}
+.cmp-pick{appearance:none;border:0;background:transparent;cursor:pointer;text-align:start;padding:8px 0;min-height:44px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in oklab,var(--gc) 55%,transparent);text-underline-offset:3px}
+.cmp-pick::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:10px;vertical-align:1px;background:var(--gc);box-shadow:0 0 8px var(--gc)}
+.cmp-cell{font-size:14px;color:var(--ink2)}
+.cmp-cell b{color:var(--ink);font-weight:600}
+.cmp-row .dot.on{background:var(--gc);box-shadow:0 0 6px color-mix(in oklab,var(--gc) 75%,transparent)}
+.dots.sm .dot{width:10px;height:10px}
+
+.foot{padding-block:72px 88px}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;margin:24px 0 32px}
+.tip-card{display:flex;gap:14px;padding:20px;border-radius:var(--r-md);background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);box-shadow:var(--shadow-1)}
+.tip-n{flex:none;font-size:13px;font-weight:700;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc-ink);border:1px solid color-mix(in oklab,var(--acc) 45%,transparent)}
+.tip-card p{margin:0;color:var(--ink2);font-size:15px;text-wrap:pretty}
+.method{margin:0 0 28px;padding:16px 18px;border-radius:var(--r-md);background:var(--paper2);border:1px solid var(--line);color:var(--ink2);font-size:14px;line-height:1.6;max-width:90ch}
+.method b{color:var(--ink)}
+.foot-row{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:24px}
+.fine{margin:0;font-size:13px;color:var(--ink3);max-width:72ch}
+.ghost-btn{appearance:none;cursor:pointer;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--line2);background:transparent;font-size:14px;font-weight:500;color:var(--ink2);display:inline-flex;align-items:center;gap:8px;transition:color .2s,border-color .2s,box-shadow .2s}
+.ghost-btn:hover{border-color:var(--acc);color:var(--ink);box-shadow:0 0 18px -6px var(--acc)}
+
+@media (max-width:1359px){.map{--k:.92}}
+@media (max-width:1259px){.map{--k:.84}}
+@media (max-width:1159px){.map{--k:.76}}
+@media (max-width:1059px){.map{--k:.68}}
+@media (max-width:980px){.prof{grid-template-columns:minmax(0,1fr)}.prof > .pcard{grid-column:auto}.learn-grid{grid-template-columns:minmax(0,1fr)}.prompt-card{position:relative;top:auto}}
+@media (max-width:959px){.map{--k:.6}}
+@media (max-width:940px){.lnav{display:none}}
+@media (max-width:859px){.map{--k:.54}}
+@media (max-width:760px){.out-list{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:759px){.map{--k:.5;overflow-x:auto}.map-hold{margin-inline:0}}
+@media (max-width:640px){.step-body{padding-inline-start:20px;padding-inline-end:20px}.step-meta{display:none}.progress-bar{width:96px}.picker{padding:20px}.goal{min-height:0}.big{font-size:34px}.rules{grid-template-columns:minmax(0,1fr)}.brand-tag{display:none}.topbar{flex-wrap:nowrap}.progress-long{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.progress-short{display:inline}}
+.atlas.still *,.atlas.still *::before,.atlas.still *::after{animation:none!important}
+@media (prefers-reduced-motion:reduce){.atlas *,.atlas *::before,.atlas *::after{animation:none!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-transparency:reduce){.topbar-shell{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}}
+</style>
+</helmet>
+<div class="atlas {{rootClass}}" style="--acc: {{accent}}; --on-acc: {{onAcc}}">
+
+<header class="topbar-shell">
+<div class="wrap topbar">
+<div class="brand">
+<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l11 6.3L16 15.6 5 9.3z" fill="{{accent}}"></path><path d="M5 9.3l11 6.3V29L5 22.7z" fill="#FF2A6D"></path><path d="M27 9.3L16 15.6V29l11-6.3z" fill="#B45CFF"></path></svg>
+<span class="brand-name disp">AI Atlas</span>
+<span class="brand-tag">My study plan</span>
+</div>
+<nav class="lnav" aria-label="Sections">
+<a href="#map-h">Atlas</a>
+<a href="#route-h">Your route</a>
+<a href="#learn-h">How to study</a>
+<a href="#cmp-h">Compare</a>
+</nav>
+<div class="progress" role="status">
+<span class="progress-long"><b>{{progress.done}}</b> of {{progress.total}} islands finished on this route</span>
+<span class="progress-short" aria-hidden="true"><b>{{progress.done}}</b>/{{progress.total}}</span>
+<span class="progress-bar" aria-hidden="true"><span class="progress-fill" style="width: {{progress.pct}}%"></span></span>
+</div>
+</div>
+</header>
+
+<section class="wrap hero">
+<div>
+<p class="eyebrow">Learning map · checked November 2026</p>
+<h1 class="h1 disp">Learn AI from zero, <span class="h1-grad glitch" data-text="one island at a time">one island at a time</span></h1>
+<p class="lede">Pick where you want to end up. The map lights the route to that goal. Below it you'll see what the route is worth, how long it takes and what it costs, then every step with the courses and books worth your time.</p>
+<p class="lede">Every island lists what you should be able to explain before you move on. Tick those as they click, then mark the island finished. Islands shared by two routes stay finished when you switch.</p>
+<div class="tip">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z"></path><path d="M15.5 8.5l-2 5-5 2 2-5z"></path></svg>
+<p><b>Not sure where to start?</b> Follow Understand first. It covers using, training and building models, and puts the from-scratch islands before the tools so you know what the tools are doing.</p>
+</div>
+</div>
+<div class="picker" role="group" aria-labelledby="pick-h">
+<h2 id="pick-h" class="picker-h disp">Where do you want to end up?</h2>
+<div class="goal-row">
+<sc-for list="{{goals}}" as="g" hint-placeholder-count="4">
+<button type="button" class="goal {{g.cls}}" style="--gc: {{g.color}}; --gc-on: {{g.on}}" aria-pressed="{{g.pressed}}" onClick="{{g.pick}}">
+<span class="goal-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{g.icon}}"></path></svg></span>
+<sc-if value="{{g.tag}}" hint-placeholder-val="{{false}}"><span class="goal-tag">{{g.tag}}</span></sc-if>
+<span class="goal-name">{{g.name}}</span>
+<span class="goal-desc">{{g.desc}}</span>
+<span class="goal-meta mono">{{g.meta}}</span>
+</button>
+</sc-for>
+</div>
+<p class="picker-sub">Or go deep in one area (7 islands each)</p>
+<div class="chips">
+<sc-for list="{{specs}}" as="c" hint-placeholder-count="6">
+<button type="button" class="chip {{c.cls}}" style="--gc: {{c.color}}; --gc-on: {{c.on}}" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{c.icon}}"></path></svg><span>{{c.name}}</span></button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section class="wrap map-sec" aria-labelledby="map-h">
+<div class="sec-head">
+<div>
+<h2 id="map-h" class="sec-h disp">The atlas</h2>
+<p class="sec-p">Click an island to open it below. Your route rises and glows, each island carries its own 3D icon, and finished islands turn green.</p>
+</div>
+<div class="seg" role="group" aria-label="Camera angle">
+<sc-for list="{{cams}}" as="v" hint-placeholder-count="3">
+<button type="button" class="cam-btn {{v.cls}}" aria-pressed="{{v.pressed}}" onClick="{{v.pick}}">{{v.name}}</button>
+</sc-for>
+</div>
+</div>
+<div class="map">
+<div class="map-hold">
+<div class="stage">
+<div class="persp">
+<div class="board {{cam.cls}}" style="--tilt: {{cam.tilt}}deg; --spin: {{cam.spin}}deg; --zoom: {{cam.zoom}}; --btilt: {{cam.btilt}}deg; --bspin: {{cam.bspin}}deg; --inv: {{cam.inv}}">
+<div class="sea"></div>
+<svg class="lanes" width="1600" height="1600" viewBox="0 0 1600 1600" aria-hidden="true">
+<sc-for list="{{links}}" as="l" hint-placeholder-count="28">
+<line class="lane" x1="{{l.x1}}" y1="{{l.y1}}" x2="{{l.x2}}" y2="{{l.y2}}"></line>
+</sc-for>
+<sc-for list="{{routeSegs}}" as="r" hint-placeholder-count="1">
+<polyline class="route-glow" points="{{r}}"></polyline>
+</sc-for>
+<sc-for list="{{routeSegs}}" as="r" hint-placeholder-count="1">
+<polyline class="route-line" points="{{r}}"></polyline>
+</sc-for>
+</svg>
+<sc-for list="{{islands}}" as="i" hint-placeholder-count="29">
+<div class="isl {{i.cls}}" style="left: {{i.left}}px; top: {{i.top}}px; --hue: {{i.hue}}; --hue-on: {{i.hueOn}}">
+<div class="isl-glow"></div>
+<div class="isl-rise" style="animation-delay: {{i.rd}}ms">
+<div class="isl-bob" style="animation-delay: {{i.bd}}ms">
+<div class="face face-n"></div>
+<div class="face face-s"></div>
+<div class="face face-w"></div>
+<div class="face face-e"></div>
+<button type="button" class="isl-top" aria-label="{{i.aria}}" aria-pressed="{{i.pressed}}" onClick="{{i.pick}}"></button>
+<div class="bb">
+<div class="tok" style="animation-delay: {{i.sd}}ms"><span class="tl"></span><span class="tl t1"></span><span class="tl t2"></span><span class="tl t3"></span><span class="tf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{i.icon}}"></path></svg></span></div>
+<span class="lbl"><span class="lbl-num mono">{{i.num}}</span><span>{{i.short}}</span></span>
+<sc-if value="{{i.reg}}" hint-placeholder-val="{{false}}">
+<span class="reg mono">{{i.reg}}</span>
+</sc-if>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="map-foot">
+<p class="map-status">Open below: <b>{{focusLine}}</b><a href="#{{focusAnchor}}">Jump to it</a></p>
+<ul class="legend" aria-label="Map legend">
+<li><span class="sw sw-route"></span>Your route</li>
+<li><span class="sw sw-done"></span>Finished</li>
+<li><span class="sw sw-off"></span>Other islands</li>
+</ul>
+</div>
+</section>
+
+<section class="wrap route-sec" aria-labelledby="route-h">
+<div class="sec-head">
+<div>
+<p class="eyebrow">Your route</p>
+<h2 id="route-h" class="sec-h disp">{{pathName}}</h2>
+<p class="route-meta mono">{{routeMeta}}</p>
+<p class="sec-p">{{pathBlurb}}</p>
+</div>
+<div class="pace">
+<span class="pace-l mono">Study pace</span>
+<div class="seg" role="group" aria-label="Study pace">
+<sc-for list="{{paces}}" as="p" hint-placeholder-count="3">
+<button type="button" class="pace-btn {{p.cls}}" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}">{{p.name}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div class="prof">
+<article class="pcard pc-build">
+<p class="k mono">What you can build</p>
+<p class="lead">{{info.build}}</p>
+<p class="fit">{{info.fit}}</p>
+</article>
+<article class="pcard pc-time">
+<p class="k mono">Time</p>
+<p class="big disp">{{timeBig}}</p>
+<p class="sub">{{timeSub}}</p>
+<div class="tbar" role="img" aria-label="{{timeAria}}">
+<sc-for list="{{timeBar}}" as="b" hint-placeholder-count="6">
+<span class="tseg mono {{b.cls}}" style="flex-grow: {{b.flex}}; --hue: {{b.hue}}; --hue-on: {{b.hueOn}}" title="{{b.title}}">{{b.num}}</span>
+</sc-for>
+</div>
+<ul class="tkey">
+<li><i class="tk-own"></i>Same colors as the islands on the map</li>
+<li><i class="tk-done"></i>Finished</li>
+</ul>
+</article>
+<article class="pcard pc-pros">
+<p class="k mono">Benefits</p>
+<ul class="plist pros">
+<sc-for list="{{info.benefits}}" as="b" hint-placeholder-count="3">
+<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z M8 12.3l2.7 2.7L16.2 9.5"></path></svg><span>{{b}}</span></li>
+</sc-for>
+</ul>
+</article>
+<article class="pcard pc-cons">
+<p class="k mono">Trade-offs</p>
+<ul class="plist cons">
+<sc-for list="{{info.tradeoffs}}" as="b" hint-placeholder-count="3">
+<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z M8 12h8"></path></svg><span>{{b}}</span></li>
+</sc-for>
+</ul>
+</article>
+<article class="pcard pc-effort">
+<p class="k mono">Effort (my rating out of 5)</p>
+<ul class="meters">
+<sc-for list="{{effort}}" as="e" hint-placeholder-count="4">
+<li><span class="m-name">{{e.name}}</span><span class="dots" role="img" aria-label="{{e.aria}}"><sc-for list="{{e.dots}}" as="d" hint-placeholder-count="5"><span class="dot {{d}}"></span></sc-for></span><span class="m-note">{{e.note}}</span></li>
+</sc-for>
+</ul>
+</article>
+<article class="pcard pc-jobs">
+<p class="k mono">Roles and demand</p>
+<div class="roles">
+<sc-for list="{{info.roles}}" as="r" hint-placeholder-count="3">
+<span class="role">{{r}}</span>
+</sc-for>
+</div>
+<ul class="evid">
+<sc-for list="{{info.demand}}" as="d" hint-placeholder-count="2">
+<li><p>{{d.t}}</p><a href="{{d.u}}" target="_blank" rel="noopener noreferrer">{{d.s}}</a></li>
+</sc-for>
+</ul>
+</article>
+</div>
+
+<div class="steps-head">
+<h3 class="steps-h disp">Island by island</h3>
+<button type="button" class="ghost-btn" aria-pressed="{{showAllStr}}" onClick="{{toggleAll}}">{{showAllLabel}}</button>
+</div>
+<ol class="steps">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="6">
+<li class="step {{s.cls}}" id="{{s.anchor}}" style="--hue: {{s.hue}}; --hue-on: {{s.hueOn}}">
+<div class="step-row">
+<button type="button" class="step-head" aria-expanded="{{s.expanded}}" onClick="{{s.open}}">
+<span class="step-num mono">{{s.num}}</span>
+<span class="step-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{s.icon}}"></path></svg></span>
+<span class="step-title">{{s.title}}</span>
+<span class="step-meta">{{s.meta}}</span>
+<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<button type="button" class="done-btn {{s.doneCls}}" aria-pressed="{{s.doneStr}}" onClick="{{s.toggle}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{s.doneLabel}}</span></button>
+</div>
+<sc-if value="{{s.isOpen}}" hint-placeholder-val="{{false}}">
+<div class="step-body">
+<div class="outcomes">
+<div class="out-head"><p class="k">By the end, you can explain</p><span class="out-count">{{s.knowText}}</span></div>
+<ul class="out-list">
+<sc-for list="{{s.know}}" as="o" hint-placeholder-count="4">
+<li><button type="button" class="out-item {{o.cls}}" role="checkbox" aria-checked="{{o.checked}}" onClick="{{o.toggle}}"><span class="out-box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="out-t">{{o.t}}</span></button></li>
+</sc-for>
+</ul>
+<p class="out-hint">Tick one only when you can explain it out loud without notes. If you can't yet, go back to the course before you move on.</p>
+</div>
+<div>
+<p class="k mono">What you will learn</p>
+<p class="v">{{s.learn}}</p>
+<p class="k mono">Build this before moving on</p>
+<p class="v">{{s.build}}</p>
+<p class="k mono">Time</p>
+<p class="time-line"><b>{{s.hrs}}</b> · {{s.weeks}}</p>
+<sc-if value="{{s.note}}" hint-placeholder-val="{{false}}">
+<p class="note">{{s.note}}</p>
+</sc-if>
+</div>
+<div>
+<p class="k mono">Courses, videos and guides</p>
+<ul class="res-list">
+<sc-for list="{{s.courses}}" as="r" hint-placeholder-count="2">
+<li class="res">
+<span class="res-kind mono">{{r.kind}}<sc-if value="{{r.start}}" hint-placeholder-val="{{false}}"><span class="tier">Start here</span></sc-if></span>
+<a class="res-title" href="{{r.url}}" target="_blank" rel="noopener noreferrer">{{r.title}}</a>
+<span class="cost mono {{r.costCls}}">{{r.cost}}</span>
+<span class="res-by">{{r.by}} · {{r.meta}}</span>
+</li>
+</sc-for>
+</ul>
+</div>
+<div>
+<p class="k mono">Books</p>
+<sc-if value="{{s.hasBooks}}" hint-placeholder-val="{{true}}">
+<ul class="res-list">
+<sc-for list="{{s.books}}" as="r" hint-placeholder-count="1">
+<li class="res">
+<span class="res-kind mono">{{r.kind}}<sc-if value="{{r.start}}" hint-placeholder-val="{{false}}"><span class="tier">Start here</span></sc-if></span>
+<a class="res-title" href="{{r.url}}" target="_blank" rel="noopener noreferrer">{{r.title}}</a>
+<span class="cost mono {{r.costCls}}">{{r.cost}}</span>
+<span class="res-by">{{r.by}} · {{r.meta}}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{s.noBooks}}" hint-placeholder-val="{{false}}">
+<p class="empty">No book needed for this island. The courses cover it.</p>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</li>
+</sc-for>
+</ol>
+</section>
+
+<section class="wrap learn-sec" aria-labelledby="learn-h">
+<div class="sec-head">
+<div>
+<p class="eyebrow">How to study</p>
+<h2 id="learn-h" class="sec-h disp">Use AI as a tutor</h2>
+<p class="sec-p">AI helps when it explains things and gets in the way when it does the work for you. Two recent studies found the same pattern, so these six habits keep the thinking on your side.</p>
+</div>
+</div>
+<div class="learn-grid">
+<ol class="rules">
+<li class="rule"><span class="rule-n">1</span><div><h3 class="rule-h">Write it yourself first</h3><p>Do course exercises with AI autocomplete turned off. Typing the code is part of learning it.</p></div></li>
+<li class="rule"><span class="rule-n">2</span><div><h3 class="rule-h">Ask for hints, not fixes</h3><p>When you're stuck, ask why something works or for one hint. Don't paste the task in and copy the answer.</p></div></li>
+<li class="rule"><span class="rule-n">3</span><div><h3 class="rule-h">Debug before you ask</h3><p>Read the error, guess the cause and test your guess. In the coding study, debugging showed the biggest gap.</p></div></li>
+<li class="rule"><span class="rule-n">4</span><div><h3 class="rule-h">Let AI review, not write</h3><p>Once your code works, ask AI to review it and explain what it would change and why.</p></div></li>
+<li class="rule"><span class="rule-n">5</span><div><h3 class="rule-h">Rebuild from a blank file</h3><p>After each island's project, rebuild the core part without looking at your old code.</p></div></li>
+<li class="rule"><span class="rule-n">6</span><div><h3 class="rule-h">Explain it back</h3><p>Tick an island's "By the end" items only when you can explain them out loud without notes.</p></div></li>
+</ol>
+<aside class="prompt-card" aria-labelledby="prompt-h">
+<p id="prompt-h" class="k">Paste this into Claude when you start studying</p>
+<pre class="prompt code">{{tutorPrompt}}</pre>
+<button type="button" class="copy-btn" onClick="{{copyPrompt}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h10v11H9z M5 15V4h10"></path></svg><span>{{copyLabel}}</span></button>
+<p class="prompt-note">Replace [topic] with the island you're on. Ask for the answer only after you've tried, and then ask it to explain each line.</p>
+</aside>
+</div>
+<div class="studies">
+<article class="study">
+<p class="study-src">Coding study · Anthropic, January 2026</p>
+<p class="study-big">50% vs 67%</p>
+<p class="study-d">Quiz scores of 52 mostly junior developers who learned a new Python library with an AI assistant, against those who coded by hand. The AI group wasn't significantly faster. Those who used AI to ask for explanations scored about as well as the hand coders.</p>
+<a href="https://www.anthropic.com/research/AI-assistance-coding-skills" target="_blank" rel="noopener noreferrer">Read the study</a>
+</article>
+<article class="study">
+<p class="study-src">Math study · PNAS, 2025</p>
+<p class="study-big">17% lower</p>
+<p class="study-d">Exam grades of high school students after their ChatGPT-style assistant was taken away, against students who never had one, even though it had raised their practice grades by 48%. A tutor version with safeguards largely avoided the drop.</p>
+<a href="https://doi.org/10.1073/pnas.2422633122" target="_blank" rel="noopener noreferrer">Read the paper</a>
+</article>
+</div>
+</section>
+
+<section class="wrap cmp-sec" aria-labelledby="cmp-h">
+<div class="sec-head">
+<div>
+<p class="eyebrow">Compare</p>
+<h2 id="cmp-h" class="sec-h disp">All routes side by side</h2>
+<p class="sec-p">{{cmpIntro}}</p>
+</div>
+</div>
+<p class="market">In 2025, 2.87% of job postings in the UAE asked for AI skills, more than in the US at 2.56%. The same report notes that employment for US software developers aged 22 to 25 fell nearly 20% from 2024, which is one more reason every island here ends with a project you can show. <a href="https://hai.stanford.edu/assets/files/ai_index_report_2026_chapter_4_economy.pdf" target="_blank" rel="noopener noreferrer">Stanford AI Index 2026</a></p>
+<div class="cmp-wrap">
+<div class="cmp" role="table" aria-label="Routes compared">
+<div class="cmp-row head mono" role="row">
+<span role="columnheader">Route</span><span role="columnheader">Time at your pace</span><span role="columnheader">Hours</span><span role="columnheader">Math</span><span role="columnheader">Code</span><span role="columnheader">GPU</span><span role="columnheader">Leads to</span>
+</div>
+<sc-for list="{{cmpRows}}" as="c" hint-placeholder-count="10">
+<div class="cmp-row {{c.cls}}" style="--gc: {{c.color}}" role="row">
+<span role="rowheader"><button type="button" class="cmp-pick" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}">{{c.name}}</button></span>
+<span class="cmp-cell" role="cell"><b>{{c.time}}</b></span>
+<span class="cmp-cell" role="cell">{{c.hours}}</span>
+<span class="cmp-cell" role="cell"><span class="dots sm" role="img" aria-label="{{c.mathAria}}"><sc-for list="{{c.math}}" as="d" hint-placeholder-count="5"><span class="dot {{d}}"></span></sc-for></span></span>
+<span class="cmp-cell" role="cell"><span class="dots sm" role="img" aria-label="{{c.codeAria}}"><sc-for list="{{c.code}}" as="d" hint-placeholder-count="5"><span class="dot {{d}}"></span></sc-for></span></span>
+<span class="cmp-cell" role="cell"><span class="dots sm" role="img" aria-label="{{c.gpuAria}}"><sc-for list="{{c.gpu}}" as="d" hint-placeholder-count="5"><span class="dot {{d}}"></span></sc-for></span></span>
+<span class="cmp-cell" role="cell">{{c.roles}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<footer class="wrap foot">
+<h2 class="sec-h disp">How to use this map</h2>
+<div class="tips">
+<div class="tip-card"><span class="tip-n mono">1</span><p>Take the "Start here" picks first. The other courses and books are backups for when the first pick doesn't click.</p></div>
+<div class="tip-card"><span class="tip-n mono">2</span><p>Build the project before you move on. Following a course and doing the work yourself are different skills.</p></div>
+<div class="tip-card"><span class="tip-n mono">3</span><p>Most islands have a free option. "Free to audit" means the videos are free and certificates or graded labs cost extra. Coursera replaced free auditing with a free first-module preview in 2025, so Coursera courses here are marked paid.</p></div>
+</div>
+<p class="method"><b>How the numbers were made.</b> Hours are my estimates: each island's main course at its official length (for example, about 95 hours for the Machine Learning Specialization and about 94 for the math specialization) plus time for the project. Months assume your chosen pace and about 4.3 weeks a month. Effort dots are my judgment. Demand figures quote the linked reports, and GPU prices were checked on provider pages in November 2026: an H100 rents for about $2.69 to $4.89 an hour (RunPod, Lambda). DeepLearning.AI's Pro plan, which unlocks certificates and graded work, costs $25 a month billed yearly or $30 monthly. Udemy and Coursera prices vary by country and sale, so they're only marked paid.</p>
+<div class="foot-row">
+<p class="fine">Links go to official course pages, publisher pages and author sites, checked in November 2026. Your progress is saved in this browser only. If a link breaks, search the title on the provider's site.</p>
+<button type="button" class="ghost-btn" onClick="{{clearAll}}">Clear my progress</button>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"motion":{"editor":"boolean","default":true,"section":"Look"},"$preview":{"width":1440,"height":8300}}'>
+const ICONS = {
+  spark: "M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1-5.1-1.9 5.1-1.9z M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z",
+  code: "M8.5 8l-4 4 4 4 M15.5 8l4 4-4 4 M13.5 5.5l-3 13",
+  sigma: "M17 5H7l5.5 7L7 19h10",
+  chart: "M4 4v16h16 M7.5 14.5l3.5-4 3 2.5 4.5-5.5",
+  layers: "M12 3.5l8.5 4.5-8.5 4.5L3.5 8z M3.5 12l8.5 4.5 8.5-4.5 M3.5 16l8.5 4.5 8.5-4.5",
+  chat: "M4.5 5.5h15v10h-9l-4.5 4v-4h-1.5z M8.5 10.5h7",
+  search: "M6 3.5h7.5l4 4V11 M6 3.5v17h5.5 M16 13.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z M18.6 19.1l2.4 2.4",
+  agent: "M7 8.5h10v9.5H7z M12 4.5v4 M10 13h.01 M14 13h.01 M4.5 12.5v3 M19.5 12.5v3",
+  gauge: "M4.5 16.5a7.5 7.5 0 1 1 15 0 M12 16.5l3.5-4.5 M8 20h8",
+  cube: "M12 3.5l8 4.5v8l-8 4.5-8-4.5V8z M12 12.5l8-4.5 M12 12.5v8 M12 12.5L4 8",
+  sliders: "M6 4v16 M12 4v16 M18 4v16 M4 9h4 M10 15h4 M16 7h4",
+  thumb: "M7.5 11v9h-3v-9z M7.5 11l3.5-6.5a1.8 1.8 0 0 1 3.3 1.3L13.5 10h5a1.8 1.8 0 0 1 1.8 2.1l-1.2 6.4a1.8 1.8 0 0 1-1.8 1.5H7.5",
+  server: "M4.5 4.5h15v6h-15z M4.5 13.5h15v6h-15z M8 7.5h.01 M8 16.5h.01",
+  nodes: "M6 4.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4z M6 15.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4z M18 10a2 2 0 1 1 0 4 2 2 0 0 1 0-4z M7.9 7.2l8.2 4 M7.9 16.8l8.2-4",
+  text: "M5 5.5h14 M12 5.5v13 M9 18.5h6",
+  database: "M5 6.5c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3z M5 6.5v11c0 1.7 3.1 3 7 3s7-1.3 7-3v-11 M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3",
+  chip: "M7 7h10v10H7z M10 3.5V7 M14 3.5V7 M10 17v3.5 M14 17v3.5 M3.5 10H7 M3.5 14H7 M17 10h3.5 M17 14h3.5",
+  eye: "M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z",
+  frame: "M4 8.5V4h4.5 M15.5 4H20v4.5 M20 15.5V20h-4.5 M8.5 20H4v-4.5 M9 9h6v6H9z",
+  lines: "M4 6.5h16 M4 12h11 M4 17.5h7",
+  translate: "M4 5.5h8 M8 3.5v2 M10 5.5c-.6 3.6-2.6 6.3-6 8 M6.5 9c1 2 2.7 3.5 5 4.5 M13 20.5l3.5-8 3.5 8 M14.2 18h4.6",
+  sparkles: "M11 3.5l1.6 4.4 4.4 1.6-4.4 1.6L11 15.5l-1.6-4.4L5 9.5l4.4-1.6z M17.5 14l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z",
+  wave: "M3 8q3-3 6 0t6 0 6 0 M3 13q3-3 6 0t6 0 6 0 M3 18q3-3 6 0t6 0 6 0",
+  target: "M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z M12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z M12 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2z",
+  loop: "M4.5 12a7.5 7.5 0 0 1 13-5.1 M19.5 12a7.5 7.5 0 0 1-13 5.1 M17.5 3.5v3.5H14 M6.5 20.5V17H10",
+  blueprint: "M4 4h16v16H4z M4 9.5h16 M9.5 9.5V20",
+  pipeline: "M3.5 6h6v5h-6z M14.5 13h6v5h-6z M9.5 8.5h2.5v7h2.5",
+  shield: "M12 3.5l7.5 3v5.5c0 4.6-3.2 7.6-7.5 8.5-4.3-.9-7.5-3.9-7.5-8.5V6.5z",
+  scope: "M10.5 4a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13z M15.3 15.3L20 20 M10.5 7.5v6 M7.5 10.5h6",
+  bulb: "M9 18h6 M10 21h4 M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z",
+  check: "M5 12.5l4.5 4.5L19 7.5"
+};
+
+const AIE = "https://www.oreilly.com/library/view/ai-engineering/9781098166298/";
+const HOLLM = "https://www.oreilly.com/library/view/hands-on-large-language/9781098150952/";
+const HF_LLM = "https://huggingface.co/learn/llm-course";
+const LI26 = "https://www.linkedin.com/pulse/linkedin-jobs-rise-2026-25-fastest-growing-roles-us-linkedin-news-dlb1c/";
+const LI25UAE = "https://www.linkedin.com/pulse/linkedin-jobs-rise-2025-15-fastest-growing-uae-odrec";
+const AIE26 = "https://hai.stanford.edu/assets/files/ai_index_report_2026_chapter_4_economy.pdf";
+const AIR26 = "https://hai.stanford.edu/assets/files/ai_index_report_2026_chapter_1_research_development.pdf";
+const WEF25 = "https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/";
+const BLS_DS = "https://www.bls.gov/ooh/math/data-scientists.htm";
+const BLS_RS = "https://www.bls.gov/ooh/computer-and-information-technology/computer-and-information-research-scientists.htm";
+const AISI = "https://www.aisi.gov.uk/about";
+
+const ISLANDS = [
+  { id: "S0", x: -560, y: 260, k: "c", icon: "spark", short: "AI literacy", title: "AI literacy", hrs: [15, 30],
+    learn: "What AI, machine learning and large language models are, what they can and can't do yet, and the words you'll see everywhere: model, training, parameters, tokens, prompts.",
+    build: "Use three AI tools on one real task from your work and write down where each one got it wrong.",
+    know: ["The difference between AI, machine learning, deep learning and a large language model", "What training means: a model adjusts its parameters to fit examples instead of following rules someone wrote", "Why an LLM can sound sure and still be wrong: it predicts likely next tokens and doesn't look facts up", "What a token, a parameter and a dataset are, in one sentence each"],
+    res: [
+      ["Course", "Elements of AI", "University of Helsinki and MinnaLearn", "No coding, light math; about 6 weeks", "Free", "https://www.elementsofai.com", 1],
+      ["Course", "AI Fluency: Framework and Foundations", "Anthropic Academy", "Short course with a free certificate", "Free", "https://anthropic.skilljar.com/ai-fluency-framework-foundations", 0],
+      ["Video", "Neural networks series", "3Blue1Brown", "10 videos, about 3.5 hours, includes how LLMs work", "Free", "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi", 0],
+      ["Course", "AI For Everyone", "Andrew Ng, DeepLearning.AI on Coursera", "About 7 hours, no code; launched 2019", "Paid, free preview", "https://www.coursera.org/learn/ai-for-everyone", 0],
+      ["Course", "Generative AI for Everyone", "Andrew Ng, DeepLearning.AI on Coursera", "About 6 hours, no code; 2023", "Paid, free preview", "https://www.coursera.org/learn/generative-ai-for-everyone", 0],
+      ["Book", "Co-Intelligence: Living and Working with AI", "Ethan Mollick", "Portfolio, 2024", "Paid", "https://bookshop.org/p/books/co-intelligence-living-and-working-with-ai-ethan-mollick/20812081", 1],
+      ["Book", "AI Snake Oil", "Arvind Narayanan and Sayash Kapoor", "Princeton University Press, 2024", "Paid", "https://press.princeton.edu/books/hardcover/9780691249131/ai-snake-oil", 0]
+    ] },
+  { id: "S1", x: -420, y: 170, k: "c", icon: "code", short: "Python", title: "Python", hrs: [40, 80],
+    learn: "Variables, loops, functions, files and packages, then NumPy and pandas basics in a Jupyter or Google Colab notebook. Enough to read someone else's code and change it.",
+    build: "A script that pulls data from a CSV file or a public API and prints a clean summary.",
+    know: ["What variables, lists, dictionaries, loops and functions do, and when to use each", "How to read a traceback and find the line that broke", "How to install and import a package, and what a virtual environment is for", "How a NumPy array differs from a Python list, and how to load a CSV into a pandas DataFrame"],
+    note: "CS50P's lectures were recorded in 2022, and its current term closes on 30 June 2027. It doesn't cover NumPy, pandas or notebooks, so work through the official NumPy and pandas guides in Google Colab or Jupyter before the math island.",
+    res: [
+      ["Course", "CS50's Introduction to Programming with Python (CS50P)", "Harvard, David J. Malan", "10 weeks at 3 to 9 hours a week", "Free", "https://cs50.harvard.edu/python/", 1],
+      ["Course", "Python for Everybody", "Charles Severance, University of Michigan", "About 80 hours over 5 courses", "Free", "https://www.py4e.com", 0],
+      ["Course", "100 Days of Code: The Complete Python Pro Bootcamp", "Dr. Angela Yu on Udemy", "About 57 hours of video, updated October 2026", "Paid", "https://www.udemy.com/course/100-days-of-code/", 0],
+      ["Guide", "NumPy: the absolute basics for beginners", "NumPy developers", "Official beginner guide", "Free", "https://numpy.org/doc/stable/user/absolute_beginners.html", 1],
+      ["Guide", "10 minutes to pandas", "pandas developers", "Short official intro for new users", "Free", "https://pandas.pydata.org/docs/user_guide/10min.html", 1],
+      ["Book", "Python Crash Course, 3rd edition", "Eric Matthes", "No Starch Press, 2022", "Paid", "https://nostarch.com/python-crash-course-3rd-edition", 1],
+      ["Book", "Automate the Boring Stuff with Python, 3rd edition", "Al Sweigart", "No Starch Press, 2025", "Free online", "https://automatetheboringstuff.com", 0],
+      ["Book", "Think Python, 3rd edition", "Allen B. Downey", "O'Reilly, 2024", "Free online", "https://allendowney.github.io/ThinkPython/", 0]
+    ] },
+  { id: "S2", x: -280, y: 80, k: "c", icon: "sigma", short: "Math", title: "Math for machine learning", hrs: [60, 100],
+    learn: "Vectors and matrices, derivatives and gradients, probability and statistics. Every model you'll train rests on these three.",
+    build: "Fit a straight line to some data with gradient descent you write yourself in NumPy, without an ML library.",
+    know: ["What vectors and matrices are, and what multiplying a matrix by a vector does", "What a derivative and a gradient tell you, and why gradient descent steps against the gradient", "What a probability distribution, a mean and a variance describe", "Why a model's loss is a function you can minimize, and where the chain rule comes in"],
+    res: [
+      ["Course", "Mathematics for Machine Learning and Data Science", "DeepLearning.AI, Luis Serrano", "About 94 hours over 3 courses", "Paid, first module free", "https://www.deeplearning.ai/specializations/mathematics-for-machine-learning-and-data-science", 1],
+      ["Course", "Mathematics for Machine Learning Specialization", "Imperial College London on Coursera", "3 courses, about 58 hours; no probability", "Paid, free trial", "https://www.coursera.org/specializations/mathematics-machine-learning", 0],
+      ["Video", "Essence of linear algebra", "3Blue1Brown", "Short visual lessons", "Free", "https://www.3blue1brown.com/lessons/eola-preview/", 0],
+      ["Video", "Essence of calculus", "3Blue1Brown", "12 short chapters", "Free", "https://www.3blue1brown.com/topics/calculus", 0],
+      ["Book", "Mathematics for Machine Learning", "Deisenroth, Faisal and Ong", "Cambridge University Press, 2020", "Free PDF", "https://mml-book.github.io", 1]
+    ] },
+  { id: "S3", x: -140, y: -10, k: "c", icon: "chart", short: "Classic ML", title: "Machine learning basics", hrs: [70, 110],
+    learn: "Supervised and unsupervised learning, train, validation and test splits, overfitting, and the classic models (linear and logistic regression, decision trees, gradient boosting) in scikit-learn.",
+    build: "One project on a public dataset from start to finish: clean it, train two models and compare them on data they haven't seen.",
+    know: ["Why you split data into training, validation and test sets, and what goes wrong if you don't", "Overfitting and underfitting, and how to spot each from training and validation scores", "Classification versus regression, and which metrics fit each (accuracy, precision and recall, error)", "How linear regression, logistic regression and a decision tree each make a prediction"],
+    note: "Andrew Ng's course uses TensorFlow. Most of what comes after this island uses PyTorch, so expect to switch.",
+    res: [
+      ["Course", "Machine Learning Specialization", "Andrew Ng, DeepLearning.AI and Stanford", "About 95 hours over 3 courses", "Free to audit", "https://www.deeplearning.ai/specializations/machine-learning", 1],
+      ["Course", "Machine Learning Crash Course", "Google", "About 15 hours, refreshed in 2024", "Free", "https://developers.google.com/machine-learning/crash-course", 0],
+      ["Course", "CS229: Machine Learning", "Stanford, Andrew Ng", "2018 lectures on YouTube, more math", "Free", "https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU", 0],
+      ["Book", "An Introduction to Statistical Learning with Python", "James, Witten, Hastie, Tibshirani and Taylor", "Springer, 2023", "Free PDF", "https://www.statlearning.com", 1],
+      ["Book", "Hands-On Machine Learning with Scikit-Learn and PyTorch", "Aurélien Géron", "O'Reilly, 2025", "Paid", "https://www.oreilly.com/library/view/-/9798341607972/", 0]
+    ] },
+  { id: "S4", x: 0, y: -100, k: "c", icon: "layers", short: "Deep learning", title: "Deep learning", hrs: [60, 100],
+    learn: "Neural networks, backpropagation, convolutional nets and transformers at a working level, all in PyTorch, and what actually happens on a GPU during training.",
+    build: "Train an image classifier on your own photos and put it online as a small demo.",
+    know: ["How a neural network turns inputs into an output, layer by layer", "What backpropagation computes and how an optimizer uses it to update the weights", "What one step of a training loop does: forward pass, loss, backward pass, update", "Why convolutions suit images and attention suits sequences", "What batch size and learning rate change, and why GPUs make training fast"],
+    res: [
+      ["Course", "Practical Deep Learning for Coders", "fast.ai, Jeremy Howard", "9 lessons of about 90 minutes", "Free", "https://course.fast.ai", 1],
+      ["Course", "MIT 6.S191 Introduction to Deep Learning", "MIT, 2026 edition", "9 lectures and 3 labs", "Free", "https://introtodeeplearning.com", 0],
+      ["Course", "Deep Learning Specialization", "Andrew Ng, DeepLearning.AI on Coursera", "5 courses, about 129 hours; uses TensorFlow", "Paid, free trial", "https://www.coursera.org/specializations/deep-learning", 0],
+      ["Course", "PyTorch for Deep Learning Bootcamp", "Daniel Bourke and Andrei Neagoie on Udemy", "About 52 hours; same material free at learnpytorch.io", "Paid", "https://www.udemy.com/course/pytorch-for-deep-learning/", 0],
+      ["Book", "Understanding Deep Learning", "Simon J. D. Prince", "MIT Press, 2023", "Free PDF", "https://udlbook.github.io/udlbook/", 1],
+      ["Book", "Deep Learning with Python, 3rd edition", "François Chollet and Matthew Watson", "Manning, 2025", "Free online", "https://deeplearningwithpython.io", 0],
+      ["Book", "The Little Book of Deep Learning", "François Fleuret", "Short, updated 2026", "Free PDF", "https://fleuret.org/francois/lbdl.html", 0],
+      ["Book", "Deep Learning: Foundations and Concepts", "Christopher M. Bishop and Hugh Bishop", "Springer, 2023", "Free online", "https://www.bishopbook.com/", 0]
+    ] },
+  { id: "U1", x: -250, y: 300, k: "p", icon: "chat", short: "LLM APIs", title: "LLM APIs and prompting", hrs: [20, 35],
+    learn: "How an LLM produces text, then how to call one from code: system prompts, examples in the prompt, structured JSON output, and tokens and what they cost.",
+    build: "A small tool that turns messy meeting notes into a clean follow-up email.",
+    know: ["How an LLM generates text one token at a time, and what temperature changes", "What the system prompt, the user messages and examples in the prompt each do", "How to get structured output such as JSON and check it in your code", "How tokens drive cost and context limits, and how to estimate what a request costs"],
+    note: "Skip old tutorials built on OpenAI's Assistants API. OpenAI shut it down in August 2026.",
+    res: [
+      ["Video", "Deep Dive into LLMs like ChatGPT", "Andrej Karpathy", "3.5 hours, for a general audience", "Free", "https://www.youtube.com/watch?v=7xTGNNLPyMI", 1],
+      ["Course", "Building with the Claude API", "Anthropic Academy", "About 8 hours, needs Python", "Free", "https://anthropic.skilljar.com/claude-with-the-anthropic-api", 1],
+      ["Course", "AI Engineer Core Track: LLM Engineering, RAG, QLoRA, Agents", "Ed Donner on Udemy", "About 33 hours, updated September 2026", "Paid", "https://www.udemy.com/course/llm-engineering-master-ai-and-large-language-models/", 0],
+      ["Video", "How I use LLMs", "Andrej Karpathy", "2025, practical everyday use", "Free", "https://www.youtube.com/watch?v=EWvNQjAaOHw", 0],
+      ["Book", "Prompt Engineering for LLMs", "John Berryman and Albert Ziegler", "O'Reilly, 2024", "Paid", "https://www.oreilly.com/library/view/prompt-engineering-for/9781098156145/", 1]
+    ] },
+  { id: "U2", x: -90, y: 330, k: "p", icon: "search", short: "RAG", title: "RAG: answers from your documents", hrs: [30, 50],
+    learn: "Embeddings, vector search, chunking and retrieval-augmented generation, so a model answers from your own documents and cites them.",
+    build: "A chatbot that answers questions from a folder of PDFs and shows the page each answer came from.",
+    know: ["What an embedding is and why texts with similar meanings land close together", "How vector search finds the right chunks, and how chunk size changes the answers", "The whole RAG flow: chunk, embed, retrieve, add to the prompt, answer with citations", "How to tell whether a bad answer came from retrieval or from generation"],
+    res: [
+      ["Course", "LLM Zoomcamp", "DataTalks.Club", "10 weeks; no GPU, about $1 to $5 in API credits", "Free", "https://github.com/DataTalksClub/llm-zoomcamp", 1],
+      ["Course", "Retrieval Augmented Generation (RAG)", "DeepLearning.AI, Zain Hasan", "About 26 hours, intermediate", "Paid, first module free", "https://www.deeplearning.ai/courses/retrieval-augmented-generation", 0],
+      ["Book", "Hands-On Large Language Models", "Jay Alammar and Maarten Grootendorst", "O'Reilly, 2024", "Paid", HOLLM, 1]
+    ] },
+  { id: "U3", x: 70, y: 350, k: "p", icon: "agent", short: "Agents", title: "Agents and tools", hrs: [25, 40],
+    learn: "Tool use (function calling), agent loops, the Model Context Protocol (MCP), memory, and how to tell when a fixed workflow will do the job better than an agent.",
+    build: "An agent that researches a company on the web and drafts a one-page brief into a doc or sheet.",
+    know: ["How tool use works: the model asks for a tool, your code runs it, the result goes back", "What an agent loop is, and why it needs limits on steps, cost and permissions", "What MCP standardizes and when you'd use it", "When a fixed workflow is the better choice than an agent"],
+    res: [
+      ["Course", "Agentic AI", "Andrew Ng, DeepLearning.AI", "About 10 hours, plain Python", "Free to audit", "https://www.deeplearning.ai/courses/agentic-ai", 1],
+      ["Course", "AI Agents Course", "Hugging Face", "About 3 to 4 hours per unit, free certificate", "Free", "https://huggingface.co/learn/agents-course", 0],
+      ["Course", "MCP Course", "Hugging Face with Anthropic", "Free certificates", "Free", "https://huggingface.co/learn/mcp-course", 0],
+      ["Course", "AI Engineer Agentic Track: The Complete Agent & MCP Course", "Ed Donner on Udemy", "About 21 hours, updated September 2026", "Paid", "https://www.udemy.com/course/the-complete-agentic-ai-engineering-course/", 0],
+      ["Course", "5-Day AI Agents Intensive", "Kaggle and Google", "Self-paced, uses Gemini and Google's ADK", "Free", "https://www.kaggle.com/learn-guide/5-day-agents", 0],
+      ["Guide", "Building effective agents", "Anthropic", "Short read, December 2024", "Free", "https://www.anthropic.com/engineering/building-effective-agents", 0],
+      ["Book", "AI Engineering (chapter 6, RAG and Agents)", "Chip Huyen", "O'Reilly, 2024", "Paid", AIE, 1]
+    ] },
+  { id: "U4", x: 230, y: 365, k: "p", icon: "gauge", short: "Evals & ship", title: "Evals and shipping", reg: "Use models", hrs: [25, 40],
+    learn: "Test sets built from real examples, error analysis, LLM judges you've checked against people, then cost, latency, guardrails and monitoring once the app is live.",
+    build: "Write 50 test cases from real use of one of your apps, fix the worst failure, and ship the better version.",
+    know: ["How to build a test set from real examples and score outputs against it", "How error analysis works: read the outputs, group the failures, fix the biggest group first", "When you can trust an LLM judge, and how to check it against human labels", "Which cost, latency and safety checks to set up before real users arrive"],
+    res: [
+      ["Course", "Evaluating and Improving Agentic Applications", "DeepLearning.AI with Arize AI", "About 15 hours", "Paid, Pro plan", "https://www.deeplearning.ai/courses/evaluating-and-improving-agentic-applications", 1],
+      ["Guide", "Demystifying evals for AI agents", "Anthropic", "January 2026", "Free", "https://www.anthropic.com/research/demystifying-evals-for-ai-agents", 0],
+      ["Course", "AI Evals for Engineers and PMs", "Hamel Husain and Shreya Shankar, Maven", "Live cohort", "Paid", "https://maven.com/parlance-labs/evals", 0],
+      ["Book", "AI Engineering (chapters 3 and 4, evaluation)", "Chip Huyen", "O'Reilly, 2024", "Paid", AIE, 1]
+    ] },
+  { id: "T1", x: 150, y: -30, k: "p", icon: "cube", short: "Open models", title: "Open models and Hugging Face", hrs: [30, 45],
+    learn: "How transformers and tokenizers work inside, the Hugging Face libraries (Transformers, Datasets, the Hub), and running open-weight models on your own machine.",
+    build: "Run an open-weight model locally and compare it with an API model on 20 of your own prompts.",
+    know: ["How a tokenizer turns text into IDs, and why models split words differently", "What happens inside a transformer block: attention, the feed-forward layer and residual connections", "How to load an open-weight model with Transformers and run it on your own machine", "How model size, precision (16-bit or 4-bit) and context length decide the memory you need"],
+    res: [
+      ["Course", "LLM Course (chapters 1 to 4)", "Hugging Face", "About 6 to 8 hours per chapter", "Free", HF_LLM, 1],
+      ["Book", "Hands-On Large Language Models", "Jay Alammar and Maarten Grootendorst", "O'Reilly, 2024", "Paid", HOLLM, 1],
+      ["Book", "The Hundred-Page Language Models Book", "Andriy Burkov", "Self-published, 2025", "Paid", "https://thelmbook.com/", 0]
+    ] },
+  { id: "T2", x: 300, y: 15, k: "p", icon: "sliders", short: "Fine-tuning", title: "Fine-tuning with LoRA", hrs: [30, 50],
+    learn: "When fine-tuning beats prompting or RAG, how to build a training set, and supervised fine-tuning with LoRA and QLoRA on a single GPU.",
+    build: "Fine-tune a small open model on about 1,000 examples of one task and measure it against the base model.",
+    know: ["When fine-tuning is worth it compared with better prompts or RAG", "How LoRA trains small adapter matrices instead of all the weights, and what QLoRA adds", "How to build and clean a training set in the chat format the model expects", "How to read training and validation loss to tell whether a run is working"],
+    note: "With 4-bit QLoRA, a 7B or 8B model fits in about 5 to 6 GB of GPU memory, by Unsloth's own figures. Google Colab's free tier offers limited GPU time to start.",
+    res: [
+      ["Course", "LLM Course, chapter 11: Fine-tune LLMs", "Hugging Face", "SFT, LoRA and evaluation", "Free", "https://huggingface.co/learn/llm-course/chapter11/1", 1],
+      ["Repo", "Unsloth notebooks", "Unsloth", "LoRA and QLoRA on one GPU or Colab", "Free", "https://github.com/unslothai/unsloth", 0],
+      ["Course", "a smol course", "Hugging Face", "Units 1 to 4 released", "Free", "https://huggingface.co/learn/smol-course", 0],
+      ["Book", "LLM Engineer's Handbook", "Paul Iusztin and Maxime Labonne", "Packt, 2024", "Paid", "https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200079", 1],
+      ["Book", "AI Engineering (chapter 7, Finetuning)", "Chip Huyen", "O'Reilly, 2024", "Paid", AIE, 0]
+    ] },
+  { id: "T3", x: 450, y: 50, k: "p", icon: "thumb", short: "Preferences", title: "Preference tuning: RLHF, DPO and GRPO", hrs: [30, 50],
+    learn: "How chat models learn to behave: instruction tuning, reward models, RLHF, DPO, and reinforcement learning with verifiable rewards (GRPO) for reasoning.",
+    build: "Use DPO to change one behavior of your fine-tuned model, then check that nothing else broke.",
+    know: ["How a base model becomes a chat model: instruction tuning, then preference tuning", "What a reward model learns, and how RLHF uses it", "How DPO learns from pairs of better and worse answers without a separate reward model", "What GRPO with verifiable rewards does for reasoning, and why it needs answers you can check"],
+    res: [
+      ["Course", "Post-training of LLMs", "DeepLearning.AI, Banghua Zhu", "About 1.5 hours: SFT, DPO, GRPO", "Free to enroll", "https://www.deeplearning.ai/short-courses/post-training-of-llms", 1],
+      ["Course", "LLM Course, chapter 12: Build reasoning models", "Hugging Face", "GRPO and Open R1", "Free", "https://huggingface.co/learn/llm-course/en/chapter12/1", 0],
+      ["Course", "Reinforcement Fine-Tuning LLMs with GRPO", "DeepLearning.AI and Predibase", "About 2 hours; labs run on Predibase", "Free to enroll", "https://www.deeplearning.ai/courses/reinforcement-fine-tuning-llms-grpo", 0],
+      ["Book", "Reinforcement Learning from Human Feedback", "Nathan Lambert", "Manning, 2026", "Free online", "https://rlhfbook.com", 1],
+      ["Book", "Build a Reasoning Model (From Scratch)", "Sebastian Raschka", "Manning, 2026", "Paid", "https://www.manning.com/books/build-a-reasoning-model-from-scratch", 0]
+    ] },
+  { id: "T4", x: 600, y: 80, k: "p", icon: "server", short: "Serve", title: "Evaluate, quantize and serve", reg: "Train", hrs: [25, 40],
+    learn: "Public benchmarks versus your own task evals, quantization, and serving a model with tools such as vLLM, llama.cpp or Ollama, plus what each choice costs in speed and money.",
+    build: "Quantize your model, serve it behind an API, and run your test set against it.",
+    know: ["Why public benchmark scores may not predict how a model does on your task", "What quantization trades: memory and speed against some accuracy", "How vLLM, llama.cpp and Ollama differ, and which fits your hardware", "How to compare your fine-tuned model with its base model on the same tests"],
+    res: [
+      ["Guide", "The LLM Evaluation Guidebook", "Hugging Face, Clémentine Fourrier", "Benchmarks, custom evals, LLM judges", "Free", "https://huggingface.co/spaces/OpenEvals/evaluation-guidebook", 1],
+      ["Repo", "LLM Course roadmaps and notebooks", "Maxime Labonne", "Quantization, evaluation, deployment", "Free", "https://github.com/mlabonne/llm-course", 0],
+      ["Book", "AI Engineering (chapter 9, Inference Optimization)", "Chip Huyen", "O'Reilly, 2024", "Paid", AIE, 1]
+    ] },
+  { id: "B1", x: 150, y: -215, k: "p", icon: "nodes", short: "Backprop", title: "Neural nets from scratch", hrs: [30, 50],
+    learn: "Write backpropagation yourself, then a character-level language model, until you understand every line a framework normally hides.",
+    build: "Rebuild micrograd and makemore without looking at the reference code.",
+    know: ["How backpropagation applies the chain rule through a graph of operations, step by step", "Why gradients are reset each step, and what a learning rate that's too high or too low does", "How a character-level model is trained to predict the next character", "What PyTorch does for you, now that you've done it by hand"],
+    res: [
+      ["Course", "Neural Networks: Zero to Hero", "Andrej Karpathy", "8 lectures, about 14.5 hours of video", "Free", "https://karpathy.ai/zero-to-hero.html", 1],
+      ["Book", "Dive into Deep Learning", "Zhang, Lipton, Li and Smola", "Cambridge University Press, 2023", "Free online", "https://d2l.ai", 1]
+    ] },
+  { id: "B2", x: 300, y: -270, k: "p", icon: "text", short: "GPT", title: "A GPT from scratch", hrs: [40, 70],
+    learn: "Attention, transformer blocks, the training loop and sampling. Write a GPT in PyTorch and load real GPT-2 weights into it.",
+    build: "Train a small GPT on a text collection you care about and generate samples from it.",
+    know: ["How self-attention lets each token look at earlier tokens, and why the mask hides the future", "What queries, keys and values are, and why there are several attention heads", "How a GPT is trained to predict the next token, and how sampling generates text", "Why residual connections and layer norm keep deep networks trainable"],
+    res: [
+      ["Video", "Let's build GPT: from scratch, in code, spelled out", "Andrej Karpathy", "About 2 hours", "Free", "https://www.youtube.com/watch?v=kCc8FmEb1nY", 1],
+      ["Video", "Let's reproduce GPT-2 (124M)", "Andrej Karpathy", "About 4 hours", "Free", "https://www.youtube.com/watch?v=l8pRSuU81PU", 0],
+      ["Book", "Build a Large Language Model (From Scratch)", "Sebastian Raschka", "Manning, 2024", "Paid", "https://www.manning.com/books/build-a-large-language-model-from-scratch", 1],
+      ["Book", "The Hundred-Page Language Models Book", "Andriy Burkov", "Self-published, 2025", "Paid", "https://thelmbook.com/", 0]
+    ] },
+  { id: "B3", x: 450, y: -315, k: "p", icon: "database", short: "Pretraining", title: "Tokenizers, data and pretraining", hrs: [100, 180],
+    learn: "Byte-pair tokenizers, cleaning web-scale data, pretraining, mixed precision, multi-GPU training and scaling laws.",
+    build: "Run nanochat end to end: tokenizer, pretraining, fine-tuning and a chat interface for your own small model.",
+    know: ["How byte-pair encoding builds a vocabulary from raw text", "Why filtering and deduplicating data matter as much as the model", "What mixed precision and multi-GPU training speed up, and what they cost", "What scaling laws say about model size, data and compute"],
+    note: "Expect to rent cloud GPUs here. nanochat's README puts a GPT-2-level run at about $48 on one 8-GPU node.",
+    res: [
+      ["Course", "CS336: Language Modeling from Scratch", "Stanford, Percy Liang and Tatsunori Hashimoto", "Spring 2026 run: 19 lectures, 5 heavy coding assignments", "Free", "https://cs336.stanford.edu", 1],
+      ["Video", "Let's build the GPT Tokenizer", "Andrej Karpathy", "About 2 hours, 2024", "Free", "https://www.youtube.com/watch?v=zduSFxRajkE", 0],
+      ["Repo", "nanochat", "Andrej Karpathy", "A full ChatGPT-style training pipeline in one repo", "Free code", "https://github.com/karpathy/nanochat", 0],
+      ["Guide", "The Smol Training Playbook", "Hugging Face", "How SmolLM3 was trained", "Free", "https://huggingfacetb-smol-training-playbook.hf.space", 0]
+    ] },
+  { id: "B4", x: 600, y: -350, k: "p", icon: "chip", short: "Scale", title: "Scale and research", reg: "Build", hrs: [80, 150],
+    learn: "How large models train across many GPUs (data, tensor and pipeline parallelism), how reasoning models are trained with RL, and how to read and reproduce papers.",
+    build: "Reproduce one result from a recent paper and publish your code and notes.",
+    know: ["How data, tensor and pipeline parallelism split the work across GPUs", "How reasoning models are trained with reinforcement learning on checkable answers", "How to read a paper: find the claim, the method and the experiment that tests it", "How to reproduce a result and judge whether your numbers really match"],
+    res: [
+      ["Guide", "The Ultra-Scale Playbook", "Hugging Face", "Training LLMs on GPU clusters", "Free", "https://huggingface.co/spaces/nanotron/ultrascale-playbook", 1],
+      ["Guide", "How to Scale Your Model", "Google DeepMind, Austin et al.", "TPUs and GPUs, 2025", "Free", "https://jax-ml.github.io/scaling-book/", 0],
+      ["Book", "Build a Reasoning Model (From Scratch)", "Sebastian Raschka", "Manning, 2026", "Paid", "https://www.manning.com/books/build-a-reasoning-model-from-scratch", 1]
+    ] },
+  { id: "V1", x: -600, y: -330, k: "s", icon: "eye", short: "Vision basics", title: "Vision foundations", hrs: [60, 100],
+    learn: "Convolutional networks and vision transformers, transfer learning, and data augmentation for images.",
+    build: "Fine-tune a pretrained image model to sort photos into categories you choose.",
+    know: ["How a convolution detects patterns, and why stacked layers find bigger features", "How a vision transformer turns an image into patches it treats like tokens", "How transfer learning reuses a pretrained model for your own images", "What data augmentation does, and when it can hurt"],
+    res: [
+      ["Course", "CS231n: Deep Learning for Computer Vision", "Stanford", "18 lectures over 10 weeks; free notes", "Free", "https://cs231n.stanford.edu", 1],
+      ["Book", "Foundations of Computer Vision", "Torralba, Isola and Freeman", "MIT Press, 2024", "Free online", "https://visionbook.mit.edu", 1]
+    ] },
+  { id: "V2", x: -600, y: -450, k: "s", icon: "frame", short: "Detection", title: "Detection, segmentation and multimodal", reg: "Vision", hrs: [40, 70],
+    learn: "Object detection, segmentation, self-supervised learning, and models that connect images with text, such as CLIP and vision-language models.",
+    build: "An app that finds and counts objects in photos or video and draws boxes around them.",
+    know: ["The difference between classification, detection and segmentation outputs", "How detection is scored with IoU and mean average precision", "How CLIP learns a shared space for images and text", "How a vision-language model answers questions about an image"],
+    res: [
+      ["Course", "Community Computer Vision Course", "Hugging Face", "Theory plus Colab notebooks", "Free", "https://huggingface.co/learn/computer-vision-course", 1],
+      ["Book", "Computer Vision: Algorithms and Applications, 2nd edition", "Richard Szeliski", "Springer, 2022", "Free PDF", "https://szeliski.org/Book/", 1]
+    ] },
+  { id: "L1", x: -470, y: -330, k: "s", icon: "lines", short: "NLP basics", title: "Language foundations", hrs: [60, 100],
+    learn: "How text becomes numbers: tokenization, embeddings, language models, sequence models and attention, built up from the basics.",
+    build: "A classifier for support emails or reviews, first with simple word features, then with embeddings.",
+    know: ["How text becomes numbers through tokenization and embeddings", "What a language model predicts, and what perplexity measures", "Why RNNs struggled with long text, and how attention helped", "How word embeddings pick up meaning from context"],
+    res: [
+      ["Course", "CS224N: NLP with Deep Learning", "Stanford", "19 lectures; 2024 videos free on YouTube", "Free", "https://web.stanford.edu/class/cs224n/", 1],
+      ["Book", "Speech and Language Processing, 3rd edition draft", "Dan Jurafsky and James H. Martin", "Updated January 2026", "Free online", "https://web.stanford.edu/~jurafsky/slp3/", 1]
+    ] },
+  { id: "L2", x: -470, y: -450, k: "s", icon: "translate", short: "Transformers", title: "Modern NLP with transformers", reg: "Language", hrs: [40, 70],
+    learn: "Pretrained transformers on real language tasks: classification, extraction, summarization, translation and question answering.",
+    build: "Fine-tune a small transformer to pull names, dates and amounts out of documents.",
+    know: ["Encoder models like BERT versus decoder models like GPT, and what each is good at", "How to fine-tune a pretrained model for classification or extraction", "How NLP tasks are scored, such as F1 for extraction and ROUGE for summaries, and where those scores mislead", "When a small fine-tuned model beats prompting a large LLM"],
+    res: [
+      ["Course", "LLM Course", "Hugging Face", "Classification, NER, summarization, QA", "Free", HF_LLM, 1],
+      ["Book", "Natural Language Processing with Transformers, revised edition", "Lewis Tunstall, Leandro von Werra and Thomas Wolf", "O'Reilly, 2022", "Paid", "https://www.oreilly.com/library/view/natural-language-processing/9781098136789/", 1]
+    ] },
+  { id: "G1", x: -340, y: -330, k: "s", icon: "sparkles", short: "Gen models", title: "Generative models", hrs: [50, 80],
+    learn: "The main families of generative models: autoencoders and VAEs, GANs, autoregressive models and normalizing flows.",
+    build: "Train a VAE on a small image dataset and move through its latent space to morph one image into another.",
+    know: ["What it means for a model to learn a data distribution and sample from it", "How an autoencoder and a VAE compress data into a latent space", "How a GAN's generator and discriminator train against each other, and why that's unstable", "How autoregressive models and normalizing flows generate data differently"],
+    res: [
+      ["Course", "CS236: Deep Generative Models", "Stanford, Stefano Ermon", "18 lectures, about 24 hours (2023)", "Free", "https://www.youtube.com/playlist?list=PLoROMvodv4rPOWA-omMM6STXaWW4FvJT8", 1],
+      ["Book", "Generative Deep Learning, 2nd edition", "David Foster", "O'Reilly, 2023", "Paid", "https://www.oreilly.com/library/view/generative-deep-learning/9781098134174/", 1]
+    ] },
+  { id: "G2", x: -340, y: -450, k: "s", icon: "wave", short: "Diffusion", title: "Diffusion and flow matching", reg: "Generative", hrs: [50, 90],
+    learn: "How diffusion and flow-matching models turn noise into images, plus latent diffusion, guidance, and fine-tuning image models on your own pictures.",
+    build: "Train a small latent diffusion model from scratch, then fine-tune a pretrained one on 20 of your own images.",
+    know: ["How diffusion trains a model to remove noise step by step", "How flow matching learns a path from noise to data", "Why latent diffusion works in a compressed space, and what guidance does for prompt-following", "How LoRA fine-tuning teaches an image model a new subject or style"],
+    res: [
+      ["Course", "Introduction to Flow Matching and Diffusion Models (6.S184)", "MIT, 2026", "5 lectures, notes and 3 Colab labs", "Free", "https://diffusion.csail.mit.edu/2026/", 1],
+      ["Course", "From Deep Learning Foundations to Stable Diffusion", "fast.ai, 2023", "Part 2 of the fast.ai course", "Free", "https://www.fast.ai/posts/2023-04-04-part2-2023.html", 0],
+      ["Book", "Hands-On Generative AI with Transformers and Diffusion Models", "Cuenca, Passos, Sanseviero and Whitaker", "O'Reilly, 2024", "Paid", "https://www.oreilly.com/library/view/hands-on-generative-ai/9781098149239/", 1]
+    ] },
+  { id: "R1", x: -210, y: -330, k: "s", icon: "target", short: "RL basics", title: "Reinforcement learning foundations", hrs: [50, 90],
+    learn: "Agents, rewards and environments: Markov decision processes, value functions, Q-learning and policy gradients.",
+    build: "Teach an agent to solve a Gymnasium environment with tabular Q-learning, then with a small neural network.",
+    know: ["The pieces of an RL problem: agent, environment, state, action and reward", "What a Markov decision process is, and what a policy and a value function represent", "How Q-learning updates its estimates from experience", "The trade-off between exploring and exploiting"],
+    res: [
+      ["Course", "Introduction to Reinforcement Learning", "David Silver, DeepMind and UCL", "10 lectures, about 16 hours (2015)", "Free", "https://www.youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ", 1],
+      ["Course", "CS234: Reinforcement Learning", "Stanford, Emma Brunskill", "Spring 2024 lectures free on YouTube", "Free", "https://web.stanford.edu/class/cs234/", 0],
+      ["Course", "Reinforcement Learning Specialization", "Martha White and Adam White, University of Alberta on Coursera", "4 courses, about 75 hours", "Paid, free trial", "https://www.coursera.org/specializations/reinforcement-learning", 0],
+      ["Book", "Reinforcement Learning: An Introduction, 2nd edition", "Richard Sutton and Andrew Barto", "MIT Press, 2018", "Free PDF", "http://incompleteideas.net/book/the-book-2nd.html", 1]
+    ] },
+  { id: "R2", x: -210, y: -450, k: "s", icon: "loop", short: "Deep RL", title: "Deep reinforcement learning", reg: "RL", hrs: [60, 100],
+    learn: "Deep Q-networks, PPO and actor-critic methods, and how RL is now used to train language models.",
+    build: "Train a PPO agent on a game or robot simulation and plot its learning curve.",
+    know: ["How DQN estimates Q-values with a neural network, and why it needs a replay buffer", "How policy gradients and actor-critic methods learn a policy directly", "What PPO's clipping protects against", "How RL is used to train language models, from RLHF to verifiable rewards"],
+    res: [
+      ["Course", "Deep Reinforcement Learning (CS 185/285)", "UC Berkeley, Sergey Levine", "25 lectures; public recordings from 2023", "Free", "https://rail.eecs.berkeley.edu/deeprlcourse/", 1],
+      ["Course", "Deep RL Course", "Hugging Face", "Hands-on; some later units are no longer maintained", "Free", "https://huggingface.co/learn/deep-rl-course", 0],
+      ["Book", "Deep Reinforcement Learning Hands-On, 3rd edition", "Maxim Lapan", "Packt, 2024", "Paid", "https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On-Third-Edition", 1]
+    ] },
+  { id: "M1", x: -80, y: -330, k: "s", icon: "blueprint", short: "ML systems", title: "ML systems design", hrs: [30, 50],
+    learn: "How real ML systems are built: data pipelines, features, training and retraining, deployment patterns, and watching for drift.",
+    build: "Write a one-page design for an ML feature at your company: data, model, metrics and what you would monitor.",
+    know: ["The life cycle of an ML system: data, training, deployment, monitoring and retraining", "Batch versus real-time prediction, and when each fits", "What data drift and concept drift are, and how you'd detect them", "How to pick a model metric that matches the business goal"],
+    res: [
+      ["Course", "Machine Learning in Production", "Andrew Ng, DeepLearning.AI", "About 11 hours, intermediate", "Paid, Pro plan", "https://www.deeplearning.ai/courses/machine-learning-in-production", 1],
+      ["Book", "Designing Machine Learning Systems", "Chip Huyen", "O'Reilly, 2022", "Paid", "https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/", 1],
+      ["Book", "Machine Learning Design Patterns", "Lakshmanan, Robinson and Munn", "O'Reilly, 2020", "Paid", "https://www.oreilly.com/library/view/machine-learning-design/9781098115777/", 0]
+    ] },
+  { id: "M2", x: -80, y: -450, k: "s", icon: "pipeline", short: "MLOps", title: "MLOps in practice", reg: "MLOps", hrs: [50, 80],
+    learn: "Experiment tracking, pipelines, CI/CD for models, containers, and monitoring a model after it ships.",
+    build: "Take an earlier model to production with tracked experiments, a Docker image, an API and a monitoring dashboard.",
+    know: ["How experiment tracking makes results reproducible", "What a training pipeline automates, and how CI/CD applies to models", "How containers package a model so it runs the same everywhere", "What to monitor after launch, and when to retrain"],
+    res: [
+      ["Course", "MLOps Zoomcamp", "DataTalks.Club", "9 weeks, self-paced in 2026", "Free", "https://github.com/DataTalksClub/mlops-zoomcamp", 1],
+      ["Course", "Made With ML", "Goku Mohandas, Anyscale", "Design, develop, deploy and iterate", "Free", "https://madewithml.com", 0],
+      ["Book", "Designing Data-Intensive Applications, 2nd edition", "Martin Kleppmann and Chris Riccomini", "O'Reilly, 2026", "Paid", "https://martin.kleppmann.com/2026/03/24/designing-data-intensive-applications-2e.html", 1]
+    ] },
+  { id: "A1", x: 50, y: -330, k: "s", icon: "shield", short: "Safety basics", title: "AI safety foundations", hrs: [30, 45],
+    learn: "What could go wrong as AI systems get more capable, the main technical and policy responses, and who is working on them.",
+    build: "Write two pages on one risk: the strongest case for it, the strongest case against, and what would change your mind.",
+    know: ["The main risks people raise as AI gets more capable, and which are already happening", "What alignment means, and why specifying goals is hard", "The main technical and policy responses, and who works on them", "How to weigh a claim about AI risk: what evidence would change your mind"],
+    note: "This island needs no code. You can take it any time, even before Python.",
+    res: [
+      ["Course", "AGI Strategy", "BlueDot Impact", "About 25 hours, with a cohort", "Free", "https://bluedot.org/courses/agi-strategy", 1],
+      ["Course", "The Future of AI", "BlueDot Impact", "About 90 minutes", "Free", "https://bluedot.org/courses/future-of-ai", 0],
+      ["Book", "Introduction to AI Safety, Ethics, and Society", "Dan Hendrycks", "Taylor and Francis, 2024", "Free online", "https://www.aisafetybook.com", 1],
+      ["Book", "The Alignment Problem", "Brian Christian", "W. W. Norton, 2020", "Paid", "https://wwnorton.com/books/9780393635829", 0]
+    ] },
+  { id: "A2", x: 50, y: -450, k: "s", icon: "scope", short: "Alignment", title: "Alignment and interpretability", reg: "Safety", hrs: [60, 150],
+    learn: "Hands-on safety research: interpretability, evals and red-teaming, RLHF, scalable oversight and AI control.",
+    build: "Reproduce a small interpretability result, such as finding a feature in a toy transformer, and write it up.",
+    know: ["How interpretability looks inside a model, with probes, attention patterns and sparse features", "How evals and red-teaming find failures before release", "What scalable oversight and AI control try to solve", "How RLHF can reward flattery, and how researchers measure it"],
+    res: [
+      ["Course", "Technical AI Safety", "BlueDot Impact", "About 30 hours; assumes basic LLM knowledge", "Free", "https://bluedot.org/courses/technical-ai-safety", 1],
+      ["Course", "ARENA curriculum", "ARENA", "Materials from a 4 to 5 week bootcamp", "Free", "https://learn.arena.education", 0],
+      ["Guide", "How To Become A Mechanistic Interpretability Researcher", "Neel Nanda", "September 2025", "Free", "https://www.alignmentforum.org/posts/jP9KDyMkchuv6tHwm/how-to-become-a-mechanistic-interpretability-researcher", 0]
+    ] }
+];
+
+const CORE = ["S0", "S1", "S2", "S3", "S4"];
+const PATHS = {
+  understand: { name: "Understand first", icon: "bulb", steps: CORE.concat(["B1", "B2", "T1", "T2", "T3", "T4", "U1", "U2", "U3", "U4"]), blurb: "Learn how models work before you lean on tools. Foundations first, then a neural net and a GPT you write yourself, then training and using models with that understanding underneath." },
+  use: { name: "Use models", icon: "chat", steps: ["S0", "S1", "U1", "U2", "U3", "U4"], blurb: "Ship real apps on top of existing models. This route skips the heavy math; the Train route covers it if you want it later." },
+  train: { name: "Train models", icon: "sliders", steps: CORE.concat(["T1", "T2", "T3", "T4"]), blurb: "Adapt open-weight models to your own data and rules, from fine-tuning to preference tuning and serving." },
+  build: { name: "Build a model", icon: "cube", steps: CORE.concat(["B1", "B2", "B3", "B4"]), blurb: "Start by writing backprop by hand and end by pretraining a small chat model, then move on to scale and research." },
+  vision: { name: "Vision", icon: "eye", steps: CORE.concat(["V1", "V2"]), blurb: "Teach models to see: classification, detection, segmentation, and models that link images and text." },
+  language: { name: "Language", icon: "lines", steps: CORE.concat(["L1", "L2"]), blurb: "How machines read and write text, from classic NLP to transformers." },
+  generative: { name: "Generative media", icon: "sparkles", steps: CORE.concat(["G1", "G2"]), blurb: "Models that create images and media: VAEs and GANs first, then diffusion and flow matching." },
+  rl: { name: "Reinforcement learning", icon: "target", steps: CORE.concat(["R1", "R2"]), blurb: "Agents that learn from rewards, from tabular Q-learning to the RL used to train language models." },
+  mlops: { name: "MLOps", icon: "pipeline", steps: CORE.concat(["M1", "M2"]), blurb: "Get models into production and keep them healthy once they're there." },
+  safety: { name: "Safety and alignment", icon: "shield", steps: CORE.concat(["A1", "A2"]), blurb: "Learn the risks that come with more capable AI, then do hands-on alignment and interpretability work." }
+};
+
+const INFO = {
+  understand: {
+    build: "A small GPT you wrote yourself, a fine-tuned open model that beats its base model on your own tests, and AI features in your apps that you can debug because you know what happens inside the model.",
+    fit: "Good fit if you want to use, train and build models and understand every step, and you can study steadily for a year or more part-time.",
+    benefits: ["When a model fails, you can work out why and fix it instead of guessing.", "Covers using, training and building, and leaves out only the research-scale islands.", "The foundations (math, ML and PyTorch) stay useful as tools change."],
+    tradeoffs: ["Your first AI app comes late, because the Use islands come last.", "Months of math and code before anything feels like AI, so it takes steady motivation.", "It stops before pretraining at scale. Add the last two Build islands later if you aim for research."],
+    roles: ["AI engineer", "ML engineer", "Research engineer"],
+    demand: [
+      { t: "AI engineers ranked first on LinkedIn's Jobs on the Rise 2026 list for the US, and AI and ML researchers fifth.", s: "LinkedIn, January 2026", u: LI26 },
+      { t: "AI and machine learning specialists are among the fastest-growing jobs worldwide, with 82% net growth expected from 2025 to 2030.", s: "WEF Future of Jobs Report 2025", u: WEF25 },
+      { t: "In the UAE, AI engineer was the second fastest-growing job on LinkedIn's 2025 list and machine learning engineer the tenth.", s: "LinkedIn, January 2025", u: LI25UAE }
+    ],
+    effort: { math: [3, "Linear algebra, calculus and probability."], code: [4, "PyTorch, training scripts and app code you write yourself."], gpu: [3, "Colab's free tier to start; rent a GPU for bigger fine-tuning runs."], money: [2, "Mostly free; some GPU time and a few dollars of API credits."] }
+  },
+  use: {
+    build: "AI features inside the websites and apps you already make: chat assistants that answer from your documents, agents that call tools and APIs, and automations that draft, summarize and sort. You'll also know how to test them and keep their costs down.",
+    fit: "Good fit if you want results in weeks and plan to build products or client work on top of models from Anthropic, OpenAI, Google or open-source labs.",
+    benefits: ["The fastest route to something useful. You can ship a first AI feature after the first three islands.", "No calculus. Basic algebra and Python are enough.", "Builders who work with these models are the most in-demand AI role right now."],
+    tradeoffs: ["You treat the model as a black box, so some failures are hard to explain or fix.", "You depend on vendors' prices, limits and API changes. OpenAI shut down its Assistants API in August 2026, for example.", "Tools change every few months, so expect to keep relearning frameworks."],
+    roles: ["AI engineer", "LLM application developer", "AI consultant"],
+    demand: [
+      { t: "AI engineers ranked first on LinkedIn's Jobs on the Rise 2026 list for the US, with AI consultants and strategists second.", s: "LinkedIn, January 2026", u: LI26 },
+      { t: "US job postings naming RAG grew 337% in a year to 12,609, and postings naming agentic AI went from 151 to 16,541.", s: "Stanford AI Index 2026", u: AIE26 },
+      { t: "AI engineer was the second fastest-growing job on LinkedIn's 2025 list for the UAE.", s: "LinkedIn, January 2025", u: LI25UAE }
+    ],
+    effort: { math: [1, "Basic algebra is enough."], code: [3, "Python, JSON and web APIs."], gpu: [1, "None. The models run in the cloud."], money: [1, "Free courses plus a few dollars of API credits; LLM Zoomcamp estimates $1 to $5."] }
+  },
+  train: {
+    build: "A fine-tuned open-weight model that follows your format and rules, runs privately on hardware you control, and beats the base model on tests you wrote. On the way you learn the classic machine learning and deep learning every ML engineer uses.",
+    fit: "Good fit if you need privacy, lower cost per request at scale, or behavior that prompting alone can't get, and you're willing to learn the math.",
+    benefits: ["Full control over your data, your weights and where the model runs.", "Durable skills. Math, ML and PyTorch outlast any single tool.", "AI and ML specialists are among the fastest-growing jobs in the world."],
+    tradeoffs: ["Months of foundations (math, classic ML, deep learning) before the fine-tuning part.", "Good data and GPU time are the real bottlenecks, and both take effort or money.", "Fine-tuning often loses to better prompts or RAG, so you have to measure before and after."],
+    roles: ["ML engineer", "Applied scientist", "Data scientist"],
+    demand: [
+      { t: "AI and machine learning specialists are among the fastest-growing jobs worldwide, with 82% net growth expected from 2025 to 2030.", s: "WEF Future of Jobs Report 2025", u: WEF25 },
+      { t: "US data scientist jobs are projected to grow 35% from 2025 to 2035, much faster than average. A bachelor's degree is typical.", s: "US Bureau of Labor Statistics", u: BLS_DS },
+      { t: "Machine learning engineer was tenth on LinkedIn's 2025 list of fastest-growing jobs in the UAE.", s: "LinkedIn, January 2025", u: LI25UAE }
+    ],
+    effort: { math: [3, "Linear algebra, calculus and probability."], code: [4, "PyTorch and training scripts."], gpu: [3, "Colab's free tier to start; rent GPUs for bigger runs."], money: [2, "Mostly free; GPU rental as you scale."] }
+  },
+  build: {
+    build: "A GPT-style language model you wrote yourself, from the tokenizer to a chat interface, plus the ability to read new papers, reproduce them and understand why models behave the way they do.",
+    fit: "Good fit if you want to understand LLMs all the way down or aim for research engineering at an AI lab.",
+    benefits: ["The deepest understanding of how LLMs work. Every other route gets easier afterwards.", "These are the skills behind research engineer roles at the labs that make frontier models.", "You can follow and reproduce new research instead of waiting for tutorials."],
+    tradeoffs: ["The longest route here: roughly a year or more part-time.", "Heavy math and code, and real GPU bills once you pretrain.", "Few jobs, concentrated in a handful of labs, and many ask for a master's degree or a strong portfolio."],
+    roles: ["Research engineer", "Research scientist", "Pretraining engineer"],
+    demand: [
+      { t: "AI and ML researchers ranked fifth on LinkedIn's Jobs on the Rise 2026 list for the US.", s: "LinkedIn, January 2026", u: LI26 },
+      { t: "In 2025, 93 notable AI models came from industry and only 2 from academia, and frontier work is concentrated in a small number of organizations.", s: "Stanford AI Index 2026", u: AIR26 },
+      { t: "Computer and information research scientists hold about 38,600 US jobs, projected to grow 22% to 2035; a master's degree is typical.", s: "US Bureau of Labor Statistics", u: BLS_RS }
+    ],
+    effort: { math: [4, "Calculus, linear algebra and probability in depth."], code: [5, "Large PyTorch code bases and distributed training."], gpu: [5, "Rented multi-GPU nodes; nanochat's README prices a GPT-2-level run at about $48."], money: [4, "Expect real GPU bills for serious runs."] }
+  },
+  vision: {
+    build: "Apps that see: sort photos, find and count objects, outline them pixel by pixel, read documents, and connect images with text.",
+    fit: "Good fit if you like visual results and work near retail, health, manufacturing, security or robotics.",
+    benefits: ["Concrete, visible results that are easy to demo to clients.", "Used across many industries, from factories to hospitals.", "The base for robotics and multimodal AI."],
+    tradeoffs: ["Needs labeled images and GPU time.", "A smaller share of job postings than LLM work.", "General multimodal models now handle many simple vision tasks out of the box."],
+    roles: ["Computer vision engineer", "Perception engineer", "ML engineer (vision)"],
+    demand: [
+      { t: "Visual image recognition appears in 0.09% and autonomous driving in 0.14% of US job postings in 2025.", s: "Stanford AI Index 2026", u: AIE26 },
+      { t: "Computer vision is listed as a top skill of AI engineers on LinkedIn's 2025 list for the UAE.", s: "LinkedIn, January 2025", u: LI25UAE }
+    ],
+    effort: { math: [3, "Linear algebra and some calculus."], code: [4, "PyTorch and image pipelines."], gpu: [3, "One GPU or Colab covers most projects."], money: [2, "Mostly free."] }
+  },
+  language: {
+    build: "Tools that read and write text: classifiers for emails and reviews, extractors that pull names and amounts from documents, summarizers, translators and search.",
+    fit: "Good fit if your work is full of text (emails, contracts, tickets) and you want to know how language models work underneath.",
+    benefits: ["Text is in every business, so use cases are everywhere.", "NLP is a core skill for AI and ML engineers.", "Gives you the theory behind the LLMs used on the other routes."],
+    tradeoffs: ["Overlaps heavily with the Use and Train routes.", "Many classic NLP techniques matter less now that LLMs do the job.", "Going deep needs the math islands first."],
+    roles: ["NLP engineer", "LLM engineer", "Conversational AI developer"],
+    demand: [
+      { t: "US job postings naming large language modeling reached 38,526 in 2025, up 102%.", s: "Stanford AI Index 2026", u: AIE26 },
+      { t: "NLP is listed as a top skill for both AI engineers and ML engineers on LinkedIn's 2025 list for the UAE.", s: "LinkedIn, January 2025", u: LI25UAE }
+    ],
+    effort: { math: [3, "Linear algebra, probability and some calculus."], code: [4, "PyTorch and text pipelines."], gpu: [3, "One GPU or Colab covers most projects."], money: [2, "Mostly free."] }
+  },
+  generative: {
+    build: "Image and media generators: train a diffusion model from scratch, fine-tune one on your own pictures, and build tools for design and marketing visuals.",
+    fit: "Good fit if you love visual, creative work and want to understand the models behind AI images and video.",
+    benefits: ["Creative, eye-catching results.", "Useful for design, marketing and product visuals in client work.", "A real understanding of the models behind image and video AI."],
+    tradeoffs: ["A small job niche compared with LLM work.", "The math is heavy: probability and differential equations.", "GPU-hungry, and training data raises copyright and consent questions."],
+    roles: ["Generative AI engineer (image and video)", "Multimodal ML engineer"],
+    demand: [
+      { t: "Stable Diffusion appears in 699 US job postings in 2025, against 138,188 that mention generative AI overall.", s: "Stanford AI Index 2026", u: AIE26 }
+    ],
+    effort: { math: [4, "Probability and differential equations."], code: [4, "PyTorch and training loops."], gpu: [4, "Training image models needs strong GPUs."], money: [3, "GPU rental for training runs."] }
+  },
+  rl: {
+    build: "Agents that learn from rewards: game players, simulated robots, and reinforcement fine-tuning that teaches language models to reason.",
+    fit: "Good fit if you're drawn to robotics, games or how reasoning models are trained, and you enjoy hard math.",
+    benefits: ["RL is how today's reasoning models are post-trained.", "The core of robotics and autonomous systems.", "A deep, transferable understanding of learning and decisions."],
+    tradeoffs: ["Training is unstable and debugging takes a long time.", "Math-heavy, with few roles outside labs and robotics companies.", "No credible figure counts RL jobs on their own."],
+    roles: ["RL research scientist", "Robotics engineer", "Autonomy engineer"],
+    demand: [
+      { t: "Robotics appears in 0.08% and autonomous driving in 0.14% of US job postings in 2025.", s: "Stanford AI Index 2026", u: AIE26 },
+      { t: "66% of UAE employers expect robots and autonomous systems to transform their business, against 58% globally.", s: "WEF Future of Jobs Report 2025", u: WEF25 }
+    ],
+    effort: { math: [4, "Probability, linear algebra and calculus."], code: [4, "Simulators and training loops."], gpu: [3, "Most RL projects fit on one GPU; RL on LLMs needs more."], money: [2, "Mostly free."] }
+  },
+  mlops: {
+    build: "Pipelines that train, deploy, monitor and retrain models without manual work, plus the platform other teams ship their models on.",
+    fit: "Good fit if you enjoy infrastructure and automation more than model math, or you already know some DevOps.",
+    benefits: ["Every team that ships ML needs it.", "Skills for running systems at scale are the fastest-growing ones in AI job postings.", "Builds on software engineering you can reuse anywhere."],
+    tradeoffs: ["Less model science, more Docker, cloud and CI/CD.", "Tooling changes quickly.", "Assumes programming experience; MLOps Zoomcamp asks for a year or more."],
+    roles: ["MLOps engineer", "ML platform engineer", "AI infrastructure engineer"],
+    demand: [
+      { t: "The fastest growth in US postings is in skills to build and run systems at scale: AWS up 1,358% and workflow management up 818% versus 2013 to 2015.", s: "Stanford AI Index 2026", u: AIE26 },
+      { t: "DevOps engineers are among the 15 fastest-growing jobs worldwide.", s: "WEF Future of Jobs Report 2025", u: WEF25 }
+    ],
+    effort: { math: [2, "Light; some statistics for monitoring."], code: [4, "Python, Docker, cloud and CI/CD."], gpu: [2, "Little; cloud services instead."], money: [2, "Small cloud bills while you practice."] }
+  },
+  safety: {
+    build: "Evals and red-team tests that find what a model gets wrong, interpretability experiments that look inside models, and clear analysis of AI risks and policy.",
+    fit: "Good fit if you care about making AI go well and like research, writing and careful testing.",
+    benefits: ["Mission-driven work on open problems in the field.", "Public funding is growing, led by government AI safety institutes.", "The first safety island needs no code, so you can start any time."],
+    tradeoffs: ["A small field with few openings.", "Research-heavy and competitive.", "Many roles sit in a few countries and labs."],
+    roles: ["Alignment researcher", "Evals and red-team engineer", "AI governance analyst"],
+    demand: [
+      { t: "The UK AI Security Institute has more than 100 technical staff and about £66m a year in funding.", s: "UK AI Security Institute", u: AISI },
+      { t: "AI ethics, governance and regulation appear in 0.05% of US job postings in 2025.", s: "Stanford AI Index 2026", u: AIE26 }
+    ],
+    effort: { math: [3, "None for the first island; ML math for the second."], code: [3, "Python and PyTorch for hands-on work."], gpu: [2, "Small models are enough to start."], money: [1, "BlueDot and ARENA materials are free."] }
+  }
+};
+
+const GOALS = [
+  { id: "understand", desc: "Use, train and build models, and understand each step. Foundations first, then a neural net and a GPT you write yourself, then fine-tuning and apps.", feature: true, tag: "Recommended" },
+  { id: "use", desc: "Build apps on Claude, GPT, Gemini and open models with APIs, RAG and agents." },
+  { id: "train", desc: "Fine-tune open models on your own data and shape how they behave." },
+  { id: "build", desc: "Write and train a language model yourself, starting from an empty file." }
+];
+const SPECS = ["vision", "language", "generative", "rl", "mlops", "safety"];
+const ORDER = ["understand", "use", "train", "build"].concat(SPECS);
+const HOME = { U: "use", T: "train", B: "build", V: "vision", L: "language", G: "generative", R: "rl", M: "mlops", A: "safety", S: "understand" };
+const VIEWS = [
+  { id: "iso", name: "Isometric", tilt: 56, spin: -45, zoom: 1 },
+  { id: "low", name: "Low angle", tilt: 64, spin: -38, zoom: 0.95 },
+  { id: "top", name: "Top down", tilt: 22, spin: -45, zoom: 0.62 }
+];
+const PACES = [5, 10, 20];
+const EFFORT_NAMES = { math: "Math", code: "Code", gpu: "GPU", money: "Money" };
+const LINK_PAIRS = [["S0", "S1"], ["S1", "S2"], ["S2", "S3"], ["S3", "S4"], ["S1", "U1"], ["U1", "U2"], ["U2", "U3"], ["U3", "U4"], ["S4", "T1"], ["T1", "T2"], ["T2", "T3"], ["T3", "T4"], ["S4", "B1"], ["B1", "B2"], ["B2", "B3"], ["B3", "B4"]];
+["V", "L", "G", "R", "M", "A"].forEach(function (p) { LINK_PAIRS.push(["S4", p + "1"], [p + "1", p + "2"]); });
+
+const BY_ID = {};
+const BOARD = {};
+ISLANDS.forEach(function (d) {
+  BY_ID[d.id] = d;
+  const px = d.x * 0.9 + 10;
+  const py = d.y + 85;
+  BOARD[d.id] = {
+    bx: Math.round((800 + Math.SQRT1_2 * (px - py)) * 10) / 10,
+    by: Math.round((800 + Math.SQRT1_2 * (px + py)) * 10) / 10
+  };
+});
+const LINKS = LINK_PAIRS.map(function (p) {
+  return { x1: BOARD[p[0]].bx, y1: BOARD[p[0]].by, x2: BOARD[p[1]].bx, y2: BOARD[p[1]].by };
+});
+const NEON = { S: "#00E5FF", U: "#FF2A6D", T: "#B45CFF", B: "#FCEE0A", V: "#00FFC8", L: "#FF8A1F", G: "#F43BFF", R: "#FF3D3D", M: "#B8FF1F", A: "#7F8CFF" };
+const PATH_HUE = { understand: "#00E5FF", use: "#FF2A6D", train: "#B45CFF", build: "#FCEE0A", vision: "#00FFC8", language: "#FF8A1F", generative: "#F43BFF", rl: "#FF3D3D", mlops: "#B8FF1F", safety: "#7F8CFF" };
+const hexLum = function (hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+};
+const INK_DARK = "#0B0810";
+const INK_LIGHT = "#EFE9F7";
+const onColor = function (hex) {
+  const l = hexLum(hex);
+  return (l + 0.05) / (hexLum(INK_DARK) + 0.05) >= (hexLum(INK_LIGHT) + 0.05) / (l + 0.05) ? INK_DARK : INK_LIGHT;
+};
+const hueOf = function (id) { return NEON[id.charAt(0)] || NEON.S; };
+const LINKED = {};
+const PARENT = {};
+LINK_PAIRS.forEach(function (p) { LINKED[p[0] + ">" + p[1]] = true; LINKED[p[1] + ">" + p[0]] = true; if (!PARENT[p[1]]) PARENT[p[1]] = p[0]; });
+const routeSegments = function (route) {
+  const segs = [];
+  let cur = [];
+  route.forEach(function (id, i) {
+    if (i === 0) { cur = [id]; return; }
+    if (LINKED[route[i - 1] + ">" + id]) { cur.push(id); return; }
+    if (cur.length > 1) segs.push(cur);
+    const par = PARENT[id];
+    const pi = par ? route.indexOf(par) : -1;
+    cur = pi >= 0 && pi < i ? [par, id] : [id];
+  });
+  if (cur.length > 1) segs.push(cur);
+  return segs.map(function (seg) { return seg.map(function (id) { return BOARD[id].bx + "," + BOARD[id].by; }).join(" "); });
+};
+const TUTOR_PROMPT = "I'm learning [topic] and my goal is to understand it. Please be my tutor:\n- Don't write code or give me final answers unless I ask twice.\n- Ask me questions to find what I don't understand yet.\n- Give one hint at a time and explain the idea behind it.\n- When I share code or an error, point me to the area and ask what I think is wrong.\n- At the end, ask me three questions to check what I learned.";
+const STORE_KEY = "ai-atlas-v1";
+const pad = function (n) { return n < 10 ? "0" + n : String(n); };
+const isFree = function (c) { return c.indexOf("Free") === 0; };
+const sumHrs = function (ids) { return ids.reduce(function (a, id) { return [a[0] + BY_ID[id].hrs[0], a[1] + BY_ID[id].hrs[1]]; }, [0, 0]); };
+const dotsOf = function (n) { return [1, 2, 3, 4, 5].map(function (i) { return i <= n ? "on" : ""; }); };
+const halfRound = function (x) { return Math.round(x * 2) / 2; };
+const monthsText = function (lo, hi, pace) {
+  const a = lo / pace / 4.33;
+  const b = hi / pace / 4.33;
+  if (b > 24) return "About " + halfRound(a / 12) + " to " + halfRound(b / 12) + " years";
+  const ma = Math.max(1, Math.round(a));
+  const mb = Math.max(ma, Math.round(b));
+  return "About " + ma + " to " + mb + " months";
+};
+const weeksText = function (lo, hi, pace) {
+  const a = Math.max(1, Math.round(lo / pace));
+  const b = Math.max(a, Math.round(hi / pace));
+  return a === b ? "about " + a + (a === 1 ? " week" : " weeks") + " at " + pace + " h a week" : a + " to " + b + " weeks at " + pace + " h a week";
+};
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = null;
+    try { saved = JSON.parse(window.localStorage.getItem(STORE_KEY) || "null"); } catch (e) { saved = null; }
+    this.state = {
+      path: saved && PATHS[saved.path] ? saved.path : "understand",
+      done: saved && saved.done && typeof saved.done === "object" ? saved.done : {},
+      pace: saved && PACES.indexOf(saved.pace) >= 0 ? saved.pace : 10,
+      known: saved && saved.known && typeof saved.known === "object" ? saved.known : {},
+      copied: false,
+      copyFailed: false,
+      open: null,
+      showAll: false,
+      view: "iso"
+    };
+  }
+
+  persist(patch) {
+    const next = Object.assign({ path: this.state.path, done: this.state.done, pace: this.state.pace, known: this.state.known }, patch || {});
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify({ path: next.path, done: next.done, pace: next.pace, known: next.known })); } catch (e) {}
+  }
+
+  choosePath(id) {
+    this.setState({ path: id, open: null });
+    this.persist({ path: id });
+  }
+
+  pickIsland(id) {
+    let path = this.state.path;
+    if (PATHS[path].steps.indexOf(id) < 0) path = HOME[id.charAt(0)] || path;
+    this.setState({ path: path, open: id });
+    this.persist({ path: path });
+  }
+
+  toggleDone(id) {
+    const done = Object.assign({}, this.state.done);
+    if (done[id]) delete done[id]; else done[id] = true;
+    this.setState({ done: done });
+    this.persist({ done: done });
+  }
+
+  setPace(p) {
+    this.setState({ pace: p });
+    this.persist({ pace: p });
+  }
+
+  toggleKnow(key) {
+    const known = Object.assign({}, this.state.known);
+    if (known[key]) delete known[key]; else known[key] = true;
+    this.setState({ known: known });
+    this.persist({ known: known });
+  }
+
+  copyPrompt() {
+    const flash = () => {
+      this.setState({ copied: true, copyFailed: false });
+      clearTimeout(this.copyTimer);
+      this.copyTimer = setTimeout(() => this.setState({ copied: false }), 2000);
+    };
+    const fallback = () => {
+      let ok = false;
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = TUTOR_PROMPT;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch (e) { ok = false; }
+      if (ok) flash(); else this.setState({ copyFailed: true });
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(TUTOR_PROMPT).then(flash, fallback);
+        return;
+      }
+    } catch (e) {}
+    fallback();
+  }
+
+  renderVals() {
+    const st = this.state;
+    const accent = PATH_HUE[st.path] || PATH_HUE.understand;
+    const motion = this.props.motion !== false;
+    const P = PATHS[st.path] || PATHS.use;
+    const info = INFO[st.path] || INFO.use;
+    const route = P.steps;
+    const done = st.done || {};
+    const pace = st.pace || 10;
+    const firstOpen = route.find(function (id) { return !done[id]; }) || route[route.length - 1];
+    const openId = st.open === "" ? "" : (st.open && route.indexOf(st.open) >= 0 ? st.open : firstOpen);
+    const view = VIEWS.find(function (v) { return v.id === st.view; }) || VIEWS[0];
+    const doneCount = route.filter(function (id) { return !!done[id]; }).length;
+    const tot = sumHrs(route);
+    const left = sumHrs(route.filter(function (id) { return !done[id]; }));
+
+    const islands = ISLANDS.map((d, idx) => {
+      const r = route.indexOf(d.id);
+      const on = r >= 0;
+      const isDone = !!done[d.id];
+      const isFocus = d.id === openId;
+      return {
+        cls: ["k-" + d.k, on ? "on" : "", isDone ? "done" : "", isFocus ? "focus" : ""].join(" "),
+        left: BOARD[d.id].bx,
+        top: BOARD[d.id].by,
+        hue: hueOf(d.id),
+        hueOn: onColor(hueOf(d.id)),
+        rd: 150 + idx * 38,
+        bd: -((idx * 977) % 7000),
+        sd: -((idx * 613) % 6500),
+        icon: isDone ? ICONS.check : ICONS[d.icon],
+        num: on ? pad(r + 1) : "",
+        short: d.short,
+        reg: d.reg || "",
+        aria: (on ? "Island " + (r + 1) + " of " + route.length + ": " : "Open ") + d.title + (isDone ? ", finished" : ""),
+        pressed: isFocus ? "true" : "false",
+        pick: () => this.pickIsland(d.id)
+      };
+    });
+
+    const steps = route.map((id, i) => {
+      const d = BY_ID[id];
+      const isOpen = st.showAll || id === openId;
+      const res = d.res.map(function (r) {
+        return { kind: r[0], title: r[1], by: r[2], meta: r[3], cost: r[4], url: r[5], start: r[6] === 1, costCls: isFree(r[4]) ? "free" : "paid" };
+      });
+      const courses = res.filter(function (r) { return r.kind !== "Book"; });
+      const books = res.filter(function (r) { return r.kind === "Book"; });
+      const isDone = !!done[id];
+      const kn = st.known || {};
+      const know = (d.know || []).map((t, k) => {
+        const key = id + ":" + k;
+        const on = !!kn[key];
+        return { t: t, cls: on ? "on" : "", checked: on ? "true" : "false", toggle: () => this.toggleKnow(key) };
+      });
+      const knowDone = know.filter(function (o) { return o.cls === "on"; }).length;
+      return {
+        anchor: "step-" + id,
+        hue: hueOf(id),
+        hueOn: onColor(hueOf(id)),
+        know: know,
+        knowText: knowDone + " of " + know.length + " ready",
+        num: pad(i + 1),
+        icon: ICONS[d.icon],
+        title: d.title,
+        meta: d.hrs[0] + " to " + d.hrs[1] + " h · " + res.length + " picks",
+        hrs: d.hrs[0] + " to " + d.hrs[1] + " hours",
+        weeks: weeksText(d.hrs[0], d.hrs[1], pace),
+        cls: [isOpen ? "open" : "", isDone ? "is-done" : ""].join(" "),
+        isOpen: isOpen,
+        expanded: isOpen ? "true" : "false",
+        learn: d.learn,
+        build: d.build,
+        note: d.note || "",
+        courses: courses,
+        books: books,
+        hasBooks: books.length > 0,
+        noBooks: books.length === 0,
+        doneCls: isDone ? "on" : "",
+        doneStr: isDone ? "true" : "false",
+        doneLabel: isDone ? "Finished" : "Mark finished",
+        open: () => this.setState({ open: id === openId && !st.showAll ? "" : id, showAll: false }),
+        toggle: () => this.toggleDone(id)
+      };
+    });
+
+    const timeBar = route.map(function (id, i) {
+      const d = BY_ID[id];
+      const isDone = !!done[id];
+      return {
+        num: pad(i + 1),
+        flex: (d.hrs[0] + d.hrs[1]) / 2,
+        hue: hueOf(id),
+        hueOn: onColor(hueOf(id)),
+        cls: isDone ? "dn" : (CORE.indexOf(id) >= 0 ? "core" : ""),
+        title: pad(i + 1) + " " + d.title + ": " + d.hrs[0] + " to " + d.hrs[1] + " hours"
+      };
+    });
+
+    const effort = ["math", "code", "gpu", "money"].map(function (key) {
+      const e = info.effort[key];
+      return { name: EFFORT_NAMES[key], dots: dotsOf(e[0]), note: e[1], aria: EFFORT_NAMES[key] + ": " + e[0] + " out of 5" };
+    });
+
+    const cmpRows = ORDER.map((id) => {
+      const p = PATHS[id];
+      const h = sumHrs(p.steps);
+      const e = INFO[id].effort;
+      return {
+        name: p.name,
+        color: PATH_HUE[id],
+        time: monthsText(h[0], h[1], pace),
+        hours: h[0] + " to " + h[1] + " h",
+        math: dotsOf(e.math[0]),
+        code: dotsOf(e.code[0]),
+        gpu: dotsOf(e.gpu[0]),
+        mathAria: "Math " + e.math[0] + " out of 5",
+        codeAria: "Code " + e.code[0] + " out of 5",
+        gpuAria: "GPU " + e.gpu[0] + " out of 5",
+        roles: INFO[id].roles.join(", "),
+        cls: st.path === id ? "sel" : "",
+        pressed: st.path === id ? "true" : "false",
+        pick: () => this.choosePath(id)
+      };
+    });
+
+    const focusIdx = route.indexOf(openId);
+    const focusD = BY_ID[openId];
+
+    return {
+      accent: accent,
+      onAcc: onColor(accent),
+      rootClass: motion ? "" : "still",
+      progress: { done: doneCount, total: route.length, pct: Math.round((doneCount / route.length) * 100) },
+      goals: GOALS.map((g) => {
+        const h = sumHrs(PATHS[g.id].steps);
+        return {
+          name: PATHS[g.id].name,
+          desc: g.desc,
+          meta: PATHS[g.id].steps.length + " islands · " + monthsText(h[0], h[1], pace).replace("About ", ""),
+          icon: ICONS[PATHS[g.id].icon],
+          tag: g.tag || "",
+          color: PATH_HUE[g.id],
+          on: onColor(PATH_HUE[g.id]),
+          cls: [g.feature ? "feature" : "", st.path === g.id ? "sel" : ""].join(" "),
+          pressed: st.path === g.id ? "true" : "false",
+          pick: () => this.choosePath(g.id)
+        };
+      }),
+      specs: SPECS.map((id) => ({
+        name: PATHS[id].name,
+        color: PATH_HUE[id],
+        on: onColor(PATH_HUE[id]),
+        icon: ICONS[PATHS[id].icon],
+        cls: st.path === id ? "sel" : "",
+        pressed: st.path === id ? "true" : "false",
+        pick: () => this.choosePath(id)
+      })),
+      cams: VIEWS.map((v) => ({
+        name: v.name,
+        cls: v.id === view.id ? "sel" : "",
+        pressed: v.id === view.id ? "true" : "false",
+        pick: () => this.setState({ view: v.id })
+      })),
+      paces: PACES.map((p) => ({
+        name: p + " h a week",
+        cls: p === pace ? "sel" : "",
+        pressed: p === pace ? "true" : "false",
+        pick: () => this.setPace(p)
+      })),
+      cam: { cls: "v-" + view.id, tilt: view.tilt, spin: view.spin, zoom: view.zoom, btilt: -view.tilt, bspin: -view.spin, inv: Math.round((1 / view.zoom) * 1000) / 1000 },
+      links: LINKS,
+      routeSegs: routeSegments(route),
+      tutorPrompt: TUTOR_PROMPT,
+      copyLabel: st.copied ? "Copied" : (st.copyFailed ? "Select the text to copy it" : "Copy prompt"),
+      copyPrompt: () => this.copyPrompt(),
+      islands: islands,
+      focusLine: focusD ? "Island " + pad(focusIdx + 1) + " · " + focusD.title : "Pick an island on the map",
+      focusAnchor: focusD ? "step-" + openId : "route-h",
+      pathName: P.name,
+      routeMeta: route.length + " islands · " + doneCount + " finished · " + tot[0] + " to " + tot[1] + " hours",
+      pathBlurb: P.blurb,
+      info: info,
+      effort: effort,
+      timeBig: monthsText(tot[0], tot[1], pace),
+      timeSub: tot[0] + " to " + tot[1] + " hours in total at " + pace + " hours a week" + (doneCount > 0 ? ". About " + left[0] + " to " + left[1] + " hours left." : "."),
+      timeAria: "Time per island for " + P.name + ", " + tot[0] + " to " + tot[1] + " hours in total",
+      timeBar: timeBar,
+      steps: steps,
+      cmpRows: cmpRows,
+      cmpIntro: "Times use your study pace of " + pace + " hours a week. Click a route to open it.",
+      showAllStr: st.showAll ? "true" : "false",
+      showAllLabel: st.showAll ? "Show one island at a time" : "Open every island",
+      toggleAll: () => this.setState({ showAll: !st.showAll }),
+      clearAll: () => { this.setState({ done: {}, known: {} }); this.persist({ done: {}, known: {} }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
