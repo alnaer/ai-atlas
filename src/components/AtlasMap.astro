@@ -9,9 +9,11 @@ interface Props { compact?: boolean; bg?: { wide: string; tall: string } }   // 
 const { compact = false, bg } = Astro.props;
 const root = rootOf(Astro.url.pathname);
 const thumb = (id: string) => (artBy[id] && artBy[id].files.card ? root + artFile(artBy[id], "card") : null);
+// small 256 px copies for the map medallions and the step list (tools/make-thumbs.py --map); the full card is only for the hover card
+const medal = (id: string) => (artBy[id] && artBy[id].files.card ? root + `thumbs/map/${id}.webp` : null);
 const DATA = {
   islands: A.islands.map((i) => ({ id: i.id, x: i.x, y: i.y, k: i.k, short: i.short, title: i.title, hrs: i.hrs, learn: i.learn,
-    num: numOf(i.id), hue: hueOf(i.id), track: trackOf(i.id), img: thumb(i.id), href: root + pages.island(i.id) })),
+    num: numOf(i.id), hue: hueOf(i.id), track: trackOf(i.id), img: thumb(i.id), med: medal(i.id), href: root + pages.island(i.id) })),
   linkPairs: A.linkPairs, order: A.order, specs: A.specs, paces: A.paces, pathHue: A.pathHue,
   paths: Object.fromEntries(Object.entries(A.paths).map(([k, p]) => [k, { name: p.name, steps: p.steps, blurb: p.blurb, hours: pathHours(k), href: root + pages.path(k) }])),
   cartouche: `${roman(A.islands.length)} INSULAE · ${roman(Object.keys(A.paths).length)} ITINERA · MMXXVI`,

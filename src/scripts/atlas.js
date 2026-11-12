@@ -29,7 +29,10 @@ export function initAtlas() {
       const p = (ang, rr) => `${(Math.sin(ang) * rr).toFixed(1)} ${(-Math.cos(ang) * rr).toFixed(1)}`;
       s += `<path d="M${p(a, l)} L${p(a + Math.PI / 2, w)} L0 0 L${p(a - Math.PI / 2, w)}Z" fill="${i % 2 ? "none" : "currentColor"}" fill-opacity=".35" stroke-width=".8"/>`; }
     return s + `<text y="${-r - 12}" text-anchor="middle" font-family="Fraunces" font-size="20" fill="currentColor" stroke="none">N</text></g>`; };
-  const rhumbs = (cx, cy) => Array.from({ length: 32 }, (_, i) => { const a = i * Math.PI / 16; return `<line class="rhumb" x1="${cx}" y1="${cy}" x2="${cx + Math.cos(a) * 2400}" y2="${cy + Math.sin(a) * 2400}"/>`; }).join("");
+  // rhumb lines end exactly at the chart's edge, so the chart needs no clip (Safari re-clipped it on every scroll frame)
+  const rhumbs = (cx, cy) => Array.from({ length: 32 }, (_, i) => { const a = i * Math.PI / 16, dx = Math.cos(a), dy = Math.sin(a);
+    const t = Math.min(dx > 1e-9 ? (W - cx) / dx : dx < -1e-9 ? -cx / dx : Infinity, dy > 1e-9 ? (H - cy) / dy : dy < -1e-9 ? -cy / dy : Infinity);
+    return `<line class="rhumb" x1="${cx}" y1="${cy}" x2="${(cx + dx * t).toFixed(1)}" y2="${(cy + dy * t).toFixed(1)}"/>`; }).join("");
   const curve = (a, b) => { const [x1, y1] = pos[a], [x2, y2] = pos[b], mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1;
     const k = 0.12; return `M${x1} ${y1} Q${mx - dy * k} ${my + dx * k} ${x2} ${y2}`; };
   let grid = ""; for (let x = 0; x <= W; x += 100) grid += `<line class="grid-l" x1="${x}" y1="0" x2="${x}" y2="${H}"/>`; for (let y = 0; y <= H; y += 100) grid += `<line class="grid-l" x1="0" y1="${y}" x2="${W}" y2="${y}"/>`;
@@ -40,7 +43,7 @@ export function initAtlas() {
       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       <radialGradient id="vig"><stop offset="60%" stop-color="#0E0B10" stop-opacity="0"/><stop offset="100%" stop-color="#060507" stop-opacity=".9"/></radialGradient></defs>
     <rect class="sea" width="${W}" height="${H}" rx="18"/><rect width="${W}" height="${H}" fill="url(#waves)" rx="18"/>
-    <g clip-path="inset(0 round 18px)">${grid}${rhumbs(230, 880)}${rhumbs(1480, 960)}</g>
+    <g>${grid}${rhumbs(230, 880)}${rhumbs(1480, 960)}</g>
     <rect width="${W}" height="${H}" fill="url(#vig)" rx="18"/>
     <rect class="frame-b" x="6" y="6" width="${W - 12}" height="${H - 12}" rx="14"/><rect class="frame-b" x="26" y="26" width="${W - 52}" height="${H - 52}" rx="8" style="opacity:.3"/>${ticks}
     ${rose(230, 880, 110)}${rose(1480, 960, 58)}
@@ -54,7 +57,7 @@ export function initAtlas() {
     return `<div class="isl k-${i.k} enter" id="i-${i.id}" style="transform:translate3d(${x}px,${y}px,0);--c:${i.hue};--bd:${(n % 7) * -0.7}s">
       <div class="shadow"></div><div class="ring"></div>
       <div class="bill"><button class="med" data-id="${i.id}" aria-label="Island ${i.num}: ${esc(i.title)}">
-        <span class="disc">${i.img ? `<img src="${i.img}" alt="" loading="lazy">` : `<span class="ph">${i.num}</span>`}</span>
+        <span class="disc">${i.med ? `<img src="${i.med}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${i.num}</span>`}</span>
         <span class="tag"><b>${i.num}</b>${esc(i.short)}</span></button></div></div>`; }).join("");
 
   /* ---------- camera ---------- */
@@ -143,7 +146,7 @@ export function initAtlas() {
     // list
     if ($("steps")) $("steps").innerHTML = steps.map((id, n) => { const i = I[id];
       return `<li><a href="${i.href}" data-id="${id}" style="--c:${i.hue}"><span class="n">${String(n + 1).padStart(2, "0")}</span>
-        ${i.img ? `<img src="${i.img}" alt="" loading="lazy">` : `<span class="ph">${i.num}</span>`}<span class="t">${esc(i.title)}<small>${i.hrs[0]}–${i.hrs[1]} h</small></span>
+        ${i.med ? `<img src="${i.med}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${i.num}</span>`}<span class="t">${esc(i.title)}<small>${i.hrs[0]}–${i.hrs[1]} h</small></span>
         <span class="ok ${store.done.includes(id) ? "y" : ""}" title="${store.done.includes(id) ? "Finished" : "Not finished"}"></span></a></li>`; }).join("");
     document.querySelectorAll("#steps a").forEach((a) => { a.onmouseenter = () => peek(a.dataset.id, document.querySelector(`.med[data-id=${a.dataset.id}]`)); a.onmouseleave = hide; });
     summary(); if (!compact) history.replaceState(null, "", "#" + k);
